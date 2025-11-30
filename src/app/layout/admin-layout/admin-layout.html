@@ -1,0 +1,51 @@
+<div class="flex h-screen bg-gray-100">
+      <!-- Sidebar -->
+      <aside class="w-64 bg-gray-900 text-white">
+        <div class="p-6">
+          <h2 class="text-2xl font-bold">Admin Panel</h2>
+        </div>
+
+        <nav class="mt-6">
+          <a routerLink="/admin/dashboard"
+             routerLinkActive="bg-primary-600"
+             class="flex items-center px-6 py-3 hover:bg-gray-800 transition-colors">
+            <span class="mr-3">📊</span>
+            Dashboard
+          </a>
+          <a routerLink="/admin/products"
+             routerLinkActive="bg-primary-600"
+             class="flex items-center px-6 py-3 hover:bg-gray-800 transition-colors">
+            <span class="mr-3">📦</span>
+            Products
+          </a>
+          <a routerLink="/admin/orders"
+             routerLinkActive="bg-primary-600"
+             class="flex items-center px-6 py-3 hover:bg-gray-800 transition-colors">
+            <span class="mr-3">🛒</span>
+            Orders
+          </a>
+          <a routerLink="/admin/users"
+             routerLinkActive="bg-primary-600"
+             class="flex items-center px-6 py-3 hover:bg-gray-800 transition-colors">
+            <span class="mr-3">👥</span>
+            Users
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="flex-1 overflow-auto">
+        <header class="bg-white shadow-sm p-4">
+          <div class="flex items-center justify-between">
+            <h1 class="text-2xl font-semibold text-gray-800">Admin Dashboard</h1>
+            <a routerLink="/" class="text-primary-600 hover:text-primary-700">
+              ← Back to Store
+            </a>
+          </div>
+        </header>
+
+        <main class="p-6">
+          <router-outlet />
+        </main>
+      </div>
+    </div>
