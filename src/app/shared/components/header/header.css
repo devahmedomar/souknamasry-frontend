@@ -1,0 +1,13 @@
+.navbar-brand img{
+    height: 80px;
+
+}
+
+.search-form{
+  max-width: 500px;
+}
+
+.navbar{
+  --bs-navbar-brand-padding-y: 0;
+  background-color: var(--color-secondary-50) !important;
+}
