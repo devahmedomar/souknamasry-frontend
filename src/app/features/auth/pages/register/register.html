@@ -1,0 +1,218 @@
+<!-- Main Registration Section -->
+<main class="flex-fill d-flex align-items-center justify-content-center py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-11 col-md-10 col-lg-9 col-xl-8">
+        <!-- Registration Card -->
+        <div class="card border-0 shadow-sm rounded-4">
+          <div class="card-body p-4 p-md-5">
+            <div class="row align-items-center">
+              <!-- Left Side - Form -->
+              <div class="col-lg-7 mb-4 mb-lg-0">
+                <h2 class="fw-bold mb-3 text-dark">Create Account!</h2>
+                <p class="text-muted mb-4">Please fill in your details to register.</p>
+
+                <!-- Registration Form -->
+                <form>
+                  <div class="row">
+                    <!-- First Name -->
+                    <div class="col-md-6 mb-3">
+                      <input
+                        type="text"
+                        class="form-control py-2 px-3 border-secondary"
+                        placeholder="First name"
+                        required
+                      />
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="col-md-6 mb-3">
+                      <input
+                        type="text"
+                        class="form-control py-2 px-3 border-secondary"
+                        placeholder="Last name"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Email Input -->
+                  <div class="mb-3">
+                    <input
+                      type="email"
+                      class="form-control py-2 px-3 border-secondary"
+                      placeholder="Email"
+                      required
+                    />
+                  </div>
+
+                  <!-- Phone Input -->
+                  <div class="mb-3">
+                    <input
+                      type="tel"
+                      class="form-control py-2 px-3 border-secondary"
+                      placeholder="Phone"
+                      required
+                    />
+                  </div>
+
+                  <!-- Password Input -->
+                  <div class="mb-3">
+                    <input
+                      type="password"
+                      class="form-control py-2 px-3 border-secondary"
+                      placeholder="Password"
+                      required
+                    />
+                  </div>
+
+                  <!-- Confirm Password Input -->
+                  <div class="mb-3">
+                    <input
+                      type="password"
+                      class="form-control py-2 px-3 border-secondary"
+                      placeholder="Confirm password"
+                      required
+                    />
+                  </div>
+
+                  <!-- Terms and Conditions Checkbox -->
+                  <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" id="agreeTerms" required />
+                    <label class="form-check-label text-muted small" for="agreeTerms">
+                      I agree to the
+                      <a href="#" class="text-decoration-none" style="color: #ff6b35"
+                        >Terms & Conditions</a
+                      >
+                    </label>
+                  </div>
+
+                  <!-- Register Button -->
+                  <div class="d-grid">
+                    <button type="submit" class="btn btn-register py-2 fw-semibold rounded-3">
+                      Register
+                    </button>
+                  </div>
+
+                  <!-- Additional Links -->
+                  <div class="text-center mt-3">
+                    <span class="text-muted small">Already have an account? </span>
+                    <a
+                      routerLink="/auth/login"
+                      class="text-decoration-none fw-semibold small"
+                      style="color: #ff6b35"
+                      >Log in</a
+                    >
+                  </div>
+                </form>
+              </div>
+
+              <!-- Right Side - Illustration -->
+              <div class="col-lg-5 d-none d-lg-block">
+                <div class="text-center">
+                  <!-- Registration Illustration -->
+                  <div class="position-relative">
+                    <svg
+                      class="register-illustration"
+                      width="280"
+                      height="320"
+                      viewBox="0 0 280 320"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <!-- Background circles -->
+                      <circle cx="140" cy="160" r="110" fill="#ffe5d9" opacity="0.3" />
+                      <circle cx="170" cy="130" r="75" fill="#ffd4c4" opacity="0.4" />
+                      <circle cx="110" cy="190" r="65" fill="#ffcbb8" opacity="0.3" />
+
+                      <!-- Person with document illustration -->
+                      <!-- Head -->
+                      <circle cx="140" cy="110" r="28" fill="#ffc5a8" />
+
+                      <!-- Hair -->
+                      <ellipse cx="140" cy="95" rx="30" ry="20" fill="#2d2d2d" />
+
+                      <!-- Body/Shirt -->
+                      <rect x="108" y="133" width="64" height="55" rx="12" fill="#ff6b35" />
+
+                      <!-- Arms -->
+                      <rect
+                        x="80"
+                        y="145"
+                        width="32"
+                        height="16"
+                        rx="8"
+                        fill="#ff6b35"
+                        transform="rotate(-10 96 153)"
+                      />
+                      <rect
+                        x="168"
+                        y="145"
+                        width="32"
+                        height="16"
+                        rx="8"
+                        fill="#ff6b35"
+                        transform="rotate(10 184 153)"
+                      />
+
+                      <!-- Hands -->
+                      <circle cx="82" cy="160" r="9" fill="#ffc5a8" />
+                      <circle cx="198" cy="160" r="9" fill="#ffc5a8" />
+
+                      <!-- Document/Form in hand -->
+                      <rect
+                        x="100"
+                        y="185"
+                        width="80"
+                        height="100"
+                        rx="5"
+                        fill="white"
+                        stroke="#ddd"
+                        stroke-width="2"
+                      />
+                      <!-- Lines on document -->
+                      <line x1="110" y1="200" x2="170" y2="200" stroke="#ff6b35" stroke-width="3" />
+                      <line x1="110" y1="215" x2="160" y2="215" stroke="#ccc" stroke-width="2" />
+                      <line x1="110" y1="230" x2="165" y2="230" stroke="#ccc" stroke-width="2" />
+                      <line x1="110" y1="245" x2="155" y2="245" stroke="#ccc" stroke-width="2" />
+                      <line x1="110" y1="260" x2="170" y2="260" stroke="#ccc" stroke-width="2" />
+
+                      <!-- Checkmark on document -->
+                      <path
+                        d="M 115 270 L 125 280 L 145 255"
+                        stroke="#28a745"
+                        stroke-width="3"
+                        fill="none"
+                        stroke-linecap="round"
+                      />
+
+                      <!-- Pants -->
+                      <rect x="118" y="183" width="44" height="65" rx="5" fill="#2d2d2d" />
+
+                      <!-- Legs -->
+                      <rect x="118" y="243" width="20" height="40" rx="5" fill="#2d2d2d" />
+                      <rect x="142" y="243" width="20" height="40" rx="5" fill="#2d2d2d" />
+
+                      <!-- Shoes -->
+                      <ellipse cx="128" cy="283" rx="13" ry="7" fill="#4a4a4a" />
+                      <ellipse cx="152" cy="283" rx="13" ry="7" fill="#4a4a4a" />
+
+                      <!-- Happy face -->
+                      <circle cx="132" cy="108" r="2.5" fill="#2d2d2d" />
+                      <circle cx="148" cy="108" r="2.5" fill="#2d2d2d" />
+                      <path
+                        d="M 130 118 Q 140 123 150 118"
+                        stroke="#2d2d2d"
+                        stroke-width="2.5"
+                        fill="none"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

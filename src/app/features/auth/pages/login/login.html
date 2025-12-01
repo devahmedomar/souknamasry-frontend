@@ -1,0 +1,150 @@
+<!-- Main Login Section -->
+<main class="flex-fill d-flex align-items-center justify-content-center py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-11 col-md-10 col-lg-8 col-xl-7">
+        <!-- Login Card -->
+        <div class="card border-0 shadow-sm rounded-4">
+          <div class="card-body p-4 p-md-5">
+            <div class="row align-items-center">
+              <!-- Left Side - Form -->
+              <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="fw-bold mb-3 text-dark">Welcome back!</h2>
+                <p class="text-muted mb-4">Please enter your email or phone to log in.</p>
+
+                <!-- Login Form -->
+                <form>
+                  <!-- Email or Phone Input -->
+                  <div class="mb-3">
+                    <input
+                      type="text"
+                      class="form-control py-2 px-3 border-secondary"
+                      placeholder="Email or phone"
+                      required
+                    />
+                  </div>
+
+                  <!-- Password Input -->
+                  <div class="mb-3">
+                    <input
+                      type="password"
+                      class="form-control py-2 px-3 border-secondary"
+                      placeholder="Password"
+                      required
+                    />
+                  </div>
+
+                  <!-- Remember Me Checkbox -->
+                  <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" id="rememberMe" />
+                    <label class="form-check-label text-muted small" for="rememberMe">
+                      Remember me
+                    </label>
+                  </div>
+
+                  <!-- Login Button -->
+                  <div class="d-grid">
+                    <button type="submit" class="btn btn-login py-2 fw-semibold rounded-3">
+                      Log in
+                    </button>
+                  </div>
+
+                  <!-- Additional Links -->
+                  <div class="text-center mt-3">
+                    <a href="#" class="text-decoration-none text-muted small">Forgot password?</a>
+                  </div>
+
+                  <div class="text-center mt-3">
+                    <span class="text-muted small">Don't have an account? </span>
+                    <a
+                      routerLink="/auth/register"
+                      class="text-decoration-none fw-semibold small"
+                      style="color: #ff6b35"
+                      >Sign up</a
+                    >
+                  </div>
+                </form>
+              </div>
+
+              <!-- Right Side - Illustration -->
+              <div class="col-lg-6 d-none d-lg-block">
+                <div class="text-center">
+                  <!-- Placeholder for illustration -->
+                  <div class="position-relative">
+                    <svg
+                      class="login-illustration"
+                      width="300"
+                      height="300"
+                      viewBox="0 0 300 300"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <!-- Background circles -->
+                      <circle cx="150" cy="150" r="120" fill="#ffe5d9" opacity="0.3" />
+                      <circle cx="180" cy="120" r="80" fill="#ffd4c4" opacity="0.4" />
+                      <circle cx="120" cy="180" r="70" fill="#ffcbb8" opacity="0.3" />
+
+                      <!-- Person illustration (simplified) -->
+                      <!-- Head -->
+                      <circle cx="150" cy="100" r="25" fill="#ffc5a8" />
+
+                      <!-- Hair -->
+                      <path d="M 130 95 Q 150 75 170 95" fill="#2d2d2d" />
+
+                      <!-- Body/Shirt -->
+                      <rect x="120" y="120" width="60" height="50" rx="10" fill="#ff6b35" />
+
+                      <!-- Arms (raised) -->
+                      <rect
+                        x="95"
+                        y="125"
+                        width="30"
+                        height="15"
+                        rx="7"
+                        fill="#ff6b35"
+                        transform="rotate(-30 110 132)"
+                      />
+                      <rect
+                        x="175"
+                        y="125"
+                        width="30"
+                        height="15"
+                        rx="7"
+                        fill="#ff6b35"
+                        transform="rotate(30 190 132)"
+                      />
+
+                      <!-- Hands -->
+                      <circle cx="100" cy="125" r="8" fill="#ffc5a8" />
+                      <circle cx="200" cy="125" r="8" fill="#ffc5a8" />
+
+                      <!-- Pants -->
+                      <rect x="130" y="165" width="40" height="60" rx="5" fill="#2d2d2d" />
+
+                      <!-- Legs -->
+                      <rect x="130" y="220" width="18" height="35" rx="5" fill="#2d2d2d" />
+                      <rect x="152" y="220" width="18" height="35" rx="5" fill="#2d2d2d" />
+
+                      <!-- Shoes -->
+                      <ellipse cx="139" cy="255" rx="12" ry="6" fill="#4a4a4a" />
+                      <ellipse cx="161" cy="255" rx="12" ry="6" fill="#4a4a4a" />
+
+                      <!-- Happy face -->
+                      <circle cx="143" cy="98" r="2" fill="#2d2d2d" />
+                      <circle cx="157" cy="98" r="2" fill="#2d2d2d" />
+                      <path
+                        d="M 140 105 Q 150 110 160 105"
+                        stroke="#2d2d2d"
+                        stroke-width="2"
+                        fill="none"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

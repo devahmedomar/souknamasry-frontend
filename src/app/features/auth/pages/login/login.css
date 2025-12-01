@@ -1,0 +1,14 @@
+.btn-login {
+  background-color: #6b4226;
+  color: white;
+}
+
+.btn-login:hover {
+  background-color: #543419;
+  color: white;
+}
+
+.login-illustration {
+  max-width: 100%;
+  height: auto;
+}
