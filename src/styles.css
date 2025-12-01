@@ -1,10 +1,24 @@
 /* global style */
+p,h1,h2,h3,h4,h5,h6{
+margin: 0;
+padding: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box !important;
+}
 :root{
  --color-secondary:#ece2df;
  --color-secondary-300:#ECE2DF;
  --color-secondary-50:#F6F1EF;
  --color-primary:#fd7e35;
  --color-dark-brown:#9E3C02;
+ --color-light:#FEBF9A;
+}
+
+.section-spacing{
+  margin: 100px 0;
+  /* padding: 100px 0; */
 }
 
 .bg-secondary{
@@ -25,5 +39,8 @@
 }
 .text-dark-brown{
  color: var(--color-dark-brown) !important;
+}
+.bg-light{
+ background-color: var(--color-light) !important;
 }
 /* global style */
