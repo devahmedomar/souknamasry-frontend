@@ -1,0 +1,67 @@
+:host {
+  display: block;
+}
+
+.product-card {
+  border-radius: 20px;
+  background-color: var(--color-secondary-50);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+}
+
+.product-image {
+  height: 350px;
+  object-fit: cover;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.icon-btn {
+  width: 40px !important;
+  height: 40px !important;
+  border: none !important;
+}
+
+.icon-btn:hover {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+}
+
+.text-dark-brown {
+  color: var(--color-dark-brown);
+}
+
+.add-btn {
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 12px !important;
+  transition: opacity 0.2s;
+}
+
+.add-btn:hover {
+  background-color: #e56d29;
+  /* Slightly darker orange */
+  opacity: 0.9;
+}
+
+/* Override PrimeNG Rating stars color if needed, though usually default is yellow/gold */
+:host ::ng-deep .custom-rating .p-rating-icon-active {
+  color: var(--color-primary) !important;
+}
+
+.bg-secondary-50 {
+  background-color: var(--color-secondary-50) !important;
+}
+
+/* Font Adjustments */
+[dir="rtl"] {
+  font-family: 'Cairo', sans-serif;
+}
+
+[dir="ltr"] {
+  font-family: 'Roboto', sans-serif;
+}

@@ -1,5 +1,5 @@
 export interface IProductCard {
-  id: number;
+  id: string | number;
   title: string;
   category: string;
   price: number;

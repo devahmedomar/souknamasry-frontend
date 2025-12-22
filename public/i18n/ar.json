@@ -1,0 +1,57 @@
+{
+    "PRODUCT": {
+        "ADD_TO_CART": "حطها في الشنطة",
+        "CURRENCY": "جنيها"
+    },
+    "HEADER": {
+        "SEARCH_PLACEHOLDER": "بحث",
+        "LOGO_ALT": "شعار سوقنا مصري",
+        "LOGO_URL": "/images/logo.png"
+    },
+    "FOOTER": {
+        "NEED_HELP": "تحتاج مساعدة؟",
+        "CONTACT_US_TEXT": "تواصل معنا عبر قنوات الدعم",
+        "OUR_CHAT": "المحادثة",
+        "TALK_TO_US": "تحدث معنا من هنا",
+        "OUR_PHONE": "هاتفنا",
+        "OUR_EMAIL": "بريدنا الإلكتروني",
+        "SELL_WITH_US": "بيع معنا",
+        "BUSINESS": "سوقنا مصري للأعمال",
+        "TERMS_SERVICE": "الشروط والأحكام",
+        "TERMS_CONDITIONS": "الشروط والأحكام",
+        "PRIVACY_POLICY": "سياسة الخصوصية",
+        "CATEGORY": "فئات",
+        "CLOTHES": "ملابس",
+        "HOUSEWARES": "أدوات منزلية",
+        "MAKEUP": "مكياج",
+        "FOLLOW_US": "تابعنا"
+    },
+    "AUTH": {
+        "LOGIN": {
+            "TITLE": "مرحبًا بعودتك!",
+            "SUBTITLE": "الرجاء إدخال البريد الإلكتروني أو الهاتف لتسجيل الدخول.",
+            "EMAIL_PLACEHOLDER": "البريد الإلكتروني أو الهاتف",
+            "PASSWORD_PLACEHOLDER": "كلمة المرور",
+            "REMEMBER_ME": "تذكرني",
+            "BUTTON": "تسجيل الدخول",
+            "FORGOT_PASSWORD": "نسيت كلمة المرور؟",
+            "NO_ACCOUNT": "ليس لديك حساب؟",
+            "SIGN_UP": "اشتراك"
+        },
+        "REGISTER": {
+            "TITLE": "إنشاء حساب!",
+            "SUBTITLE": "يرجى ملء التفاصيل الخاصة بك للتسجيل.",
+            "FIRST_NAME": "الاسم الأول",
+            "LAST_NAME": "اسم العائلة",
+            "EMAIL": "البريد الإلكتروني",
+            "PHONE": "الهاتف",
+            "PASSWORD": "كلمة المرور",
+            "CONFIRM_PASSWORD": "تأكيد كلمة المرور",
+            "AGREE_TERMS": "أوافق على",
+            "TERMS_CONDITIONS": "الشروط والأحكام",
+            "BUTTON": "تسجيل",
+            "HAVE_ACCOUNT": "هل لديك حساب بالفعل؟",
+            "LOG_IN": "تسجيل الدخول"
+        }
+    }
+}

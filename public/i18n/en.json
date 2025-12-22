@@ -1,0 +1,57 @@
+{
+    "PRODUCT": {
+        "ADD_TO_CART": "Add to Cart",
+        "CURRENCY": "EGP"
+    },
+    "HEADER": {
+        "SEARCH_PLACEHOLDER": "Search",
+        "LOGO_ALT": "Soukna Masry Logo",
+        "LOGO_URL": "/images/english_logo.png"
+    },
+    "FOOTER": {
+        "NEED_HELP": "Need help?",
+        "CONTACT_US_TEXT": "contact us from one of our support channel",
+        "OUR_CHAT": "OUR CHAT",
+        "TALK_TO_US": "talk to us from here",
+        "OUR_PHONE": "OUR PHONE",
+        "OUR_EMAIL": "OUR EMAIL",
+        "SELL_WITH_US": "Sell with us",
+        "BUSINESS": "soukna masry business",
+        "TERMS_SERVICE": "Our terms & service",
+        "TERMS_CONDITIONS": "terms and condition",
+        "PRIVACY_POLICY": "privacy policy",
+        "CATEGORY": "Category",
+        "CLOTHES": "clothes",
+        "HOUSEWARES": "housewares",
+        "MAKEUP": "makeup",
+        "FOLLOW_US": "Follow us"
+    },
+    "AUTH": {
+        "LOGIN": {
+            "TITLE": "Welcome back!",
+            "SUBTITLE": "Please enter your email or phone to log in.",
+            "EMAIL_PLACEHOLDER": "Email or phone",
+            "PASSWORD_PLACEHOLDER": "Password",
+            "REMEMBER_ME": "Remember me",
+            "BUTTON": "Log in",
+            "FORGOT_PASSWORD": "Forgot password?",
+            "NO_ACCOUNT": "Don't have an account?",
+            "SIGN_UP": "Sign up"
+        },
+        "REGISTER": {
+            "TITLE": "Create Account!",
+            "SUBTITLE": "Please fill in your details to register.",
+            "FIRST_NAME": "First name",
+            "LAST_NAME": "Last name",
+            "EMAIL": "Email",
+            "PHONE": "Phone",
+            "PASSWORD": "Password",
+            "CONFIRM_PASSWORD": "Confirm password",
+            "AGREE_TERMS": "I agree to the",
+            "TERMS_CONDITIONS": "Terms & Conditions",
+            "BUTTON": "Register",
+            "HAVE_ACCOUNT": "Already have an account?",
+            "LOG_IN": "Log in"
+        }
+    }
+}

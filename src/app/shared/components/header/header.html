@@ -1,28 +1,19 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
   <div class="container">
     <a class="navbar-brand" href="#">
-      <img src="/images/logo.png" class="logo" alt="Soukna Masry Logo" />
+      <img [src]="'HEADER.LOGO_URL' | translate" class="logo" [alt]="'HEADER.LOGO_ALT' | translate" />
     </a>
-    <button
-      class="navbar-toggler text-dark-brown p-2"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-    <i class="fas fa-bars text-dark-brown"></i>
+    <button class="navbar-toggler text-dark-brown p-2" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <i class="fas fa-bars text-dark-brown"></i>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <form class="d-flex flex-1 search-form grow w-100" role="search">
-        <input
-          class="form-control me-2 bg-secondary"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
+        <input class="form-control me-2 bg-secondary" type="search"
+          [placeholder]="'HEADER.SEARCH_PLACEHOLDER' | translate"
+          [aria-label]="'HEADER.SEARCH_PLACEHOLDER' | translate" />
       </form>
       <ul class="navbar-nav mb-2 mb-lg-0 d-flex flex-row align-items-center ms-auto justify-self-end">
         <li class="nav-item me-3">
@@ -35,8 +26,9 @@
           <a class="nav-link" href="#"><i class="fa-solid fa-cart-arrow-down"></i></a>
         </li>
       </ul>
-      <select class="form-select w-auto ms-3" aria-label="language">
-        <option selected value="en">English</option>
+      <select class="form-select w-auto ms-3" aria-label="language" (change)="changeLang($event)"
+        [value]="translate.currentLang">
+        <option value="en">English</option>
         <option value="ar">Arabic</option>
       </select>
     </div>
