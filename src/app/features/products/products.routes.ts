@@ -4,7 +4,7 @@ export const productRoutes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./pages/product-list-page/product-list-page').then((m) => m.ProductListPage),
+      import('./pages/categories/categories').then((m) => m.Categories),
     title: 'Products - Souknamasry',
   },
   // Product Detail Page

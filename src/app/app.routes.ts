@@ -14,7 +14,7 @@ export const routes: Routes = [
         title: 'Home - Souknamasry',
       },
       {
-        path: 'products',
+        path: 'categories',
         loadChildren: () =>
           import('./features/products/products.routes').then((m) => m.productRoutes),
         title: 'Products - Souknamasry',
