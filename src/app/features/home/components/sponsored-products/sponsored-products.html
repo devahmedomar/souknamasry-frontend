@@ -1,1 +1,25 @@
-<p>sponsored-products works!</p>
+<div class="py-4 gradient-warmy">
+    <h3 class="mb-4"> Sponsored Products </h3>
+
+    <div class="mb-5">
+        <p-carousel [value]="products1" [numVisible]="3" [numScroll]="1" [circular]="true"
+            [responsiveOptions]="responsiveOptions" [autoplayInterval]="3000">
+            <ng-template let-product pTemplate="item">
+                <div class="p-2 h-100">
+                    <app-product-card [product]="product"></app-product-card>
+                </div>
+            </ng-template>
+        </p-carousel>
+    </div>
+
+    <div>
+        <p-carousel [value]="products2" [numVisible]="3" [numScroll]="1" [circular]="true"
+            [responsiveOptions]="responsiveOptions" [autoplayInterval]="3500">
+            <ng-template let-product pTemplate="item">
+                <div class="p-2 h-100">
+                    <app-product-card [product]="product"></app-product-card>
+                </div>
+            </ng-template>
+        </p-carousel>
+    </div>
+</div>
