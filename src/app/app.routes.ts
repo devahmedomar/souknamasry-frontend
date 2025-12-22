@@ -11,13 +11,13 @@ export const routes: Routes = [
         path: '',
         loadComponent: () =>
           import('./features/home/pages/home-page/home-page').then((m) => m.HomePage),
-        title: 'Home - ShopName',
+        title: 'Home - Souknamasry',
       },
       {
         path: 'products',
         loadChildren: () =>
           import('./features/products/products.routes').then((m) => m.productRoutes),
-        title: 'Products - ShopName',
+        title: 'Products - Souknamasry',
       },
     ],
   },
@@ -29,7 +29,7 @@ export const routes: Routes = [
         path: '',
         loadChildren: () =>
           import('./features/auth/auth.routes').then((m) => m.authRoutes),
-        title: 'Auth - ShopName',
+        title: 'Auth - Souknamasry',
       },
     ],
   }

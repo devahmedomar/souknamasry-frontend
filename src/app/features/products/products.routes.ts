@@ -5,7 +5,7 @@ export const productRoutes: Routes = [
     path: '',
     loadComponent: () =>
       import('./pages/product-list-page/product-list-page').then((m) => m.ProductListPage),
-    title: 'Products - ShopName',
+    title: 'Products - Souknamasry',
   },
   // Product Detail Page
   {
@@ -14,6 +14,6 @@ export const productRoutes: Routes = [
       import('./pages/product-detail-page/product-detail-page').then(
         (m) => m.ProductDetailPage
       ),
-    title: 'Product Details - ShopName',
+    title: 'Product Details - Souknamasry',
   },
 ];
