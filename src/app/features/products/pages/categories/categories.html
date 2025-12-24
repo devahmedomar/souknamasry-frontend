@@ -1,1 +1,94 @@
-<p>categories works!</p>
+<div class="container py-4">
+    @if (loading()) {
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2 text-muted">Loading...</p>
+    </div>
+    }
+
+    @if (error()) {
+    <div class="alert alert-danger text-center" role="alert">
+        {{ error() }}
+    </div>
+    }
+
+    @if (category(); as cat) {
+    <div class="mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a routerLink="/categories" class="text-decoration-none">All Categories</a>
+                </li>
+                @for (item of cat.breadcrumb; track item._id; let i = $index, last = $last) {
+                <li class="breadcrumb-item" [class.active]="last" [attr.aria-current]="last ? 'page' : null">
+                    @if (last) {
+                    <span>{{ item.name }}</span>
+                    } @else {
+                    <a [routerLink]="['/categories', getBreadcrumbPath(i)]" class="text-decoration-none">{{ item.name
+                        }}</a>
+                    }
+                </li>
+                }
+            </ol>
+        </nav>
+        <h1 class="h2 fw-bold mb-3">{{ cat.name }}</h1>
+    </div>
+
+    @if (!cat.isLeaf && cat.children?.length) {
+    <!-- Subcategories Grid -->
+    <div class="row g-4">
+        @for (child of cat.children; track child._id) {
+        <div class="col-12 col-md-6 col-lg-4">
+            <a [routerLink]="['/categories', child.path]"
+                class="card h-100 text-decoration-none border shadow-sm hover-shadow transition">
+                @if (child.image) {
+                <div class="card-img-top-wrapper bg-light overflow-hidden" style="height: 200px;">
+                    <img [src]="child.image" [alt]="child.name" class="w-100 h-100 object-fit-cover">
+                </div>
+                }
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-0 fw-semibold text-dark">{{ child.name }}</h5>
+                </div>
+            </a>
+        </div>
+        }
+    </div>
+    }
+
+    @if (!cat.isLeaf && (!cat.children || cat.children.length === 0)) {
+    <div class="text-center py-5 text-muted">
+        <p class="mb-0">No subcategories found.</p>
+    </div>
+    }
+
+    <!-- Products List (Leaf Category) -->
+    @if (cat.isLeaf) {
+    <div class="mt-5">
+        <h2 class="h4 fw-semibold mb-4 text-secondary">Products</h2>
+
+        <!-- Note: productsLoading() is derived from the signal state -->
+        @if (productsLoading()) {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading products...</span>
+            </div>
+        </div>
+        } @else {
+        <div class="row g-4">
+            @for (product of products(); track product.id) {
+            <div class="col-12 col-md-6 col-lg-4">
+                <app-product-card [product]="product"></app-product-card>
+            </div>
+            } @empty {
+            <div class="text-center py-5 text-muted w-100">
+                <p class="mb-0">No products found in this category.</p>
+            </div>
+            }
+        </div>
+        }
+    </div>
+    }
+    }
+</div>

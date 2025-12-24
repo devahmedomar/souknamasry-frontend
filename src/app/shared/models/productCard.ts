@@ -5,6 +5,7 @@ export interface IProductCard {
   price: number;
   currency: string;
   imageUrl: string;
+  image?: string;
   rating: number;
   maxRating?: number;
 }
