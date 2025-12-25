@@ -34,6 +34,7 @@
             "PASSWORD_PLACEHOLDER": "كلمة المرور",
             "REMEMBER_ME": "تذكرني",
             "BUTTON": "تسجيل الدخول",
+            "LOGGING_IN": "جاري الدخول...",
             "FORGOT_PASSWORD": "نسيت كلمة المرور؟",
             "NO_ACCOUNT": "ليس لديك حساب؟",
             "SIGN_UP": "اشتراك"
@@ -50,8 +51,17 @@
             "AGREE_TERMS": "أوافق على",
             "TERMS_CONDITIONS": "الشروط والأحكام",
             "BUTTON": "تسجيل",
+            "REGISTERING": "جاري التسجيل...",
             "HAVE_ACCOUNT": "هل لديك حساب بالفعل؟",
             "LOG_IN": "تسجيل الدخول"
+        },
+        "VALIDATION": {
+            "REQUIRED": "هذا الحقل مطلوب",
+            "INVALID_EMAIL": "يرجى إدخال بريد إلكتروني صحيح",
+            "INVALID_PHONE": "يرجى إدخال رقم هاتف صحيح مكون من 11 رقمًا",
+            "MIN_LENGTH": "الحد الأدنى هو {{ min }} أحرف",
+            "PASSWORD_MISMATCH": "كلمات المرور غير متطابقة",
+            "REQUIRED_TERMS": "يجب عليك الموافقة على الشروط"
         }
     }
 }

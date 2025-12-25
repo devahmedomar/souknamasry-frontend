@@ -13,22 +13,48 @@
                 <p class="text-muted mb-4">{{ 'AUTH.LOGIN.SUBTITLE' | translate }}</p>
 
                 <!-- Login Form -->
-                <form>
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                  @if (errorMessage()) {
+                  <div class="alert alert-danger py-2 px-3 mb-4 small rounded-3">
+                    {{ errorMessage() }}
+                  </div>
+                  }
+
                   <!-- Email or Phone Input -->
                   <div class="mb-3">
-                    <input type="text" class="form-control py-2 px-3 border-secondary"
-                      [placeholder]="'AUTH.LOGIN.EMAIL_PLACEHOLDER' | translate" required />
+                    <input type="email" class="form-control py-2 px-3 border-secondary"
+                      [placeholder]="'AUTH.LOGIN.EMAIL_PLACEHOLDER' | translate" formControlName="email"
+                      [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" />
+                    @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+                    <div class="invalid-feedback">
+                      @if (loginForm.get('email')?.errors?.['required']) {
+                      {{ 'AUTH.VALIDATION.REQUIRED' | translate }}
+                      } @else if (loginForm.get('email')?.errors?.['email']) {
+                      {{ 'AUTH.VALIDATION.INVALID_EMAIL' | translate }}
+                      }
+                    </div>
+                    }
                   </div>
 
                   <!-- Password Input -->
                   <div class="mb-3">
                     <input type="password" class="form-control py-2 px-3 border-secondary"
-                      [placeholder]="'AUTH.LOGIN.PASSWORD_PLACEHOLDER' | translate" required />
+                      [placeholder]="'AUTH.LOGIN.PASSWORD_PLACEHOLDER' | translate" formControlName="password"
+                      [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" />
+                    @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+                    <div class="invalid-feedback">
+                      @if (loginForm.get('password')?.errors?.['required']) {
+                      {{ 'AUTH.VALIDATION.REQUIRED' | translate }}
+                      } @else if (loginForm.get('password')?.errors?.['minlength']) {
+                      {{ 'AUTH.VALIDATION.MIN_LENGTH' | translate : { min: 6 } }}
+                      }
+                    </div>
+                    }
                   </div>
 
                   <!-- Remember Me Checkbox -->
                   <div class="form-check mb-4">
-                    <input class="form-check-input" type="checkbox" id="rememberMe" />
+                    <input class="form-check-input" type="checkbox" id="rememberMe" formControlName="rememberMe" />
                     <label class="form-check-label text-muted small" for="rememberMe">
                       {{ 'AUTH.LOGIN.REMEMBER_ME' | translate }}
                     </label>
@@ -36,8 +62,14 @@
 
                   <!-- Login Button -->
                   <div class="d-grid">
-                    <button type="submit" class="btn btn-login py-2 fw-semibold rounded-3">
+                    <button type="submit" class="btn btn-login py-2 fw-semibold rounded-3"
+                      [disabled]="loginForm.invalid || isLoading()">
+                      @if (isLoading()) {
+                      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                      {{ 'AUTH.LOGIN.LOGGING_IN' | translate }}
+                      } @else {
                       {{ 'AUTH.LOGIN.BUTTON' | translate }}
+                      }
                     </button>
                   </div>
 
