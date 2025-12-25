@@ -2,16 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { IProductCard } from '../../../shared/models/productCard';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ProductsService {
     private http = inject(HttpClient);
-    private apiUrl = 'https://souknamasry-be.vercel.app/api/products';
 
     getProductsByCategory(path: string): Observable<IProductCard[]> {
-        return this.http.get<{ status: string; data: { products: any[] } }>(`${this.apiUrl}/category/${path}`).pipe(
+        return this.http.get<{ status: string; data: { products: any[] } }>(`${environment.apiUrl}products/category/${path}`).pipe(
             map((res) => res.data.products.map(p => this.mapToProductCard(p)))
         );
     }

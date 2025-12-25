@@ -2,17 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Category } from '../../../shared/models/category.interface';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CategoriesService {
     private http = inject(HttpClient);
-    private apiUrl = 'https://souknamasry-be.vercel.app/api/categories';
 
     getCategoryByPath(path: string): Observable<Category> {
         if (!path) {
-            return this.http.get<{ status: string, data: { categories: Category[] } }>(`${this.apiUrl}/root`).pipe(
+            return this.http.get<{ status: string, data: { categories: Category[] } }>(`${environment.apiUrl}categories/root`).pipe(
                 map(res => ({
                     _id: 'root',
                     name: 'All Categories',
@@ -36,7 +36,7 @@ export class CategoriesService {
                 breadcrumb: { _id: string, name: string, slug: string }[],
                 isLeaf: boolean
             }
-        }>(`${this.apiUrl}/path/${path}`).pipe(
+        }>(`${environment.apiUrl}categories/path/${path}`).pipe(
             map(res => {
                 const category = {
                     ...res.data.category,
