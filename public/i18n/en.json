@@ -62,6 +62,14 @@
             "MIN_LENGTH": "Minimum length is {{ min }} characters",
             "PASSWORD_MISMATCH": "Passwords do not match",
             "REQUIRED_TERMS": "You must agree to the terms"
+        },
+        "MESSAGES": {
+            "LOGIN_SUCCESS": "Login successful",
+            "LOGIN_ERROR": "Login failed. Please check your credentials.",
+            "REGISTER_SUCCESS": "Registration successful! You can now log in.",
+            "REGISTER_ERROR": "Registration failed. Please try again.",
+            "SUCCESS": "Success",
+            "ERROR": "Error"
         }
     }
 }

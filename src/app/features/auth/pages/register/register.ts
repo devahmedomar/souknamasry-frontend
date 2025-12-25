@@ -1,7 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router, RouterLink } from "@angular/router";
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MessageService } from 'primeng/api';
 import { AuthService } from '../../services/auth.service';
 
 export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -23,9 +24,9 @@ export class Register {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private messageService = inject(MessageService);
+  private translate = inject(TranslateService);
 
-  errorMessage = signal<string | null>(null);
-  successMessage = signal<string | null>(null);
   isLoading = signal<boolean>(false);
 
   registerForm: FormGroup = this.fb.group({
@@ -41,8 +42,6 @@ export class Register {
   onSubmit() {
     if (this.registerForm.valid) {
       this.isLoading.set(true);
-      this.errorMessage.set(null);
-      this.successMessage.set(null);
 
       const { firstName, lastName, email, password } = this.registerForm.value;
       const registrationData = {
@@ -57,15 +56,31 @@ export class Register {
       this.authService.register(registrationData).subscribe({
         next: (response) => {
           this.isLoading.set(false);
-          this.successMessage.set('Registration successful! Redirecting to login...');
-          console.log('Registration successful', response);
-          setTimeout(() => {
-            this.router.navigate(['/auth/login']);
-          }, 2000);
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translate.instant('AUTH.MESSAGES.SUCCESS'),
+            detail: this.translate.instant('AUTH.MESSAGES.REGISTER_SUCCESS')
+          });
+          this.router.navigate(['/auth/login']);
         },
         error: (err) => {
           this.isLoading.set(false);
-          this.errorMessage.set(err.error?.message || 'Registration failed. Please try again.');
+          let detail = this.translate.instant('AUTH.MESSAGES.REGISTER_ERROR');
+
+          if (err.error?.data) {
+            const errorMessages = Object.values(err.error.data).flat();
+            if (errorMessages.length > 0) {
+              detail = errorMessages.join('. ');
+            }
+          } else if (err.error?.message) {
+            detail = err.error.message;
+          }
+
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translate.instant('AUTH.MESSAGES.ERROR'),
+            detail: detail
+          });
           console.error('Registration error', err);
         }
       });
