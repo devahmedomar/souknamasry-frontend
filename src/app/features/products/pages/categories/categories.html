@@ -79,7 +79,7 @@
         <div class="row g-4">
             @for (product of products(); track product.id) {
             <div class="col-12 col-md-6 col-lg-4">
-                <app-product-card [product]="product"></app-product-card>
+                <app-product-card [product]="product" (addToCart)="handleAddToCart($event)"></app-product-card>
             </div>
             } @empty {
             <div class="text-center py-5 text-muted w-100">

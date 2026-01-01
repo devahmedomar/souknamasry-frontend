@@ -19,6 +19,12 @@ export const routes: Routes = [
           import('./features/products/products.routes').then((m) => m.productRoutes),
         title: 'Products - Souknamasry',
       },
+      {
+        path: 'cart',
+        loadChildren: () =>
+          import('./features/cart/cart.routes').then((m) => m.cartRoutes),
+        title: 'Cart - Souknamasry',
+      },
     ],
   },
   {
