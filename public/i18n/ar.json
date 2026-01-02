@@ -335,6 +335,12 @@
         "ADDRESS_DELETED": "تم حذف العنوان بنجاح",
         "CONFIRM_DELETE": "هل أنت متأكد من حذف هذا العنوان؟"
     },
+    "PROFILE": {
+        "AREA": "المنطقة",
+        "STREET": "الشارع",
+        "APARTMENT_NUMBER": "رقم الشقة",
+        "LANDMARK": "علامة مميزة"
+    },
     "ORDERS": {
         "MY_ORDERS": "طلباتي",
         "ORDER_HISTORY": "سجل الطلبات",

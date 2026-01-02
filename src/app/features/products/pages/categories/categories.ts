@@ -107,7 +107,7 @@ export class Categories {
     }
 
     // User is authenticated, add to cart
-    this.cartService.addToCart(product.id.toString(), 1).subscribe({
+    this.cartService.addToCart({ productId: product.id.toString(), quantity: 1 }).subscribe({
       next: () => {
         this.translateService.get('CART.ADD_SUCCESS').subscribe((message: string) => {
           this.messageService.add({

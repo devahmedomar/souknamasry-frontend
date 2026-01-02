@@ -1,0 +1,291 @@
+<main class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <!-- User Info -->
+                        <div class="text-center mb-4">
+                            <div class="avatar-circle mx-auto mb-3">
+                                @if (user()?.imageUrl) {
+                                <img [src]="user()?.imageUrl" alt="Profile" class="rounded-circle w-100 h-100 object-fit-cover">
+                                } @else {
+                                <span class="avatar-initials">{{ user()?.firstName?.charAt(0) }}{{ user()?.lastName?.charAt(0) }}</span>
+                                }
+                            </div>
+                            <h5 class="fw-bold mb-1">{{ user()?.firstName }} {{ user()?.lastName }}</h5>
+                            <p class="text-muted small mb-0">{{ user()?.email }}</p>
+                        </div>
+
+                        <!-- Navigation -->
+                        <nav class="nav flex-column">
+                            <button class="nav-link text-start px-3 py-2 rounded-3 mb-1"
+                                [class.active]="activeTab() === 'profile'"
+                                (click)="setActiveTab('profile')">
+                                <i class="bi bi-person me-2"></i>
+                                {{ 'ACCOUNT.PROFILE' | translate }}
+                            </button>
+                            <button class="nav-link text-start px-3 py-2 rounded-3 mb-1"
+                                [class.active]="activeTab() === 'addresses'"
+                                (click)="setActiveTab('addresses')">
+                                <i class="bi bi-geo-alt me-2"></i>
+                                {{ 'ACCOUNT.ADDRESSES' | translate }}
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                @if (isLoading()) {
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">{{ 'COMMON.LOADING' | translate }}</span>
+                    </div>
+                </div>
+                } @else {
+                    <!-- Profile Tab -->
+                    @if (activeTab() === 'profile') {
+                    <div class="card border-0 shadow-sm rounded-4">
+                        <div class="card-header bg-transparent border-0 p-4 d-flex justify-content-between align-items-center">
+                            <h4 class="fw-bold mb-0">{{ 'ACCOUNT.PERSONAL_INFO' | translate }}</h4>
+                            @if (!isEditingProfile()) {
+                            <button class="btn btn-outline-primary btn-sm rounded-3" (click)="toggleEditProfile()">
+                                <i class="bi bi-pencil me-1"></i>
+                                {{ 'COMMON.EDIT' | translate }}
+                            </button>
+                            }
+                        </div>
+                        <div class="card-body p-4 pt-0">
+                            @if (isEditingProfile()) {
+                            <!-- Edit Form -->
+                            <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-semibold">{{ 'ACCOUNT.FIRST_NAME' | translate }}</label>
+                                        <input type="text" class="form-control" formControlName="firstName"
+                                            [class.is-invalid]="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched">
+                                        @if (profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched) {
+                                        <div class="invalid-feedback">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</div>
+                                        }
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-semibold">{{ 'ACCOUNT.LAST_NAME' | translate }}</label>
+                                        <input type="text" class="form-control" formControlName="lastName"
+                                            [class.is-invalid]="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched">
+                                        @if (profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched) {
+                                        <div class="invalid-feedback">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</div>
+                                        }
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-semibold">{{ 'ACCOUNT.PHONE' | translate }}</label>
+                                        <input type="tel" class="form-control" formControlName="phone">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-semibold">{{ 'ADDRESSES.CITY' | translate }}</label>
+                                        <input type="text" class="form-control" formControlName="city">
+                                    </div>
+                                </div>
+
+                                <div class="d-flex gap-2 mt-4">
+                                    <button type="submit" class="btn btn-primary rounded-3" [disabled]="isProfileLoading()">
+                                        @if (isProfileLoading()) {
+                                        <span class="spinner-border spinner-border-sm me-2"></span>
+                                        }
+                                        {{ 'ACCOUNT.SAVE_CHANGES' | translate }}
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary rounded-3" (click)="toggleEditProfile()">
+                                        {{ 'COMMON.CANCEL' | translate }}
+                                    </button>
+                                </div>
+                            </form>
+                            } @else {
+                            <!-- Display Info -->
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label class="text-muted small">{{ 'ACCOUNT.FIRST_NAME' | translate }}</label>
+                                    <p class="mb-0 fw-medium">{{ user()?.firstName }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="text-muted small">{{ 'ACCOUNT.LAST_NAME' | translate }}</label>
+                                    <p class="mb-0 fw-medium">{{ user()?.lastName }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="text-muted small">{{ 'ACCOUNT.EMAIL' | translate }}</label>
+                                    <p class="mb-0 fw-medium">{{ user()?.email }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="text-muted small">{{ 'ACCOUNT.PHONE' | translate }}</label>
+                                    <p class="mb-0 fw-medium">{{ user()?.phone || '-' }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="text-muted small">{{ 'ADDRESSES.CITY' | translate }}</label>
+                                    <p class="mb-0 fw-medium">{{ user()?.city || '-' }}</p>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    }
+
+                    <!-- Addresses Tab -->
+                    @if (activeTab() === 'addresses') {
+                    <div class="card border-0 shadow-sm rounded-4">
+                        <div class="card-header bg-transparent border-0 p-4 d-flex justify-content-between align-items-center">
+                            <h4 class="fw-bold mb-0">{{ 'ADDRESSES.TITLE' | translate }}</h4>
+                            <button class="btn btn-primary btn-sm rounded-3" (click)="openAddressModal()">
+                                <i class="bi bi-plus me-1"></i>
+                                {{ 'ADDRESSES.ADD_NEW' | translate }}
+                            </button>
+                        </div>
+                        <div class="card-body p-4 pt-0">
+                            @if (addresses().length === 0) {
+                            <div class="text-center py-5">
+                                <i class="bi bi-geo-alt text-muted" style="font-size: 3rem;"></i>
+                                <p class="text-muted mt-3 mb-0">{{ 'ADDRESSES.NO_ADDRESSES' | translate }}</p>
+                            </div>
+                            } @else {
+                            <div class="row g-3">
+                                @for (address of addresses(); track address._id) {
+                                <div class="col-md-6">
+                                    <div class="card h-100 border rounded-3" [class.border-primary]="address.isDefault">
+                                        <div class="card-body">
+                                            @if (address.isDefault) {
+                                            <span class="badge bg-primary mb-2">{{ 'ADDRESSES.DEFAULT_ADDRESS' | translate }}</span>
+                                            }
+                                            <h6 class="fw-bold mb-2">{{ address.name }}</h6>
+                                            <p class="text-muted small mb-1">
+                                                <i class="bi bi-telephone me-1"></i>{{ address.phone }}
+                                            </p>
+                                            <p class="text-muted small mb-0">
+                                                <i class="bi bi-geo-alt me-1"></i>
+                                                {{ address.street }}, {{ address.area }}, {{ address.city }}
+                                                @if (address.apartmentNumber) {
+                                                - {{ address.apartmentNumber }}
+                                                }
+                                            </p>
+                                            @if (address.landmark) {
+                                            <p class="text-muted small mb-0 mt-1">
+                                                <i class="bi bi-signpost me-1"></i>{{ address.landmark }}
+                                            </p>
+                                            }
+                                        </div>
+                                        <div class="card-footer bg-transparent border-0 pt-0 d-flex gap-2">
+                                            <button class="btn btn-sm btn-outline-secondary rounded-3" (click)="openAddressModal(address)">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger rounded-3" (click)="deleteAddress(address._id!)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                            @if (!address.isDefault) {
+                                            <button class="btn btn-sm btn-outline-primary rounded-3 ms-auto" (click)="setDefaultAddress(address._id!)">
+                                                {{ 'ADDRESSES.SET_DEFAULT' | translate }}
+                                            </button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Address Modal -->
+@if (showAddressModal()) {
+<div class="modal-backdrop fade show"></div>
+<div class="modal fade show d-block" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold">
+                    {{ (editingAddressId() ? 'ADDRESSES.EDIT_ADDRESS' : 'ADDRESSES.ADD_NEW') | translate }}
+                </h5>
+                <button type="button" class="btn-close" (click)="closeAddressModal()"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="addressForm" (ngSubmit)="saveAddress()">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold">{{ 'ADDRESSES.FULL_NAME' | translate }} *</label>
+                            <input type="text" class="form-control" formControlName="name"
+                                [class.is-invalid]="addressForm.get('name')?.invalid && addressForm.get('name')?.touched">
+                            @if (addressForm.get('name')?.invalid && addressForm.get('name')?.touched) {
+                            <div class="invalid-feedback">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</div>
+                            }
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold">{{ 'ADDRESSES.PHONE' | translate }} *</label>
+                            <input type="tel" class="form-control" formControlName="phone"
+                                [class.is-invalid]="addressForm.get('phone')?.invalid && addressForm.get('phone')?.touched">
+                            @if (addressForm.get('phone')?.invalid && addressForm.get('phone')?.touched) {
+                            <div class="invalid-feedback">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</div>
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">{{ 'ADDRESSES.CITY' | translate }} *</label>
+                            <input type="text" class="form-control" formControlName="city"
+                                [class.is-invalid]="addressForm.get('city')?.invalid && addressForm.get('city')?.touched">
+                            @if (addressForm.get('city')?.invalid && addressForm.get('city')?.touched) {
+                            <div class="invalid-feedback">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</div>
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">{{ 'PROFILE.AREA' | translate }} *</label>
+                            <input type="text" class="form-control" formControlName="area"
+                                [class.is-invalid]="addressForm.get('area')?.invalid && addressForm.get('area')?.touched">
+                            @if (addressForm.get('area')?.invalid && addressForm.get('area')?.touched) {
+                            <div class="invalid-feedback">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</div>
+                            }
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold">{{ 'PROFILE.STREET' | translate }} *</label>
+                            <input type="text" class="form-control" formControlName="street"
+                                [class.is-invalid]="addressForm.get('street')?.invalid && addressForm.get('street')?.touched">
+                            @if (addressForm.get('street')?.invalid && addressForm.get('street')?.touched) {
+                            <div class="invalid-feedback">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</div>
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">{{ 'PROFILE.APARTMENT_NUMBER' | translate }}</label>
+                            <input type="text" class="form-control" formControlName="apartmentNumber">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">{{ 'PROFILE.LANDMARK' | translate }}</label>
+                            <input type="text" class="form-control" formControlName="landmark">
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="isDefault" formControlName="isDefault">
+                                <label class="form-check-label small" for="isDefault">
+                                    {{ 'ADDRESSES.SET_DEFAULT' | translate }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary rounded-3 flex-grow-1" [disabled]="isAddressLoading()">
+                            @if (isAddressLoading()) {
+                            <span class="spinner-border spinner-border-sm me-2"></span>
+                            }
+                            {{ 'ADDRESSES.SAVE_ADDRESS' | translate }}
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary rounded-3" (click)="closeAddressModal()">
+                            {{ 'COMMON.CANCEL' | translate }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+}

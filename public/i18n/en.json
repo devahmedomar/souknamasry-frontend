@@ -335,6 +335,12 @@
         "ADDRESS_DELETED": "Address deleted successfully",
         "CONFIRM_DELETE": "Are you sure you want to delete this address?"
     },
+    "PROFILE": {
+        "AREA": "Area",
+        "STREET": "Street",
+        "APARTMENT_NUMBER": "Apartment Number",
+        "LANDMARK": "Landmark"
+    },
     "ORDERS": {
         "MY_ORDERS": "My Orders",
         "ORDER_HISTORY": "Order History",

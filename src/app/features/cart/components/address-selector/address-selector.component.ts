@@ -46,13 +46,4 @@ export class AddressSelectorComponent {
     isSelected(address: Address): boolean {
         return address._id === this.selectedAddressId();
     }
-
-    getAddressTypeLabel(type: string): string {
-        const typeMap: { [key: string]: string } = {
-            'home': 'ADDRESSES.HOME',
-            'work': 'ADDRESSES.WORK',
-            'other': 'ADDRESSES.OTHER'
-        };
-        return typeMap[type] || type;
-    }
 }

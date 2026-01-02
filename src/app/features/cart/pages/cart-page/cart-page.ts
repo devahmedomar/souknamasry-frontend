@@ -60,27 +60,22 @@ export class CartPage implements OnInit {
     addresses = signal<Address[]>([
         {
             _id: '1',
-            fullName: 'Ahmed Mohamed',
+            name: 'Ahmed Mohamed',
             phone: '0154532355',
-            addressLine1: '123 Main Street',
-            addressLine2: 'Apartment 4B',
+            street: '123 Main Street',
+            area: 'Nasr City',
+            apartmentNumber: '4B',
             city: 'Cairo',
-            state: 'Cairo',
-            postalCode: '12345',
-            country: 'Egypt',
-            addressType: 'home',
+            landmark: 'Near City Stars Mall',
             isDefault: true
         },
         {
             _id: '2',
-            fullName: 'Ahmed Mohamed',
+            name: 'Ahmed Mohamed',
             phone: '0154532355',
-            addressLine1: '456 Work Plaza',
-            city: 'Giza',
-            state: 'Giza',
-            postalCode: '67890',
-            country: 'Egypt',
-            addressType: 'work'
+            street: '456 Work Plaza',
+            area: 'Dokki',
+            city: 'Giza'
         }
     ]);
     selectedAddress = signal<Address | null>(null);

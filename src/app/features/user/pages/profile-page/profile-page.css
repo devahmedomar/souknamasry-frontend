@@ -1,0 +1,81 @@
+.avatar-circle {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #6b4226 0%, #ff6b35 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.avatar-initials {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.nav-link {
+    color: #6c757d;
+    border: none;
+    background: none;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    background-color: #f8f9fa;
+    color: #6b4226;
+}
+
+.nav-link.active {
+    background-color: #6b4226;
+    color: white;
+}
+
+.btn-primary {
+    background-color: #6b4226;
+    border-color: #6b4226;
+}
+
+.btn-primary:hover {
+    background-color: #543419;
+    border-color: #543419;
+}
+
+.btn-outline-primary {
+    color: #6b4226;
+    border-color: #6b4226;
+}
+
+.btn-outline-primary:hover {
+    background-color: #6b4226;
+    border-color: #6b4226;
+    color: white;
+}
+
+.border-primary {
+    border-color: #6b4226 !important;
+}
+
+.bg-primary {
+    background-color: #6b4226 !important;
+}
+
+.text-primary {
+    color: #6b4226 !important;
+}
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.form-control:focus {
+    border-color: #6b4226;
+    box-shadow: 0 0 0 0.2rem rgba(107, 66, 38, 0.25);
+}
+
+.form-check-input:checked {
+    background-color: #6b4226;
+    border-color: #6b4226;
+}
