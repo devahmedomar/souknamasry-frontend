@@ -26,8 +26,7 @@
 
     <span class="text-muted small">{{ product().category }}</span>
 
-    <div class="fw-bold fs-5 text-dark-brown mb-2">{{ product().price }} <span class="small">{{ 'PRODUCT.CURRENCY' |
-        translate }}</span></div>
+    <div class="fw-bold fs-5 text-dark-brown mb-2">{{ product().price | price }}</div>
 
     <button class="btn btn-primary w-100 rounded-3 text-white fw-bold py-2 add-btn" (click)="onAddToCart($event)">
       {{ 'PRODUCT.ADD_TO_CART' | translate }}

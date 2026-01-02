@@ -124,7 +124,12 @@
         "CONFIRM_ORDER": "تأكيد الطلب",
         "BACK_TO_CART": "ارجع للشنطة",
         "UPDATE_QUANTITY": "تحديث الكمية",
-        "ESTIMATED_TOTAL": "المجموع المتوقع"
+        "ESTIMATED_TOTAL": "المجموع المتوقع",
+        "UPDATE_FAILED": "فشل تحديث الكمية",
+        "REMOVE_FAILED": "فشل حذف المنتج",
+        "CLEAR_FAILED": "فشل تفريغ السلة",
+        "SELECT_ADDRESS_REQUIRED": "يرجى اختيار عنوان الشحن",
+        "ORDER_CONFIRMED": "تم تأكيد طلبك بنجاح"
     },
     "CATEGORIES": {
         "TITLE": "الفئات",
@@ -306,6 +311,7 @@
     },
     "ADDRESSES": {
         "TITLE": "عناوين الشحن",
+        "NO_ADDRESSES": "لا توجد عناوين محفوظة",
         "ADD_NEW": "إضافة عنوان جديد",
         "EDIT_ADDRESS": "تعديل العنوان",
         "DELETE_ADDRESS": "حذف العنوان",

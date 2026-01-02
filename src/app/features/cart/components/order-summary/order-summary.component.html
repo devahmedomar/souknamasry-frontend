@@ -1,0 +1,81 @@
+<div class="card border shadow-sm sticky-top" style="top: 100px;">
+    <div class="card-body">
+        <h5 class="card-title mb-4">{{ 'CART_PAGE.ORDER_SUMMARY' | translate }}</h5>
+
+        <!-- Coupon Section -->
+        @if (showCoupon() && !hasCoupon()) {
+        <div class="mb-3">
+            <label class="form-label small">{{ 'CART_PAGE.COUPON_CODE' | translate }}</label>
+            <div class="input-group">
+                <input type="text" class="form-control" [(ngModel)]="couponCode" [disabled]="applyingCoupon()"
+                    [placeholder]="'CART_PAGE.COUPON_CODE' | translate" (keyup.enter)="onApplyCoupon()">
+                <button class="btn btn-outline-primary" type="button" (click)="onApplyCoupon()"
+                    [disabled]="!canApplyCoupon()">
+                    @if (applyingCoupon()) {
+                    <span class="spinner-border spinner-border-sm me-1"></span>
+                    }
+                    {{ 'CART_PAGE.APPLY' | translate }}
+                </button>
+            </div>
+        </div>
+        } @else if (hasCoupon()) {
+        <div class="alert alert-success mb-3 py-2">
+            <small>
+                <i class="fas fa-check-circle me-1"></i>
+                {{ 'CART_PAGE.COUPON_CODE' | translate }}: <strong>{{ cart().coupon!.code }}</strong>
+            </small>
+        </div>
+        }
+
+        <!-- Order Details -->
+        <div class="d-flex justify-content-between mb-2">
+            <span>{{ 'CART_PAGE.SUBTOTAL' | translate }}</span>
+            <span>{{ cart().subtotal | price }}</span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+            <span>{{ 'CART_PAGE.SHIPPING' | translate }}</span>
+            <span>
+                @if (isFreeShipping()) {
+                {{ 'CART_PAGE.FREE' | translate }}
+                } @else {
+                {{ cart().shipping | price }}
+                }
+            </span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+            <span>{{ 'CART_PAGE.TAX' | translate }}</span>
+            <span>{{ cart().tax | price }}</span>
+        </div>
+
+        @if (hasDiscount()) {
+        <div class="d-flex justify-content-between mb-2 text-success">
+            <span>{{ 'CART_PAGE.DISCOUNT' | translate }}</span>
+            <span>-{{ cart().discount | price }}</span>
+        </div>
+        }
+
+        <hr>
+
+        <div class="d-flex justify-content-between mb-4">
+            <strong>{{ 'CART_PAGE.TOTAL' | translate }}</strong>
+            <strong class="fs-5">{{ cart().total | price }}</strong>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-grid gap-2">
+            @if (showCheckoutButton()) {
+            <button type="button" class="btn btn-primary py-2 bg-primary border-0" (click)="onCheckout()">
+                {{ checkoutButtonText() | translate }}
+            </button>
+            }
+
+            @if (showBackButton()) {
+            <button type="button" class="btn btn-outline-secondary" (click)="onBack()">
+                {{ backButtonText() | translate }}
+            </button>
+            }
+        </div>
+    </div>
+</div>

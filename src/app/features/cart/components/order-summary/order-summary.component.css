@@ -1,0 +1,29 @@
+/* Order Summary Styles */
+.card {
+    border-radius: 8px;
+}
+
+.sticky-top {
+    z-index: 10;
+}
+
+hr {
+    margin: 1rem 0;
+    opacity: 0.25;
+}
+
+.alert {
+    border-radius: 6px;
+}
+
+.btn {
+    border-radius: 6px;
+}
+
+.form-control {
+    border-radius: 6px 0 0 6px;
+}
+
+.input-group .btn {
+    border-radius: 0 6px 6px 0;
+}

@@ -1,11 +1,19 @@
-import { Component, inject, OnInit, computed } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
-import { CartService } from '../../../features/cart/services/cart.service';
-import { AuthService } from '../../../features/auth/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { CartService } from '../../../features/cart/services/cart.service';
+import { CartStateService } from '../../../features/cart/services/cart-state.service';
+import { AuthService } from '../../../features/auth/services/auth.service';
 
+/**
+ * Header Component
+ * Responsibilities:
+ * - Display navigation menu
+ * - Handle language switching
+ * - Display cart item count
+ */
 @Component({
   selector: 'app-header',
   imports: [RouterLink, FormsModule, TranslateModule, CommonModule],
@@ -13,21 +21,22 @@ import { CommonModule } from '@angular/common';
   styleUrl: './header.css',
 })
 export class Header implements OnInit {
-  translate = inject(TranslateService);
+  private translate = inject(TranslateService);
   private cartService = inject(CartService);
+  private cartState = inject(CartStateService);
   private authService = inject(AuthService);
 
-  // Computed signal to get cart item count
-  cartItemCount = computed(() => this.cartService.cartItemCount());
+  // Get cart item count from state
+  cartItemCount = this.cartState.itemCount;
 
   ngOnInit(): void {
-    // Load cart count if user is authenticated
+    // Load cart if user is authenticated
     if (this.authService.token()) {
-      this.cartService.loadCartCount();
+      this.cartService.getCart().subscribe();
     }
   }
 
-  changeLang(event: Event) {
+  changeLang(event: Event): void {
     const select = event.target as HTMLSelectElement;
     this.translate.use(select.value);
   }

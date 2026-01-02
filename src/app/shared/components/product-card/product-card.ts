@@ -5,11 +5,12 @@ import { Rating } from 'primeng/rating';
 import { ButtonModule } from 'primeng/button';
 import { IProductCard } from '../../models/productCard';
 import { TranslateModule } from '@ngx-translate/core';
+import { PricePipe } from '../../pipes/price.pipe';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CommonModule, Rating, FormsModule, ButtonModule, TranslateModule],
+  imports: [CommonModule, Rating, FormsModule, ButtonModule, TranslateModule, PricePipe],
   templateUrl: './product-card.html',
   styleUrl: './product-card.css',
 })

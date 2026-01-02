@@ -1,0 +1,89 @@
+@if (compact()) {
+<!-- Compact view for address step -->
+<div class="card mb-2 border-0 bg-light">
+    <div class="card-body p-2">
+        <div class="row align-items-center">
+            <div class="col-3">
+                <img [src]="productImage()" [alt]="productName()" class="img-fluid rounded">
+            </div>
+            <div class="col-7">
+                <small class="d-block fw-bold text-truncate">{{ productName() }}</small>
+                <small class="text-muted">{{ 'CART_PAGE.QUANTITY' | translate }}: {{ item().quantity }}</small>
+                <div class="fw-bold small mt-1">
+                    {{ itemTotal() | price }}
+                </div>
+            </div>
+            <div class="col-2 text-end">
+                <button class="btn btn-link text-danger p-0 small" (click)="onRemove()" [disabled]="removing()">
+                    @if (removing()) {
+                    <span class="spinner-border spinner-border-sm"></span>
+                    } @else {
+                    <i class="fas fa-trash"></i>
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+} @else {
+<!-- Full view for cart page -->
+<div class="card mb-3 border shadow-sm">
+    <div class="card-body">
+        <div class="row align-items-center">
+            <!-- Product Image -->
+            <div class="col-md-2 col-3">
+                <img [src]="productImage()" [alt]="productName()" class="img-fluid rounded">
+            </div>
+
+            <!-- Product Details -->
+            <div class="col-md-4 col-9">
+                <h6 class="mb-1">{{ productName() }}</h6>
+                @if (item().size) {
+                <small class="text-muted">{{ 'CART_PAGE.SIZE' | translate }}: {{ item().size }}</small>
+                }
+                @if (item().color) {
+                <small class="text-muted d-block">{{ 'PRODUCT.COLOR' | translate }}: {{ item().color }}</small>
+                }
+            </div>
+
+            <!-- Quantity Controls -->
+            <div class="col-md-3 col-6 mt-3 mt-md-0">
+                <div class="d-flex align-items-center justify-content-center">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="decreaseQuantity()"
+                        [disabled]="!canDecrease()">
+                        @if (updating()) {
+                        <span class="spinner-border spinner-border-sm"></span>
+                        } @else {
+                        <i class="fas fa-minus"></i>
+                        }
+                    </button>
+                    <input type="number" class="form-control form-control-sm mx-2 text-center" style="width: 60px;"
+                        [value]="item().quantity" (change)="onQuantityInput($event)" [disabled]="updating()" min="1">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="increaseQuantity()"
+                        [disabled]="!canIncrease()">
+                        @if (updating()) {
+                        <span class="spinner-border spinner-border-sm"></span>
+                        } @else {
+                        <i class="fas fa-plus"></i>
+                        }
+                    </button>
+                </div>
+            </div>
+
+            <!-- Price & Remove -->
+            <div class="col-md-2 col-4 mt-3 mt-md-0 text-end">
+                <div class="fw-bold">{{ itemTotal() | price }}</div>
+            </div>
+            <div class="col-md-1 col-2 mt-3 mt-md-0 text-end">
+                <button type="button" class="btn btn-link text-danger p-0" (click)="onRemove()" [disabled]="removing()">
+                    @if (removing()) {
+                    <span class="spinner-border spinner-border-sm"></span>
+                    } @else {
+                    <i class="fas fa-trash"></i>
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+}

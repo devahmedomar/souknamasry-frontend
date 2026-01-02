@@ -13,20 +13,27 @@
 
     <!-- Step Content -->
     @if (activeStep() === 1) {
-    <!-- Cart Content -->
+    <!-- Cart Step -->
     @if (loading()) {
     <div class="text-center py-5">
         <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+            <span class="visually-hidden">{{ 'COMMON.LOADING' | translate }}</span>
         </div>
     </div>
-    } @else if (cart() && cart()!.items.length > 0) {
+    } @else if (isEmpty()) {
+    <div class="text-center py-5">
+        <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+        <h4 class="text-muted">{{ 'CART_PAGE.EMPTY_CART' | translate }}</h4>
+        <a routerLink="/categories" class="btn btn-primary mt-3">
+            {{ 'CART_PAGE.CONTINUE_SHOPPING' | translate }}
+        </a>
+    </div>
+    } @else {
     <div class="row mt-4">
         <!-- Cart Items -->
         <div class="col-lg-8">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="mb-0">{{ 'CART_PAGE.ITEMS_IN_CART' | translate: {count: cart()!.itemCount} }}
-                </h5>
+                <h5 class="mb-0">{{ 'CART_PAGE.ITEMS_IN_CART' | translate: {count: cart()!.itemCount} }}</h5>
                 <button type="button" class="btn btn-link text-danger p-0" (click)="clearCart()"
                     [disabled]="clearingCart()">
                     @if (clearingCart()) {
@@ -38,243 +45,46 @@
                 </button>
             </div>
 
-            <!-- Cart Item Cards -->
+            <!-- Cart Item List using CartItemComponent -->
             @for (item of cart()!.items; track item._id) {
-            <div class="card mb-3 border shadow-sm">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <!-- Product Image -->
-                        <div class="col-md-2 col-3">
-                            <img [src]="getProductImage(item)" [alt]="getProductName(item)" class="img-fluid rounded">
-                        </div>
-
-                        <!-- Product Details -->
-                        <div class="col-md-4 col-9">
-                            <h6 class="mb-1">{{ getProductName(item) }}</h6>
-                            @if (item.product?.size) {
-                            <small class="text-muted">{{ 'CART_PAGE.SIZE' | translate }}: {{
-                                item.product.size
-                                }}</small>
-                            }
-                        </div>
-
-                        <!-- Quantity Controls -->
-                        <div class="col-md-3 col-6 mt-3 mt-md-0">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <button type="button" class="btn btn-outline-secondary btn-sm"
-                                    (click)="updateQuantity(item._id, item.quantity - 1)"
-                                    [disabled]="item.quantity <= 1 || updatingItemId() === item._id">
-                                    @if (updatingItemId() === item._id) {
-                                    <span class="spinner-border spinner-border-sm"></span>
-                                    } @else {
-                                    <i class="fas fa-minus"></i>
-                                    }
-                                </button>
-                                <input type="number" class="form-control form-control-sm mx-2 text-center"
-                                    style="width: 60px;" [value]="item.quantity"
-                                    (change)="updateQuantity(item._id, +$any($event.target).value)"
-                                    [disabled]="updatingItemId() === item._id" min="1">
-                                <button type="button" class="btn btn-outline-secondary btn-sm"
-                                    (click)="updateQuantity(item._id, item.quantity + 1)"
-                                    [disabled]="updatingItemId() === item._id">
-                                    @if (updatingItemId() === item._id) {
-                                    <span class="spinner-border spinner-border-sm"></span>
-                                    } @else {
-                                    <i class="fas fa-plus"></i>
-                                    }
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Price & Remove -->
-                        <div class="col-md-2 col-4 mt-3 mt-md-0 text-end">
-                            <div class="fw-bold">{{ item.product?.price * item.quantity }} {{
-                                'PRODUCT.CURRENCY'
-                                | translate }}</div>
-                        </div>
-                        <div class="col-md-1 col-2 mt-3 mt-md-0 text-end">
-                            <button type="button" class="btn btn-link text-danger p-0" (click)="removeItem(item._id)"
-                                [disabled]="removingItemId() === item._id">
-                                @if (removingItemId() === item._id) {
-                                <span class="spinner-border spinner-border-sm"></span>
-                                } @else {
-                                <i class="fas fa-trash"></i>
-                                }
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <app-cart-item [item]="item" [updating]="isItemUpdating(item._id)" [removing]="isItemRemoving(item._id)"
+                (quantityChange)="updateQuantity(item._id, $event)" (remove)="removeItem(item._id)">
+            </app-cart-item>
             }
         </div>
 
         <!-- Order Summary -->
         <div class="col-lg-4">
-            <div class="card border shadow-sm sticky-top" style="top: 100px;">
-                <div class="card-body">
-                    <h5 class="card-title mb-4">{{ 'CART_PAGE.ORDER_SUMMARY' | translate }}</h5>
-
-                    <!-- Coupon Section -->
-                    @if (!cart()?.coupon) {
-                    <div class="mb-3">
-                        <label class="form-label small">{{ 'CART_PAGE.COUPON_CODE' | translate
-                            }}</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" [value]="couponCode()"
-                                (input)="couponCode.set($any($event.target).value)" [disabled]="applyingCoupon()"
-                                [placeholder]="'CART_PAGE.COUPON_CODE' | translate">
-                            <button class="btn btn-outline-primary" type="button" (click)="applyCoupon()"
-                                [disabled]="applyingCoupon() || !couponCode().trim()">
-                                @if (applyingCoupon()) {
-                                <span class="spinner-border spinner-border-sm me-1"></span>
-                                }
-                                {{ 'CART_PAGE.APPLY' | translate }}
-                            </button>
-                        </div>
-                    </div>
-                    } @else {
-                    <div class="alert alert-success mb-3 py-2">
-                        <small>
-                            <i class="fas fa-check-circle me-1"></i>
-                            {{ 'CART_PAGE.COUPON_CODE' | translate }}: <strong>{{ cart()!.coupon.code
-                                }}</strong>
-                        </small>
-                    </div>
-                    }
-
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>{{ 'CART_PAGE.SUBTOTAL' | translate }}</span>
-                        <span>{{ cart()!.subtotal }} {{ 'PRODUCT.CURRENCY' | translate }}</span>
-                    </div>
-
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>{{ 'CART_PAGE.SHIPPING' | translate }}</span>
-                        <span>
-                            @if (cart()!.shipping === 0) {
-                            {{ 'CART_PAGE.FREE' | translate }}
-                            } @else {
-                            {{ cart()!.shipping }} {{ 'PRODUCT.CURRENCY' | translate }}
-                            }
-                        </span>
-                    </div>
-
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>{{ 'CART_PAGE.TAX' | translate }}</span>
-                        <span>{{ cart()!.tax }} {{ 'PRODUCT.CURRENCY' | translate }}</span>
-                    </div>
-
-                    @if (cart()!.discount > 0) {
-                    <div class="d-flex justify-content-between mb-2 text-success">
-                        <span>{{ 'CART_PAGE.DISCOUNT' | translate }}</span>
-                        <span>-{{ cart()!.discount }} {{ 'PRODUCT.CURRENCY' | translate }}</span>
-                    </div>
-                    }
-
-                    <hr>
-
-                    <div class="d-flex justify-content-between mb-4">
-                        <strong>{{ 'CART_PAGE.TOTAL' | translate }}</strong>
-                        <strong class="fs-5">{{ cart()!.total }} {{ 'PRODUCT.CURRENCY' | translate
-                            }}</strong>
-                    </div>
-
-                    <button type="button" class="btn btn-primary w-100 py-2 bg-primary border-0" (click)="continueToShipping()">
-                        {{ 'CART_PAGE.CONTINUE_SHIPPING' | translate }}
-                    </button>
-                </div>
-            </div>
+            <app-order-summary [cart]="cart()!" [showCoupon]="true" [showCheckoutButton]="true"
+                [checkoutButtonText]="'CART_PAGE.CONTINUE_SHIPPING'" [applyingCoupon]="applyingCoupon()"
+                [showBackButton]="false" (checkout)="continueToShipping()" (applyCoupon)="applyCoupon($event)">
+            </app-order-summary>
         </div>
-    </div>
-    } @else {
-    <div class="text-center py-5">
-        <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
-        <h4 class="text-muted">{{ 'CART_PAGE.EMPTY_CART' | translate }}</h4>
-        <a routerLink="/categories" class="btn btn-primary mt-3">
-            {{ 'CART_PAGE.CONTINUE_SHOPPING' | translate }}
-        </a>
     </div>
     }
     } @else if (activeStep() === 2) {
-    <!-- Shipping Address Content -->
+    <!-- Address Step -->
     <div class="row">
         <!-- Address Selection (Right Column) -->
         <div class="col-lg-8 order-lg-2">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h5 class="mb-0">{{ 'CART_PAGE.CHOOSE_ADDRESS' | translate }}</h5>
-                <button class="btn btn-outline-primary btn-sm">
-                    <i class="fas fa-plus me-1"></i>
-                    {{ 'CART_PAGE.ADD_NEW_ADDRESS' | translate }}
-                </button>
-            </div>
-
-            <!-- Static Address List -->
-            <div class="card mb-3 border shadow-sm bg-light">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h6 class="mb-1">{{ 'CART_PAGE.MAIN_ADDRESS' | translate }}</h6>
-                            <p class="mb-1">0154532355</p>
-                            <small class="text-muted">........................................</small>
-                        </div>
-                        <button class="btn btn-link text-danger p-0">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mb-3 border shadow-sm bg-light">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h6 class="mb-1">{{ 'CART_PAGE.WORK_ADDRESS' | translate }}</h6>
-                            <p class="mb-1">0154532355</p>
-                            <small class="text-muted">........................................</small>
-                        </div>
-                        <button class="btn btn-link text-danger p-0">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <app-address-selector [addresses]="addresses()" [selectedAddressId]="selectedAddress()?._id || null"
+                [loading]="false" (selectAddress)="selectAddress($event)" (addNewAddress)="addNewAddress()"
+                (deleteAddress)="deleteAddress($event)">
+            </app-address-selector>
         </div>
 
-        <!-- Order Summary (Left Column) - Reused from Cart -->
+        <!-- Order Summary (Left Column) -->
         <div class="col-lg-4 order-lg-1">
-            <div class="card border shadow-sm sticky-top" style="top: 100px;">
+            <div class="card border shadow-sm sticky-top mb-4" style="top: 100px;">
                 <div class="card-body">
                     <h5 class="card-title mb-4">{{ 'CART_PAGE.ORDER_SUMMARY' | translate }}</h5>
 
-                    <!-- Mini Cart Items List -->
+                    <!-- Mini Cart Items List using CartItemComponent -->
                     <div class="mb-3">
                         @for (item of cart()!.items; track item._id) {
-                        <div class="card mb-2 border-0 bg-light">
-                            <div class="card-body p-2">
-                                <div class="row align-items-center">
-                                    <div class="col-3">
-                                        <img [src]="getProductImage(item)" [alt]="getProductName(item)"
-                                            class="img-fluid rounded">
-                                    </div>
-                                    <div class="col-7">
-                                        <small class="d-block fw-bold text-truncate">{{ getProductName(item) }}</small>
-                                        <small class="text-muted">{{ 'CART_PAGE.QUANTITY' | translate }}: {{
-                                            item.quantity }}</small>
-                                        <div class="fw-bold small mt-1">{{ item.product?.price * item.quantity }} {{
-                                            'PRODUCT.CURRENCY' | translate }}</div>
-                                    </div>
-                                    <div class="col-2 text-end">
-                                        <button class="btn btn-link text-danger p-0 small"
-                                            (click)="removeItem(item._id)" [disabled]="removingItemId() === item._id">
-                                            @if (removingItemId() === item._id) {
-                                            <span class="spinner-border spinner-border-sm"></span>
-                                            } @else {
-                                            <i class="fas fa-trash"></i>
-                                            }
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <app-cart-item [item]="item" [compact]="true" [removing]="isItemRemoving(item._id)"
+                            (remove)="removeItem(item._id)">
+                        </app-cart-item>
                         }
                     </div>
 
@@ -284,18 +94,19 @@
                             @if (cart()!.shipping === 0) {
                             {{ 'CART_PAGE.FREE' | translate }}
                             } @else {
-                            {{ cart()!.shipping }} {{ 'PRODUCT.CURRENCY' | translate }}
+                            {{ cart()!.shipping | price }}
                             }
                         </span>
                     </div>
 
                     <div class="d-flex justify-content-between mb-4">
                         <strong>{{ 'CART_PAGE.TOTAL' | translate }}</strong>
-                        <strong class="fs-5">{{ cart()!.total }} {{ 'PRODUCT.CURRENCY' | translate }}</strong>
+                        <strong class="fs-5">{{ cart()!.total | price }}</strong>
                     </div>
 
                     <div class="d-grid gap-2">
-                        <button class="btn btn-primary" type="button">
+                        <button class="btn btn-primary" type="button" (click)="confirmOrder()"
+                            [disabled]="!selectedAddress()">
                             {{ 'CART_PAGE.CONFIRM_ORDER' | translate }}
                         </button>
                         <button class="btn btn-outline-secondary" type="button" (click)="backToCart()">

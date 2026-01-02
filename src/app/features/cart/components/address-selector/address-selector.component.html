@@ -1,0 +1,71 @@
+<div class="address-selector">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="mb-0">{{ 'CART_PAGE.CHOOSE_ADDRESS' | translate }}</h5>
+        <button class="btn btn-outline-primary btn-sm" (click)="onAddNewAddress()" [disabled]="loading()">
+            <i class="fas fa-plus me-1"></i>
+            {{ 'CART_PAGE.ADD_NEW_ADDRESS' | translate }}
+        </button>
+    </div>
+
+    @if (loading()) {
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    } @else if (addresses().length === 0) {
+    <div class="text-center py-5">
+        <i class="fas fa-map-marker-alt fa-3x text-muted mb-3"></i>
+        <p class="text-muted">{{ 'ADDRESSES.NO_ADDRESSES' | translate }}</p>
+        <button class="btn btn-primary" (click)="onAddNewAddress()">
+            <i class="fas fa-plus me-1"></i>
+            {{ 'CART_PAGE.ADD_NEW_ADDRESS' | translate }}
+        </button>
+    </div>
+    } @else {
+    <!-- Address List -->
+    @for (address of addresses(); track address._id) {
+    <div class="card mb-3 border shadow-sm address-card" [class.selected]="isSelected(address)"
+        [class.bg-light]="isSelected(address)" (click)="onSelectAddress(address)"
+        style="cursor: pointer; transition: all 0.3s ease;">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+                <div class="flex-grow-1">
+                    <div class="d-flex align-items-center mb-2">
+                        <h6 class="mb-0 me-2">
+                            {{ getAddressTypeLabel(address.addressType) | translate }}
+                        </h6>
+                        @if (address.isDefault) {
+                        <span class="badge bg-primary">{{ 'ADDRESSES.DEFAULT_ADDRESS' | translate }}</span>
+                        }
+                        @if (isSelected(address)) {
+                        <i class="fas fa-check-circle text-success ms-2"></i>
+                        }
+                    </div>
+                    <p class="mb-1"><strong>{{ address.fullName }}</strong></p>
+                    <p class="mb-1">{{ address.phone }}</p>
+                    <p class="mb-0 text-muted small">
+                        {{ address.addressLine1 }}
+                        @if (address.addressLine2) {
+                        , {{ address.addressLine2 }}
+                        }
+                        <br>
+                        {{ address.city }}, {{ address.state }}
+                        @if (address.postalCode) {
+                        , {{ address.postalCode }}
+                        }
+                        <br>
+                        {{ address.country }}
+                    </p>
+                </div>
+                @if (address._id) {
+                <button class="btn btn-link text-danger p-0" (click)="onDeleteAddress(address._id!, $event)">
+                    <i class="fas fa-trash"></i>
+                </button>
+                }
+            </div>
+        </div>
+    </div>
+    }
+    }
+</div>

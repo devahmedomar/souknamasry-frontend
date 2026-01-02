@@ -1,101 +1,111 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, catchError, throwError } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+import {
+    CartResponse,
+    AddToCartPayload,
+    UpdateCartItemPayload,
+    ApplyCouponPayload
+} from '../../../shared/models/cart.interface';
+import { CartStateService } from './cart-state.service';
 
-export interface AddToCartPayload {
-    productId: string;
-    quantity: number;
-}
-
-export interface UpdateCartItemPayload {
-    quantity: number;
-}
-
-export interface ApplyCouponPayload {
-    couponCode: string;
-}
-
-export interface CartItem {
-    _id: string;
-    product: any;
-    quantity: number;
-}
-
-export interface Cart {
-    _id: string;
-    user: string;
-    items: CartItem[];
-    subtotal: number;
-    tax: number;
-    shipping: number;
-    discount: number;
-    total: number;
-    coupon: any;
-    itemCount: number;
-}
-
-export interface CartResponse {
-    status: string;
-    data: Cart;
-}
-
+/**
+ * Cart Service - Handles all cart-related HTTP requests
+ * Responsibilities:
+ * - API communication for cart operations
+ * - Update cart state through CartStateService
+ */
 @Injectable({
     providedIn: 'root'
 })
 export class CartService {
-    private http = inject(HttpClient);
-    private baseUrl = 'https://souknamasry-be.vercel.app/api/cart';
+    private readonly http = inject(HttpClient);
+    private readonly cartState = inject(CartStateService);
+    private readonly baseUrl = `${environment.apiUrl}/cart`;
 
-    // Signal to track cart item count
-    cartItemCount = signal<number>(0);
-
-    addToCart(productId: string, quantity: number = 1): Observable<CartResponse> {
-        const payload: AddToCartPayload = {
-            productId,
-            quantity
-        };
+    /**
+     * Add item to cart
+     */
+    addToCart(payload: AddToCartPayload): Observable<CartResponse> {
         return this.http.post<CartResponse>(`${this.baseUrl}/items`, payload).pipe(
-            tap(() => this.loadCartCount())
+            tap(response => this.cartState.setCart(response.data)),
+            catchError(this.handleError)
         );
     }
 
+    /**
+     * Get current cart
+     */
     getCart(): Observable<CartResponse> {
-        return this.http.get<CartResponse>(this.baseUrl);
-    }
-
-    updateCartItem(itemId: string, quantity: number): Observable<CartResponse> {
-        const payload: UpdateCartItemPayload = { quantity };
-        return this.http.put<CartResponse>(`${this.baseUrl}/items/${itemId}`, payload).pipe(
-            tap(() => this.loadCartCount())
+        this.cartState.setLoading(true);
+        return this.http.get<CartResponse>(this.baseUrl).pipe(
+            tap(response => {
+                this.cartState.setCart(response.data);
+                this.cartState.setLoading(false);
+            }),
+            catchError(error => {
+                this.cartState.setLoading(false);
+                return this.handleError(error);
+            })
         );
     }
 
+    /**
+     * Update cart item quantity
+     */
+    updateCartItem(itemId: string, payload: UpdateCartItemPayload): Observable<CartResponse> {
+        return this.http.put<CartResponse>(`${this.baseUrl}/items/${itemId}`, payload).pipe(
+            tap(response => this.cartState.setCart(response.data)),
+            catchError(this.handleError)
+        );
+    }
+
+    /**
+     * Remove item from cart
+     */
     removeCartItem(itemId: string): Observable<CartResponse> {
         return this.http.delete<CartResponse>(`${this.baseUrl}/items/${itemId}`).pipe(
-            tap(() => this.loadCartCount())
+            tap(response => this.cartState.setCart(response.data)),
+            catchError(this.handleError)
         );
     }
 
+    /**
+     * Clear entire cart
+     */
     clearCart(): Observable<any> {
         return this.http.delete(`${this.baseUrl}`).pipe(
-            tap(() => this.cartItemCount.set(0))
+            tap(() => this.cartState.clearCart()),
+            catchError(this.handleError)
         );
     }
 
-    applyCoupon(couponCode: string): Observable<CartResponse> {
-        const payload: ApplyCouponPayload = { couponCode };
-        return this.http.post<CartResponse>(`${this.baseUrl}/coupon`, payload);
+    /**
+     * Apply coupon to cart
+     */
+    applyCoupon(payload: ApplyCouponPayload): Observable<CartResponse> {
+        return this.http.post<CartResponse>(`${this.baseUrl}/coupon`, payload).pipe(
+            tap(response => this.cartState.setCart(response.data)),
+            catchError(this.handleError)
+        );
     }
 
-    loadCartCount(): void {
-        this.getCart().subscribe({
-            next: (response) => {
-                const totalItems = response.data.items.reduce((sum, item) => sum + item.quantity, 0);
-                this.cartItemCount.set(totalItems);
-            },
-            error: () => {
-                this.cartItemCount.set(0);
-            }
-        });
+    /**
+     * Remove coupon from cart
+     */
+    removeCoupon(): Observable<CartResponse> {
+        return this.http.delete<CartResponse>(`${this.baseUrl}/coupon`).pipe(
+            tap(response => this.cartState.setCart(response.data)),
+            catchError(this.handleError)
+        );
+    }
+
+    /**
+     * Handle HTTP errors
+     */
+    private handleError(error: any): Observable<never> {
+        const errorMessage = error.error?.message || error.message || 'An error occurred';
+        return throwError(() => error);
     }
 }

@@ -1,0 +1,27 @@
+/* Address Selector Styles */
+.address-card {
+    transition: all 0.3s ease;
+}
+
+.address-card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    transform: translateY(-2px);
+}
+
+.address-card.selected {
+    border-color: var(--bs-primary) !important;
+    border-width: 2px !important;
+}
+
+.badge {
+    font-size: 0.7rem;
+    padding: 0.25em 0.5em;
+}
+
+.btn-link {
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}

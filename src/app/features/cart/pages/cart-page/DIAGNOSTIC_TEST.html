@@ -1,0 +1,35 @@
+<!--
+DIAGNOSTIC TEST - Add this at the TOP of cart-page.html (line 1)
+This will tell us if the pipe is working or if it's a cache issue
+-->
+<div style="position: fixed; top: 0; left: 0; right: 0; background: red; color: white; padding: 20px; z-index: 99999; text-align: center; font-size: 18px;">
+    <h2 style="margin: 0 0 10px 0;">🔬 DIAGNOSTIC TEST - Price Pipe</h2>
+    <div style="background: white; color: black; padding: 15px; margin: 10px auto; max-width: 600px; border-radius: 8px;">
+        <table style="width: 100%; text-align: left;">
+            <tr>
+                <td><strong>Test 1:</strong></td>
+                <td>169.95000000000002 →</td>
+                <td style="color: green; font-weight: bold;">{{ 169.95000000000002 | price }}</td>
+            </tr>
+            <tr>
+                <td><strong>Test 2:</strong></td>
+                <td>814.9300000000001 →</td>
+                <td style="color: green; font-weight: bold;">{{ 814.9300000000001 | price }}</td>
+            </tr>
+            <tr>
+                <td><strong>Test 3:</strong></td>
+                <td>0 →</td>
+                <td style="color: green; font-weight: bold;">{{ 0 | price }}</td>
+            </tr>
+        </table>
+        <p style="margin: 15px 0 0 0; font-size: 14px;">
+            <strong>Expected Results:</strong><br>
+            Test 1: <span style="color: green;">169.95 جنيها</span><br>
+            Test 2: <span style="color: green;">814.93 جنيها</span><br>
+            Test 3: <span style="color: green;">0.00 جنيها</span>
+        </p>
+        <p style="margin: 10px 0 0 0; color: red; font-weight: bold;">
+            ⚠️ If you see the long decimals above, your browser is CACHED!
+        </p>
+    </div>
+</div>

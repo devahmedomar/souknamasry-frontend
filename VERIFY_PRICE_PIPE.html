@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Pipe Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #4CAF50;
+            color: white;
+        }
+        .correct { color: #4CAF50; font-weight: bold; }
+        .incorrect { color: #f44336; font-weight: bold; }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Price Pipe Verification Guide</h1>
+
+    <div class="warning">
+        <strong>⚠️ IMPORTANT:</strong> If you see incorrect formats below, your browser is showing CACHED content!
+    </div>
+
+    <div class="test-section">
+        <h2>✅ What You SHOULD See</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>Correct Format</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Subtotal</td>
+                    <td class="correct">814.93 جنيها</td>
+                    <td>✅ Always 2 decimals</td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td class="correct">799.92 جنيها</td>
+                    <td>✅ Always 2 decimals</td>
+                </tr>
+                <tr>
+                    <td>Product Price</td>
+                    <td class="correct">100.00 جنيها</td>
+                    <td>✅ Pads with zeros</td>
+                </tr>
+                <tr>
+                    <td>Tax</td>
+                    <td class="correct">50.50 جنيها</td>
+                    <td>✅ Exactly 2 decimals</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="test-section">
+        <h2>❌ What You Should NOT See</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Incorrect Format</th>
+                    <th>Why It's Wrong</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="incorrect">814.9300000000001 جنيها</td>
+                    <td>Floating point error (not fixed)</td>
+                </tr>
+                <tr>
+                    <td class="incorrect">799.9200000000001 جنيها</td>
+                    <td>Floating point error (not fixed)</td>
+                </tr>
+                <tr>
+                    <td class="incorrect">100 جنيها</td>
+                    <td>Missing decimals (.00)</td>
+                </tr>
+                <tr>
+                    <td class="incorrect">99.9 جنيها</td>
+                    <td>Missing trailing zero (.90)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 How to Fix Cached Content</h2>
+        <ol>
+            <li>
+                <strong>Stop Angular Dev Server</strong>
+                <pre style="background: #f0f0f0; padding: 10px; border-radius: 4px;">Press Ctrl+C in terminal</pre>
+            </li>
+            <li>
+                <strong>Clear Browser Cache Completely</strong>
+                <pre style="background: #f0f0f0; padding: 10px; border-radius: 4px;">
+Chrome/Edge: Press Ctrl+Shift+Delete
+Select: "Cached images and files"
+Time range: "All time"
+Click: "Clear data"
+                </pre>
+            </li>
+            <li>
+                <strong>Restart Angular Dev Server</strong>
+                <pre style="background: #f0f0f0; padding: 10px; border-radius: 4px;">ng serve</pre>
+            </li>
+            <li>
+                <strong>Hard Refresh Browser</strong>
+                <pre style="background: #f0f0f0; padding: 10px; border-radius: 4px;">Press Ctrl+F5 (Windows) or Cmd+Shift+R (Mac)</pre>
+            </li>
+        </ol>
+    </div>
+
+    <div class="test-section">
+        <h2>✅ Files Already Updated</h2>
+        <p>The price pipe has been applied to:</p>
+        <ul>
+            <li>✅ <code>cart-item.component.html</code> - Item totals</li>
+            <li>✅ <code>order-summary.component.html</code> - Subtotal, Tax, Shipping, Total</li>
+            <li>✅ <code>cart-page.html</code> - Total in address step</li>
+            <li>✅ <code>product-card.html</code> - Product prices</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>🧪 Quick Test</h2>
+        <p>Add this to your cart page temporarily to verify the pipe works:</p>
+        <pre style="background: #f0f0f0; padding: 15px; border-radius: 4px; overflow-x: auto;">
+&lt;div style="position: fixed; top: 10px; right: 10px; background: yellow; padding: 20px; z-index: 9999;"&gt;
+  &lt;h4&gt;Price Pipe Test&lt;/h4&gt;
+  &lt;div&gt;814.9300000000001 → {{ 814.9300000000001 | price }}&lt;/div&gt;
+  &lt;div&gt;799.9200000000001 → {{ 799.9200000000001 | price }}&lt;/div&gt;
+  &lt;div&gt;100 → {{ 100 | price }}&lt;/div&gt;
+  &lt;p&gt;&lt;strong&gt;Expected: .93, .92, .00&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+        </pre>
+    </div>
+
+    <div class="test-section">
+        <h2>📍 Verify in Code</h2>
+        <p>Check these files to confirm the pipe is applied:</p>
+
+        <h3>1. Order Summary Component</h3>
+        <p><code>src/app/features/cart/components/order-summary/order-summary.component.html</code></p>
+        <pre style="background: #f0f0f0; padding: 10px; border-radius: 4px;">
+Line 33: &lt;span&gt;{{ cart().subtotal | price }}&lt;/span&gt;
+Line 49: &lt;span&gt;{{ cart().tax | price }}&lt;/span&gt;
+Line 63: &lt;strong&gt;{{ cart().total | price }}&lt;/strong&gt;
+        </pre>
+
+        <h3>2. Cart Page</h3>
+        <p><code>src/app/features/cart/pages/cart-page/cart-page.html</code></p>
+        <pre style="background: #f0f0f0; padding: 10px; border-radius: 4px;">
+Line 104: &lt;strong&gt;{{ cart()!.total | price }}&lt;/strong&gt;
+        </pre>
+    </div>
+
+    <div class="warning">
+        <h3>🚨 Still Seeing Wrong Format?</h3>
+        <p>If after clearing cache and hard refresh you still see:</p>
+        <ul>
+            <li class="incorrect">814.9300000000001 جنيها</li>
+            <li class="incorrect">799.9200000000001 جنيها</li>
+        </ul>
+        <p><strong>Then:</strong></p>
+        <ol>
+            <li>Open browser DevTools (F12)</li>
+            <li>Go to Console tab</li>
+            <li>Check for errors (red messages)</li>
+            <li>Screenshot the error and share it</li>
+        </ol>
+    </div>
+
+    <div class="test-section">
+        <h2>✅ Success Checklist</h2>
+        <p>After following the steps above, you should see:</p>
+        <ul>
+            <li>☐ Subtotal shows exactly 2 decimals (e.g., 814.93)</li>
+            <li>☐ Total shows exactly 2 decimals (e.g., 799.92)</li>
+            <li>☐ Tax shows exactly 2 decimals</li>
+            <li>☐ Shipping shows exactly 2 decimals (or "Free")</li>
+            <li>☐ Product prices show exactly 2 decimals (e.g., 100.00)</li>
+            <li>☐ NO floating point errors visible</li>
+        </ul>
+    </div>
+</body>
+</html>

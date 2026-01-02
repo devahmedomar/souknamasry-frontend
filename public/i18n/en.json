@@ -124,7 +124,12 @@
         "CONFIRM_ORDER": "Confirm Order",
         "BACK_TO_CART": "Back to Cart",
         "UPDATE_QUANTITY": "Update Quantity",
-        "ESTIMATED_TOTAL": "Estimated Total"
+        "ESTIMATED_TOTAL": "Estimated Total",
+        "UPDATE_FAILED": "Failed to update quantity",
+        "REMOVE_FAILED": "Failed to remove item",
+        "CLEAR_FAILED": "Failed to clear cart",
+        "SELECT_ADDRESS_REQUIRED": "Please select a shipping address",
+        "ORDER_CONFIRMED": "Your order has been confirmed successfully"
     },
     "CATEGORIES": {
         "TITLE": "Categories",
@@ -306,6 +311,7 @@
     },
     "ADDRESSES": {
         "TITLE": "Shipping Addresses",
+        "NO_ADDRESSES": "No saved addresses",
         "ADD_NEW": "Add New Address",
         "EDIT_ADDRESS": "Edit Address",
         "DELETE_ADDRESS": "Delete Address",
