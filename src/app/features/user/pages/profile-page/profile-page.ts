@@ -5,8 +5,10 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ProfileService } from '../../services/profile.service';
 import { AddressService, CreateAddressRequest } from '../../services/address.service';
+import { OrderService } from '../../../cart/services/order.service';
 import { User, UpdateProfileRequest } from '../../../../shared/models/user.interface';
 import { Address } from '../../../../shared/models/address.interface';
+import { OrderHistoryItem, OrderDetailed } from '../../../../shared/models/order.interface';
 
 @Component({
     selector: 'app-profile-page',
@@ -18,18 +20,24 @@ export class ProfilePage implements OnInit {
     private fb = inject(FormBuilder);
     private profileService = inject(ProfileService);
     private addressService = inject(AddressService);
+    private orderService = inject(OrderService);
     private messageService = inject(MessageService);
     private translate = inject(TranslateService);
 
     user = signal<User | null>(null);
     addresses = signal<Address[]>([]);
+    orders = signal<OrderHistoryItem[]>([]);
+    selectedOrder = signal<OrderDetailed | null>(null);
     isLoading = signal(true);
     isProfileLoading = signal(false);
     isAddressLoading = signal(false);
+    isOrdersLoading = signal(false);
+    isOrderDetailLoading = signal(false);
 
-    activeTab = signal<'profile' | 'addresses'>('profile');
+    activeTab = signal<'profile' | 'addresses' | 'orders'>('profile');
     isEditingProfile = signal(false);
     showAddressModal = signal(false);
+    showOrderDetailModal = signal(false);
     editingAddressId = signal<string | null>(null);
 
     profileForm: FormGroup = this.fb.group({
@@ -53,6 +61,83 @@ export class ProfilePage implements OnInit {
     ngOnInit() {
         this.loadProfile();
         this.loadAddresses();
+    }
+
+    loadOrders() {
+        this.isOrdersLoading.set(true);
+        this.orderService.getOrders().subscribe({
+            next: (response) => {
+                this.orders.set(response.data);
+                this.isOrdersLoading.set(false);
+            },
+            error: (err) => {
+                this.isOrdersLoading.set(false);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: this.translate.instant('COMMON.ERROR'),
+                    detail: this.translate.instant('COMMON.ERROR_OCCURRED')
+                });
+                console.error('Error loading orders', err);
+            }
+        });
+    }
+
+    viewOrderDetails(orderId: string) {
+        this.isOrderDetailLoading.set(true);
+        this.orderService.getOrder(orderId).subscribe({
+            next: (response) => {
+                this.selectedOrder.set(response.data);
+                this.showOrderDetailModal.set(true);
+                this.isOrderDetailLoading.set(false);
+            },
+            error: (err) => {
+                this.isOrderDetailLoading.set(false);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: this.translate.instant('COMMON.ERROR'),
+                    detail: this.translate.instant('COMMON.ERROR_OCCURRED')
+                });
+                console.error('Error loading order details', err);
+            }
+        });
+    }
+
+    closeOrderDetailModal() {
+        this.showOrderDetailModal.set(false);
+        this.selectedOrder.set(null);
+    }
+
+    getStatusClass(status: string): string {
+        switch (status) {
+            case 'pending':
+                return 'bg-warning';
+            case 'confirmed':
+            case 'processing':
+                return 'bg-info';
+            case 'shipped':
+                return 'bg-primary';
+            case 'delivered':
+                return 'bg-success';
+            case 'cancelled':
+                return 'bg-danger';
+            default:
+                return 'bg-secondary';
+        }
+    }
+
+    getPaymentStatusClass(status: string): string {
+        switch (status) {
+            case 'pending':
+                return 'bg-warning';
+            case 'paid':
+                return 'bg-success';
+            case 'failed':
+                return 'bg-danger';
+            case 'refunded':
+                return 'bg-info';
+            default:
+                return 'bg-secondary';
+        }
     }
 
     loadProfile() {
@@ -91,7 +176,7 @@ export class ProfilePage implements OnInit {
         });
     }
 
-    setActiveTab(tab: 'profile' | 'addresses') {
+    setActiveTab(tab: 'profile' | 'addresses' | 'orders') {
         this.activeTab.set(tab);
     }
 

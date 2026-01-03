@@ -5,7 +5,9 @@ import { environment } from '../../../../environments/environment';
 import {
     CreateOrderRequest,
     OrderResponse,
-    OrdersResponse
+    OrdersResponse,
+    OrderHistoryResponse,
+    OrderDetailedResponse
 } from '../../../shared/models/order.interface';
 
 /**
@@ -33,21 +35,21 @@ export class OrderService {
     }
 
     /**
-     * Get user's order history (future feature)
+     * Get user's order history
      * GET /api/orders
      */
-    getOrders(): Observable<OrdersResponse> {
-        return this.http.get<OrdersResponse>(this.baseUrl).pipe(
+    getOrders(): Observable<OrderHistoryResponse> {
+        return this.http.get<OrderHistoryResponse>(this.baseUrl).pipe(
             catchError(this.handleError)
         );
     }
 
     /**
-     * Get single order details (future feature)
+     * Get single order details
      * GET /api/orders/:id
      */
-    getOrder(orderId: string): Observable<OrderResponse> {
-        return this.http.get<OrderResponse>(`${this.baseUrl}/${orderId}`).pipe(
+    getOrder(orderId: string): Observable<OrderDetailedResponse> {
+        return this.http.get<OrderDetailedResponse>(`${this.baseUrl}/${orderId}`).pipe(
             catchError(this.handleError)
         );
     }
