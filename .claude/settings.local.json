@@ -4,7 +4,8 @@
       "Bash(ng build:*)",
       "Bash(cat:*)",
       "Bash(tree:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(ls:*)"
     ]
   }
 }

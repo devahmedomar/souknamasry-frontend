@@ -3,7 +3,6 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeuix/themes/aura';
 import { HttpClient, provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -42,10 +41,6 @@ export const appConfig: ApplicationConfig = {
         }
       })
     ),
-    providePrimeNG({
-      theme: {
-        preset: Aura
-      }
-    })
+    providePrimeNG()
   ]
 };
