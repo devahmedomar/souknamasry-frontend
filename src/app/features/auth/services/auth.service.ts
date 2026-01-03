@@ -1,6 +1,6 @@
 import { inject, Injectable, signal, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap, catchError, of } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 
 export interface LoginResponse {
@@ -8,6 +8,13 @@ export interface LoginResponse {
     data: {
         token: string;
         user: any;
+    };
+}
+
+export interface LogoutResponse {
+    status: string;
+    data: {
+        message: string;
     };
 }
 
@@ -32,6 +39,17 @@ export class AuthService {
 
     register(userData: any): Observable<any> {
         return this.http.post<any>(`${this.baseUrl}/register`, userData);
+    }
+
+    logout(): Observable<LogoutResponse | null> {
+        return this.http.post<LogoutResponse>(`${this.baseUrl}/logout`, {}).pipe(
+            tap(() => this.clearAuthData()),
+            catchError((error) => {
+                // Clear auth data even if API call fails
+                this.clearAuthData();
+                return of(null);
+            })
+        );
     }
 
     saveAuthData(token: string, user: any) {

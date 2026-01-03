@@ -22,7 +22,7 @@ import { CartStateService } from './cart-state.service';
 export class CartService {
     private readonly http = inject(HttpClient);
     private readonly cartState = inject(CartStateService);
-    private readonly baseUrl = `${environment.apiUrl}/cart`;
+    private readonly baseUrl = `${environment.apiUrl}cart`;
 
     /**
      * Add item to cart

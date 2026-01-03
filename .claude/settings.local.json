@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(ng build:*)"
+      "Bash(ng build:*)",
+      "Bash(cat:*)",
+      "Bash(tree:*)"
     ]
   }
 }
