@@ -243,15 +243,25 @@ export interface AddressesResponse { ... }
 
 ## Utility Functions
 
-### NotificationUtil
+### ToastService
 
-Helper functions for displaying notifications:
+Injectable service for displaying toast notifications with unified styling:
 
 ```typescript
-NotificationUtil.showSuccess(messageService, translateService, 'MESSAGE_KEY')
-NotificationUtil.showError(messageService, translateService, 'ERROR_KEY')
-NotificationUtil.showWarning(messageService, translateService, 'WARNING_KEY')
-NotificationUtil.showInfo(messageService, 'Info message')
+// Inject the service
+private toast = inject(ToastService);
+
+// Show translated messages
+this.toast.successT('MESSAGE_KEY');
+this.toast.errorT('ERROR_KEY');
+this.toast.warnT('WARNING_KEY');
+this.toast.infoT('INFO_KEY');
+
+// Show plain text messages
+this.toast.success('Operation completed successfully');
+this.toast.error('Something went wrong');
+this.toast.warn('Please review your input');
+this.toast.info('New features available');
 ```
 
 ### ProductUtil

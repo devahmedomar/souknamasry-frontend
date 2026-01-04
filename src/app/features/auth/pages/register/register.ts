@@ -2,8 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router, RouterLink } from "@angular/router";
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MessageService } from 'primeng/api';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../../../shared/services/toast.service';
 
 export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const password = control.get('password');
@@ -24,7 +24,7 @@ export class Register {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
-  private messageService = inject(MessageService);
+  private toast = inject(ToastService);
   private translate = inject(TranslateService);
 
   isLoading = signal<boolean>(false);
@@ -56,11 +56,7 @@ export class Register {
       this.authService.register(registrationData).subscribe({
         next: (response) => {
           this.isLoading.set(false);
-          this.messageService.add({
-            severity: 'success',
-            summary: this.translate.instant('AUTH.MESSAGES.SUCCESS'),
-            detail: this.translate.instant('AUTH.MESSAGES.REGISTER_SUCCESS')
-          });
+          this.toast.successT('AUTH.MESSAGES.REGISTER_SUCCESS');
           this.router.navigate(['/auth/login']);
         },
         error: (err) => {
@@ -76,11 +72,7 @@ export class Register {
             detail = err.error.message;
           }
 
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translate.instant('AUTH.MESSAGES.ERROR'),
-            detail: detail
-          });
+          this.toast.error(detail);
           console.error('Registration error', err);
         }
       });

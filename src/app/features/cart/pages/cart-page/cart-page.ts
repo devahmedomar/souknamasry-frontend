@@ -4,12 +4,12 @@ import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { StepperModule } from 'primeng/stepper';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MessageService } from 'primeng/api';
 import { CartService } from '../../services/cart.service';
 import { CartStateService } from '../../services/cart-state.service';
 import { OrderService } from '../../services/order.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { AddressService } from '../../../user/services/address.service';
+import { ToastService } from '../../../../shared/services/toast.service';
 import { CartItemComponent } from '../../components/cart-item/cart-item.component';
 import { OrderSummaryComponent } from '../../components/order-summary/order-summary.component';
 import { AddressSelectorComponent } from '../../components/address-selector/address-selector.component';
@@ -47,7 +47,7 @@ export class CartPage implements OnInit {
     private readonly orderService = inject(OrderService);
     private readonly addressService = inject(AddressService);
     private readonly authService = inject(AuthService);
-    private readonly messageService = inject(MessageService);
+    private readonly toast = inject(ToastService);
     private readonly translateService = inject(TranslateService);
     readonly router = inject(Router);
 
@@ -275,17 +275,7 @@ export class CartPage implements OnInit {
      * Show message when user has no addresses and redirect to profile
      */
     private showNoAddressesMessage(): void {
-        this.translateService.get([
-            'CART_PAGE.NO_ADDRESSES_MESSAGE',
-            'CART_PAGE.NO_ADDRESSES_TITLE'
-        ]).subscribe(translations => {
-            this.messageService.add({
-                severity: 'warn',
-                summary: translations['CART_PAGE.NO_ADDRESSES_TITLE'],
-                detail: translations['CART_PAGE.NO_ADDRESSES_MESSAGE'],
-                life: 5000
-            });
-        });
+        this.toast.warnT('CART_PAGE.NO_ADDRESSES_MESSAGE', 'CART_PAGE.NO_ADDRESSES_TITLE');
 
         // Redirect to profile page after 2 seconds
         setTimeout(() => {
@@ -299,15 +289,12 @@ export class CartPage implements OnInit {
     private showOrderSuccess(order: Order): void {
         this.translateService.get([
             'CART_PAGE.ORDER_CREATED_SUCCESS',
-            'CART_PAGE.ORDER_ID',
-            'AUTH.MESSAGES.SUCCESS'
+            'CART_PAGE.ORDER_ID'
         ]).subscribe(translations => {
-            this.messageService.add({
-                severity: 'success',
-                summary: translations['AUTH.MESSAGES.SUCCESS'],
-                detail: `${translations['CART_PAGE.ORDER_CREATED_SUCCESS']} ${translations['CART_PAGE.ORDER_ID']}: ${order.orderNumber}`,
-                life: 5000
-            });
+            this.toast.success(
+                `${translations['CART_PAGE.ORDER_CREATED_SUCCESS']} ${translations['CART_PAGE.ORDER_ID']}: ${order.orderNumber}`,
+                { life: 5000 }
+            );
         });
     }
 
@@ -348,33 +335,14 @@ export class CartPage implements OnInit {
     }
 
     private showSuccess(messageKey: string): void {
-        this.translateService.get([messageKey, 'AUTH.MESSAGES.SUCCESS']).subscribe(translations => {
-            this.messageService.add({
-                severity: 'success',
-                summary: translations['AUTH.MESSAGES.SUCCESS'],
-                detail: translations[messageKey],
-                life: 3000
-            });
-        });
+        this.toast.successT(messageKey);
     }
 
     private showError(messageKey: string): void {
-        this.translateService.get([messageKey, 'AUTH.MESSAGES.ERROR']).subscribe(translations => {
-            this.messageService.add({
-                severity: 'error',
-                summary: translations['AUTH.MESSAGES.ERROR'],
-                detail: translations[messageKey],
-                life: 3000
-            });
-        });
+        this.toast.errorT(messageKey);
     }
 
     private showInfo(message: string): void {
-        this.messageService.add({
-            severity: 'info',
-            summary: 'Info',
-            detail: message,
-            life: 3000
-        });
+        this.toast.info(message);
     }
 }

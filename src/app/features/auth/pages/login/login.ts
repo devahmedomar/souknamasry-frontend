@@ -2,8 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MessageService } from 'primeng/api';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,7 @@ export class Login {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
-  private messageService = inject(MessageService);
+  private toast = inject(ToastService);
   private translate = inject(TranslateService);
 
   errorMessage = signal<string | null>(null);
@@ -36,12 +36,7 @@ export class Login {
         next: (response) => {
           this.isLoading.set(false);
           this.authService.saveAuthData(response.data.token, response.data.user);
-
-          this.messageService.add({
-            severity: 'success',
-            summary: this.translate.instant('AUTH.MESSAGES.SUCCESS'),
-            detail: this.translate.instant('AUTH.MESSAGES.LOGIN_SUCCESS')
-          });
+          this.toast.successT('AUTH.MESSAGES.LOGIN_SUCCESS');
           this.router.navigate(['/']);
         },
         error: (err) => {

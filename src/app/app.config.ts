@@ -7,7 +7,7 @@ import { HttpClient, provideHttpClient, withFetch, withInterceptors } from '@ang
 import { MessageService } from 'primeng/api';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { authInterceptor } from './shared/interceptors/auth.interceptor';
-
+import Aura from '@primeuix/themes/aura';
 import { Observable } from 'rxjs';
 
 export class TranslateHttpLoader implements TranslateLoader {
@@ -26,6 +26,11 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
+    providePrimeNG({
+            theme: {
+                preset: Aura
+            }
+        }),
     provideClientHydration(withEventReplay()),
     provideHttpClient(
       withFetch(),

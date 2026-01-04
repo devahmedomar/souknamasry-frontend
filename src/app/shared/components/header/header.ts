@@ -3,10 +3,10 @@ import { Router, RouterLink } from "@angular/router";
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MessageService } from 'primeng/api';
 import { CartService } from '../../../features/cart/services/cart.service';
 import { CartStateService } from '../../../features/cart/services/cart-state.service';
 import { AuthService } from '../../../features/auth/services/auth.service';
+import { ToastService } from '../../services/toast.service';
 
 /**
  * Header Component
@@ -28,7 +28,7 @@ export class Header implements OnInit {
   private cartState = inject(CartStateService);
   private authService = inject(AuthService);
   private router = inject(Router);
-  private messageService = inject(MessageService);
+  private toast = inject(ToastService);
 
   // Get cart item count from state
   cartItemCount = this.cartState.itemCount;
@@ -65,12 +65,7 @@ export class Header implements OnInit {
       next: () => {
         this.loggingOut.set(false);
         this.cartState.clearCart();
-        this.messageService.add({
-          severity: 'success',
-          summary: this.translateService.instant('AUTH.MESSAGES.SUCCESS'),
-          detail: this.translateService.instant('AUTH.MESSAGES.LOGOUT_SUCCESS'),
-          life: 3000
-        });
+        this.toast.successT('AUTH.MESSAGES.LOGOUT_SUCCESS');
         this.router.navigate(['/']);
       },
       error: () => {

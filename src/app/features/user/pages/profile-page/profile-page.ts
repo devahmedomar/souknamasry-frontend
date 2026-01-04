@@ -2,10 +2,10 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MessageService } from 'primeng/api';
 import { ProfileService } from '../../services/profile.service';
 import { AddressService, CreateAddressRequest } from '../../services/address.service';
 import { OrderService } from '../../../cart/services/order.service';
+import { ToastService } from '../../../../shared/services/toast.service';
 import { User, UpdateProfileRequest } from '../../../../shared/models/user.interface';
 import { Address } from '../../../../shared/models/address.interface';
 import { OrderHistoryItem, OrderDetailed } from '../../../../shared/models/order.interface';
@@ -21,7 +21,7 @@ export class ProfilePage implements OnInit {
     private profileService = inject(ProfileService);
     private addressService = inject(AddressService);
     private orderService = inject(OrderService);
-    private messageService = inject(MessageService);
+    private toast = inject(ToastService);
     private translate = inject(TranslateService);
 
     user = signal<User | null>(null);
@@ -72,11 +72,7 @@ export class ProfilePage implements OnInit {
             },
             error: (err) => {
                 this.isOrdersLoading.set(false);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translate.instant('COMMON.ERROR'),
-                    detail: this.translate.instant('COMMON.ERROR_OCCURRED')
-                });
+                this.toast.errorT('COMMON.ERROR_OCCURRED');
                 console.error('Error loading orders', err);
             }
         });
@@ -92,11 +88,7 @@ export class ProfilePage implements OnInit {
             },
             error: (err) => {
                 this.isOrderDetailLoading.set(false);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translate.instant('COMMON.ERROR'),
-                    detail: this.translate.instant('COMMON.ERROR_OCCURRED')
-                });
+                this.toast.errorT('COMMON.ERROR_OCCURRED');
                 console.error('Error loading order details', err);
             }
         });
@@ -155,11 +147,7 @@ export class ProfilePage implements OnInit {
             },
             error: (err) => {
                 this.isLoading.set(false);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translate.instant('COMMON.ERROR'),
-                    detail: this.translate.instant('COMMON.ERROR_OCCURRED')
-                });
+                this.toast.errorT('COMMON.ERROR_OCCURRED');
                 console.error('Error loading profile', err);
             }
         });
@@ -194,19 +182,11 @@ export class ProfilePage implements OnInit {
                     this.user.set(response.data);
                     this.isProfileLoading.set(false);
                     this.isEditingProfile.set(false);
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translate.instant('COMMON.SUCCESS'),
-                        detail: this.translate.instant('ACCOUNT.PROFILE_UPDATED')
-                    });
+                    this.toast.successT('ACCOUNT.PROFILE_UPDATED');
                 },
                 error: (err) => {
                     this.isProfileLoading.set(false);
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translate.instant('COMMON.ERROR'),
-                        detail: this.translate.instant('COMMON.ERROR_OCCURRED')
-                    });
+                    this.toast.errorT('COMMON.ERROR_OCCURRED');
                     console.error('Error updating profile', err);
                 }
             });
@@ -256,19 +236,11 @@ export class ProfilePage implements OnInit {
                     this.isAddressLoading.set(false);
                     this.closeAddressModal();
                     this.loadAddresses();
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translate.instant('COMMON.SUCCESS'),
-                        detail: this.translate.instant(editId ? 'ADDRESSES.ADDRESS_UPDATED' : 'ADDRESSES.ADDRESS_ADDED')
-                    });
+                    this.toast.successT(editId ? 'ADDRESSES.ADDRESS_UPDATED' : 'ADDRESSES.ADDRESS_ADDED');
                 },
                 error: (err) => {
                     this.isAddressLoading.set(false);
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translate.instant('COMMON.ERROR'),
-                        detail: this.translate.instant('COMMON.ERROR_OCCURRED')
-                    });
+                    this.toast.errorT('COMMON.ERROR_OCCURRED');
                     console.error('Error saving address', err);
                 }
             });
@@ -282,18 +254,10 @@ export class ProfilePage implements OnInit {
             this.addressService.deleteAddress(id).subscribe({
                 next: () => {
                     this.loadAddresses();
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translate.instant('COMMON.SUCCESS'),
-                        detail: this.translate.instant('ADDRESSES.ADDRESS_DELETED')
-                    });
+                    this.toast.successT('ADDRESSES.ADDRESS_DELETED');
                 },
                 error: (err) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translate.instant('COMMON.ERROR'),
-                        detail: this.translate.instant('COMMON.ERROR_OCCURRED')
-                    });
+                    this.toast.errorT('COMMON.ERROR_OCCURRED');
                     console.error('Error deleting address', err);
                 }
             });
@@ -304,18 +268,10 @@ export class ProfilePage implements OnInit {
         this.addressService.updateAddress(id, { isDefault: true }).subscribe({
             next: () => {
                 this.loadAddresses();
-                this.messageService.add({
-                    severity: 'success',
-                    summary: this.translate.instant('COMMON.SUCCESS'),
-                    detail: this.translate.instant('ADDRESSES.ADDRESS_UPDATED')
-                });
+                this.toast.successT('ADDRESSES.ADDRESS_UPDATED');
             },
             error: (err) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translate.instant('COMMON.ERROR'),
-                    detail: this.translate.instant('COMMON.ERROR_OCCURRED')
-                });
+                this.toast.errorT('COMMON.ERROR_OCCURRED');
                 console.error('Error setting default address', err);
             }
         });
