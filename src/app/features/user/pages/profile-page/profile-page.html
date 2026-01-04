@@ -180,10 +180,10 @@
                                         </div>
                                         <div class="card-footer bg-transparent border-0 pt-0 d-flex gap-2">
                                             <button class="btn btn-sm btn-outline-secondary rounded-3" (click)="openAddressModal(address)">
-                                                <i class="bi bi-pencil"></i>
+                                                <i class="fas fa-pencil"></i>
                                             </button>
                                             <button class="btn btn-sm btn-outline-danger rounded-3" (click)="deleteAddress(address._id!)">
-                                                <i class="bi bi-trash"></i>
+                                                <i class="fas fa-trash"></i>
                                             </button>
                                             @if (!address.isDefault) {
                                             <button class="btn btn-sm btn-outline-primary rounded-3 ms-auto" (click)="setDefaultAddress(address._id!)">
