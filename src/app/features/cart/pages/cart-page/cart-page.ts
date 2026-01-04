@@ -253,12 +253,12 @@ export class CartPage implements OnInit {
 
     addNewAddress(): void {
         // TODO: Implement add address dialog
-        this.showInfo('Feature coming soon');
+        this.toast.infoT('COMMON.FEATURE_COMING_SOON');
     }
 
     deleteAddress(addressId: string): void {
         // TODO: Implement delete address
-        this.showInfo('Feature coming soon');
+        this.toast.infoT('COMMON.FEATURE_COMING_SOON');
     }
 
     // Utility methods
@@ -340,9 +340,5 @@ export class CartPage implements OnInit {
 
     private showError(messageKey: string): void {
         this.toast.errorT(messageKey);
-    }
-
-    private showInfo(message: string): void {
-        this.toast.info(message);
     }
 }

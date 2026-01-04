@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CarouselModule } from 'primeng/carousel';
+import { TranslateModule } from '@ngx-translate/core';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
 import { IProductCard } from '../../../../shared/models/productCard';
 
 @Component({
   selector: 'app-sponsored-products',
-  imports: [CarouselModule, ProductCard],
+  imports: [CarouselModule, TranslateModule, ProductCard],
   templateUrl: './sponsored-products.html',
   styleUrl: './sponsored-products.css',
 })

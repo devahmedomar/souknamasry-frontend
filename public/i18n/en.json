@@ -28,7 +28,8 @@
         "SUCCESS": "Success",
         "ERROR": "Error",
         "WARNING": "Warning",
-        "INFO": "Info"
+        "INFO": "Info",
+        "FEATURE_COMING_SOON": "Feature coming soon"
     },
     "NAV": {
         "HOME": "Home",
@@ -301,7 +302,8 @@
             "REGISTER_ERROR": "Registration failed. Please try again.",
             "SUCCESS": "Success",
             "ERROR": "Error",
-            "LOGOUT_SUCCESS": "Logged out successfully"
+            "LOGOUT_SUCCESS": "Logged out successfully",
+            "SESSION_EXPIRED": "Your session has expired. Please log in again."
         }
     },
     "ACCOUNT": {
@@ -464,10 +466,15 @@
         "NEWEST": "Newest"
     },
     "HOMEPAGE": {
+        "BRAND_NAME": "SOUKNA MASRY",
+        "BRAND_SLOGAN": "Behind every order.. support for a small business!",
+        "BROWSE_NOW": "Browse Now",
+        "HERO_IMAGE_ALT": "Soukna Masry Products",
         "HERO_TITLE": "Discover the Best Products",
         "HERO_SUBTITLE": "Shop from a wide range of products at the best prices",
         "SHOP_NOW": "Shop Now",
         "FEATURED_PRODUCTS": "Featured Products",
+        "SPONSORED_PRODUCTS": "Sponsored Products",
         "NEW_ARRIVALS": "New Arrivals",
         "BEST_SELLERS": "Best Sellers",
         "SPECIAL_OFFERS": "Special Offers",

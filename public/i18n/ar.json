@@ -28,7 +28,8 @@
         "SUCCESS": "نجاح",
         "ERROR": "خطأ",
         "WARNING": "تحذير",
-        "INFO": "معلومات"
+        "INFO": "معلومات",
+        "FEATURE_COMING_SOON": "هذه الميزة قادمة قريباً"
     },
     "NAV": {
         "HOME": "الرئيسية",
@@ -301,7 +302,8 @@
             "REGISTER_ERROR": "فشلت عملية التسجيل. يرجى المحاولة مرة أخرى.",
             "SUCCESS": "نجاح",
             "ERROR": "خطأ",
-            "LOGOUT_SUCCESS": "تم تسجيل الخروج بنجاح"
+            "LOGOUT_SUCCESS": "تم تسجيل الخروج بنجاح",
+            "SESSION_EXPIRED": "انتهت جلستك. يرجى تسجيل الدخول مرة أخرى."
         }
     },
     "ACCOUNT": {
@@ -464,10 +466,15 @@
         "NEWEST": "الأحدث"
     },
     "HOMEPAGE": {
+        "BRAND_NAME": "سوقنا مصري",
+        "BRAND_SLOGAN": "وراء كل طلب.. دعم لمشروع صغير!",
+        "BROWSE_NOW": "تصفح الآن",
+        "HERO_IMAGE_ALT": "منتجات سوقنا مصري",
         "HERO_TITLE": "اكتشف أفضل المنتجات",
         "HERO_SUBTITLE": "تسوق من مجموعة واسعة من المنتجات بأفضل الأسعار",
         "SHOP_NOW": "تسوق الآن",
         "FEATURED_PRODUCTS": "منتجات مميزة",
+        "SPONSORED_PRODUCTS": "منتجات مُعلنة",
         "NEW_ARRIVALS": "وصل حديثًا",
         "BEST_SELLERS": "الأكثر مبيعًا",
         "SPECIAL_OFFERS": "عروض خاصة",
