@@ -1,12 +1,38 @@
 <app-hero-banner></app-hero-banner>
+
 <div class="container">
     <h3 class="mb-4">{{ 'HOMEPAGE.FEATURED_PRODUCTS' | translate }}</h3>
-    <app-featured-products></app-featured-products>
-
+    @defer (on viewport) {
+        <app-featured-products></app-featured-products>
+    } @placeholder {
+        <div class="products-placeholder py-4" style="min-height: 350px;">
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    } @loading (minimum 200ms) {
+        <div class="d-flex justify-content-center py-4">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
 </div>
+
 <div class="gradient-warmy">
     <div class="container">
-        <app-sponsored-products></app-sponsored-products>
-
+        @defer (on viewport) {
+            <app-sponsored-products></app-sponsored-products>
+        } @placeholder {
+            <div class="products-placeholder py-4" style="min-height: 350px;"></div>
+        } @loading (minimum 200ms) {
+            <div class="d-flex justify-content-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        }
     </div>
 </div>

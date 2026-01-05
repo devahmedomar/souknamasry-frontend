@@ -1,6 +1,8 @@
 <div class="card product-card border-0 shadow-sm h-100 overflow-hidden">
   <div class="position-relative">
-    <img [src]="product().imageUrl||product().image" [alt]="product().title" class="card-img-top product-image" />
+    <div class="product-image-container position-relative" style="width: 100%; aspect-ratio: 1/1;">
+      <img [ngSrc]="product().imageUrl || product().image || '/images/placeholder.png'" [alt]="product().title" class="card-img-top product-image" fill />
+    </div>
 
     <!-- Top Left Cart Icon -->
     <div class="position-absolute top-0 start-0 p-3 z-1">

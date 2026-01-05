@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { Address } from '../../../../shared/models/address.interface';
@@ -16,7 +16,8 @@ import { Address } from '../../../../shared/models/address.interface';
     standalone: true,
     imports: [CommonModule, TranslateModule],
     templateUrl: './address-selector.component.html',
-    styleUrl: './address-selector.component.css'
+    styleUrl: './address-selector.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressSelectorComponent {
     // Inputs

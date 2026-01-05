@@ -4,7 +4,9 @@
     <div class="card-body p-2">
         <div class="row align-items-center">
             <div class="col-3">
-                <img [src]="productImage()" [alt]="productName()" class="img-fluid rounded">
+                <div class="position-relative" style="width: 100%; aspect-ratio: 1/1;">
+                    <img [ngSrc]="productImage()" [alt]="productName()" class="img-fluid rounded" fill />
+                </div>
             </div>
             <div class="col-7">
                 <small class="d-block fw-bold text-truncate">{{ productName() }}</small>
@@ -32,7 +34,9 @@
         <div class="row align-items-center">
             <!-- Product Image -->
             <div class="col-md-2 col-3">
-                <img [src]="productImage()" [alt]="productName()" class="img-fluid rounded">
+                <div class="position-relative" style="width: 100%; aspect-ratio: 1/1;">
+                    <img [ngSrc]="productImage()" [alt]="productName()" class="img-fluid rounded" fill />
+                </div>
             </div>
 
             <!-- Product Details -->

@@ -1,4 +1,4 @@
-import { Component, input, output, computed, signal } from '@angular/core';
+import { Component, input, output, computed, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -17,7 +17,8 @@ import { PricePipe } from '../../../../shared/pipes/price.pipe';
     standalone: true,
     imports: [CommonModule, FormsModule, TranslateModule, PricePipe],
     templateUrl: './order-summary.component.html',
-    styleUrl: './order-summary.component.css'
+    styleUrl: './order-summary.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderSummaryComponent {
     // Inputs

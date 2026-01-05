@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
 import { IProductCard } from '../../../../shared/models/productCard';
 import { CarouselModule } from 'primeng/carousel';
@@ -8,6 +8,7 @@ import { CarouselModule } from 'primeng/carousel';
   imports: [ProductCard, CarouselModule],
   templateUrl: './featured-products.html',
   styleUrl: './featured-products.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeaturedProducts {
   products: IProductCard[] = [

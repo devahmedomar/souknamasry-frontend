@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -14,7 +14,8 @@ import { OrderHistoryItem, OrderDetailed } from '../../../../shared/models/order
     selector: 'app-profile-page',
     imports: [CommonModule, ReactiveFormsModule, TranslateModule],
     templateUrl: './profile-page.html',
-    styleUrl: './profile-page.css'
+    styleUrl: './profile-page.css',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfilePage implements OnInit {
     private fb = inject(FormBuilder);

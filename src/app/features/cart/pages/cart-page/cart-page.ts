@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit, computed } from '@angular/core';
+import { Component, inject, signal, OnInit, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -39,7 +39,8 @@ import { PricePipe } from '../../../../shared/pipes/price.pipe';
         PricePipe
     ],
     templateUrl: './cart-page.html',
-    styleUrl: './cart-page.css'
+    styleUrl: './cart-page.css',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartPage implements OnInit {
     private readonly cartService = inject(CartService);

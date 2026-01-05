@@ -1,5 +1,5 @@
-import { Component, input, output, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, output, computed, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CartItem } from '../../../../shared/models/cart.interface';
 import { PricePipe } from '../../../../shared/pipes/price.pipe';
@@ -15,9 +15,10 @@ import { inject } from '@angular/core';
 @Component({
     selector: 'app-cart-item',
     standalone: true,
-    imports: [CommonModule, TranslateModule, PricePipe],
+    imports: [CommonModule, NgOptimizedImage, TranslateModule, PricePipe],
     templateUrl: './cart-item.component.html',
-    styleUrl: './cart-item.component.css'
+    styleUrl: './cart-item.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartItemComponent {
     private translateService = inject(TranslateService);

@@ -1,5 +1,5 @@
 import { RouterOutlet } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Header } from '../../shared/components/header/header';
 import { Footer } from '../../shared/components/footer/footer';
 
@@ -8,6 +8,7 @@ import { Footer } from '../../shared/components/footer/footer';
   imports: [RouterOutlet,Header,Footer],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainLayout {
 

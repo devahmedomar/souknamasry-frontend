@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router, RouterLink } from "@angular/router";
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -19,6 +19,7 @@ export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): V
   imports: [RouterLink, TranslateModule, ReactiveFormsModule],
   templateUrl: './register.html',
   styleUrl: './register.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Register {
   private fb = inject(FormBuilder);

@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
@@ -19,6 +19,7 @@ import { TranslateService } from '@ngx-translate/core';
   imports: [CommonModule, RouterLink, ProductCard],
   templateUrl: './categories.html',
   styleUrl: './categories.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Categories {
   private route = inject(ActivatedRoute);

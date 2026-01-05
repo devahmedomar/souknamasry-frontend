@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, computed, signal } from '@angular/core';
+import { Component, inject, OnInit, computed, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterLink } from "@angular/router";
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
@@ -21,6 +21,7 @@ import { ToastService } from '../../services/toast.service';
   imports: [RouterLink, FormsModule, TranslateModule, CommonModule],
   templateUrl: './header.html',
   styleUrl: './header.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Header implements OnInit {
   private translateService = inject(TranslateService);

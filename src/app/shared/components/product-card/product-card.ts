@@ -1,5 +1,5 @@
-import { Component, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Rating } from 'primeng/rating';
 import { ButtonModule } from 'primeng/button';
@@ -10,9 +10,10 @@ import { PricePipe } from '../../pipes/price.pipe';
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CommonModule, Rating, FormsModule, ButtonModule, TranslateModule, PricePipe],
+  imports: [CommonModule, NgOptimizedImage, Rating, FormsModule, ButtonModule, TranslateModule, PricePipe],
   templateUrl: './product-card.html',
   styleUrl: './product-card.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCard {
   product = input.required<IProductCard>();
