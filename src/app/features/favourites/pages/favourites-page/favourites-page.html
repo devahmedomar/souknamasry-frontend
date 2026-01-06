@@ -1,0 +1,64 @@
+<div class="container py-4">
+    <!-- Page Title -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h2 fw-bold text-dark-brown">{{ 'WISHLIST.MY_WISHLIST' | translate }}</h1>
+        @if (!isEmpty()) {
+            <span class="badge bg-primary fs-6">
+                {{ count() }} {{ 'COMMON.ITEMS' | translate }}
+            </span>
+        }
+    </div>
+
+    <!-- Loading State -->
+    @if (loading()) {
+        <div class="row g-4">
+            @for (i of skeletonArray; track i) {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <app-product-card-skeleton></app-product-card-skeleton>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- Empty State -->
+    @if (!loading() && isEmpty()) {
+        <div class="text-center py-5">
+            <i class="fas fa-heart fa-4x text-muted mb-4"></i>
+            <h3 class="h4 text-muted mb-3">{{ 'WISHLIST.EMPTY_WISHLIST' | translate }}</h3>
+            <p class="text-muted mb-4">{{ 'WISHLIST.EMPTY_WISHLIST_DESC' | translate }}</p>
+            <a routerLink="/categories" class="btn btn-primary px-4 py-2">
+                <i class="fas fa-shopping-bag me-2"></i>
+                {{ 'CART_PAGE.CONTINUE_SHOPPING' | translate }}
+            </a>
+        </div>
+    }
+
+    <!-- Favourites List -->
+    @if (!loading() && !isEmpty()) {
+        <!-- Action Buttons -->
+        <div class="d-flex flex-wrap gap-2 mb-4">
+            <!-- <button class="btn btn-outline-primary" (click)="addAllToCart()">
+                <i class="fas fa-cart-plus me-2"></i>
+                {{ 'WISHLIST.ADD_ALL_TO_CART' | translate }}
+            </button> -->
+            <button class="btn btn-outline-danger" (click)="clearAllFavourites()">
+                <i class="fas fa-trash me-2"></i>
+                {{ 'PRODUCT.CLEAR_FAV' | translate }}
+            </button>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="row g-4">
+            @for (product of products(); track product.id) {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <app-product-card
+                        [product]="product"
+                        [isFavourite]="favouriteIds().has(product.id.toString())"
+                        (addToCart)="handleAddToCart($event)"
+                        (addToWishlist)="handleToggleFavourite($event)">
+                    </app-product-card>
+                </div>
+            }
+        </div>
+    }
+</div>

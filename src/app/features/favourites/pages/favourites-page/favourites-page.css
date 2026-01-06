@@ -1,0 +1,29 @@
+/* Favourites Page Styles */
+.text-dark-brown {
+    color: var(--color-dark-brown, #9E3C02);
+}
+
+.btn-primary {
+    background-color: var(--color-primary, #fd7e35);
+    border-color: var(--color-primary, #fd7e35);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-dark-brown, #9E3C02);
+    border-color: var(--color-dark-brown, #9E3C02);
+}
+
+.btn-outline-primary {
+    color: var(--color-primary, #fd7e35);
+    border-color: var(--color-primary, #fd7e35);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--color-primary, #fd7e35);
+    border-color: var(--color-primary, #fd7e35);
+    color: white;
+}
+
+.badge.bg-primary {
+    background-color: var(--color-primary, #fd7e35) !important;
+}

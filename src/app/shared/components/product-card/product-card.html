@@ -13,8 +13,9 @@
 
     <!-- Top Right Wishlist Icon -->
     <div class="position-absolute top-0 end-0 p-3 z-1">
-      <button pButton type="button" icon="fas fa-heart"
-        class="p-button-rounded p-button-text bg-white text-dark shadow-sm icon-btn"
+      <button pButton type="button"
+        [icon]="isFavourite() ? 'fas fa-heart' : 'far fa-heart'"
+        [class]="isFavourite() ? 'p-button-rounded p-button-text shadow-sm icon-btn favourite-active' : 'p-button-rounded p-button-text bg-white text-dark shadow-sm icon-btn'"
         (click)="onAddToWishlist($event)"></button>
     </div>
   </div>

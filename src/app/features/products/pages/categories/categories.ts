@@ -10,6 +10,8 @@ import { ProductsService } from '../../services/products.service';
 import { Category } from '../../../../shared/models/category.interface';
 import { IProductCard } from '../../../../shared/models/productCard';
 import { CartService } from '../../../cart/services/cart.service';
+import { FavouritesService } from '../../../favourites/services/favourites.service';
+import { FavouritesStateService } from '../../../favourites/services/favourites-state.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
@@ -28,9 +30,14 @@ export class Categories {
   private categoriesService = inject(CategoriesService);
   private productsService = inject(ProductsService);
   private cartService = inject(CartService);
+  private favouritesService = inject(FavouritesService);
+  private favouritesState = inject(FavouritesStateService);
   private authService = inject(AuthService);
   private messageService = inject(MessageService);
   private translateService = inject(TranslateService);
+
+  // Expose favourites state for template
+  favouriteIds = this.favouritesState.productIds;
 
   // Path as a signal derived from URL
   path = toSignal(
@@ -126,6 +133,48 @@ export class Categories {
           severity: 'error',
           summary: this.translateService.instant('AUTH.MESSAGES.ERROR'),
           detail: err.error?.message || 'Failed to add product to cart',
+          life: 3000
+        });
+      }
+    });
+  }
+
+  handleToggleFavourite(product: IProductCard): void {
+    // Check if user is authenticated
+    if (!this.authService.token()) {
+      this.translateService.get('WISHLIST.LOGIN_REQUIRED').subscribe((message: string) => {
+        this.messageService.add({
+          severity: 'warn',
+          summary: this.translateService.instant('AUTH.MESSAGES.ERROR'),
+          detail: message,
+          life: 3000
+        });
+      });
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
+    // Toggle favourite status
+    this.favouritesService.toggleFavourite(product.id.toString()).subscribe({
+      next: (isNowFavourite) => {
+        const messageKey = isNowFavourite
+          ? 'PRODUCT.PRODUCT_ADDED_TO_WISHLIST'
+          : 'PRODUCT.PRODUCT_REMOVED_FROM_WISHLIST';
+        this.translateService.get(messageKey).subscribe((message: string) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translateService.instant('AUTH.MESSAGES.SUCCESS'),
+            detail: message,
+            life: 3000
+          });
+        });
+      },
+      error: (err) => {
+        console.error('Error toggling favourite:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translateService.instant('AUTH.MESSAGES.ERROR'),
+          detail: err.error?.message || 'Failed to update favourites',
           life: 3000
         });
       }

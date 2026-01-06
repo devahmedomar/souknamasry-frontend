@@ -31,6 +31,15 @@
   color: white !important;
 }
 
+.icon-btn.favourite-active {
+  background-color: #dc3545 !important;
+  color: white !important;
+}
+
+.icon-btn.favourite-active:hover {
+  background-color: #c82333 !important;
+}
+
 .text-dark-brown {
   color: var(--color-dark-brown);
 }

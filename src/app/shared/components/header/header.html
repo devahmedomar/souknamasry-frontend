@@ -46,8 +46,15 @@
           </a>
           }
         </li>
-        <li class="nav-item me-3">
-          <a class="nav-link" href="#"><i class="fa-solid fa-heart"></i></a>
+        <li class="nav-item me-3 position-relative">
+          <a class="nav-link" routerLink="/favourites">
+            <i class="fa-solid fa-heart"></i>
+            <!-- @if (favouritesCount() > 0) {
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {{ favouritesCount() }}
+            </span>
+            } -->
+          </a>
         </li>
         <li class="nav-item me-3 position-relative">
           <a class="nav-link" routerLink="/cart">

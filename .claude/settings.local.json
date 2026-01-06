@@ -6,7 +6,8 @@
       "Bash(tree:*)",
       "Bash(npm run build:*)",
       "Bash(ls:*)",
-      "Bash(du:*)"
+      "Bash(du:*)",
+      "Bash(dir:*)"
     ]
   }
 }

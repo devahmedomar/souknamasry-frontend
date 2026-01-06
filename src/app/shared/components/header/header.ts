@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../../features/cart/services/cart.service';
 import { CartStateService } from '../../../features/cart/services/cart-state.service';
+import { FavouritesService } from '../../../features/favourites/services/favourites.service';
+import { FavouritesStateService } from '../../../features/favourites/services/favourites-state.service';
 import { AuthService } from '../../../features/auth/services/auth.service';
 import { ToastService } from '../../services/toast.service';
 
@@ -27,12 +29,17 @@ export class Header implements OnInit {
   private translateService = inject(TranslateService);
   private cartService = inject(CartService);
   private cartState = inject(CartStateService);
+  private favouritesService = inject(FavouritesService);
+  private favouritesState = inject(FavouritesStateService);
   private authService = inject(AuthService);
   private router = inject(Router);
   private toast = inject(ToastService);
 
   // Get cart item count from state
   cartItemCount = this.cartState.itemCount;
+
+  // Get favourites count from state
+  favouritesCount = this.favouritesState.count;
 
   // Check if user is logged in
   isLoggedIn = computed(() => !!this.authService.token());
@@ -49,9 +56,10 @@ export class Header implements OnInit {
   }
 
   ngOnInit(): void {
-    // Load cart if user is authenticated
+    // Load cart and favourites if user is authenticated
     if (this.authService.token()) {
       this.cartService.getCart().subscribe();
+      this.favouritesService.getFavourites().subscribe();
     }
   }
 
@@ -66,6 +74,7 @@ export class Header implements OnInit {
       next: () => {
         this.loggingOut.set(false);
         this.cartState.clearCart();
+        this.favouritesState.clearFavourites();
         this.toast.successT('AUTH.MESSAGES.LOGOUT_SUCCESS');
         this.router.navigate(['/']);
       },

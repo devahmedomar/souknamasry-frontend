@@ -29,7 +29,8 @@
         "ERROR": "Error",
         "WARNING": "Warning",
         "INFO": "Info",
-        "FEATURE_COMING_SOON": "Feature coming soon"
+        "FEATURE_COMING_SOON": "Feature coming soon",
+        "ITEMS": "items"
     },
     "NAV": {
         "HOME": "Home",
@@ -326,7 +327,8 @@
         "BIRTHDATE": "Birthdate",
         "SAVE_CHANGES": "Save Changes",
         "PROFILE_UPDATED": "Profile updated successfully",
-        "PASSWORD_UPDATED": "Password changed successfully"
+        "PASSWORD_UPDATED": "Password changed successfully",
+        "CLEAR_FAV": "Clear Wishlist"
     },
     "ADDRESSES": {
         "TITLE": "Shipping Addresses",
@@ -442,11 +444,16 @@
         "ADD_TO_WISHLIST": "Add to Wishlist",
         "REMOVE_FROM_WISHLIST": "Remove from Wishlist",
         "EMPTY_WISHLIST": "Your wishlist is empty",
+        "EMPTY_WISHLIST_DESC": "Start adding products you love to your wishlist",
         "ADD_ALL_TO_CART": "Add All to Cart",
         "SHARE_WISHLIST": "Share Wishlist",
         "ITEM_ADDED": "Item added to wishlist",
         "ITEM_REMOVED": "Item removed from wishlist",
-        "ITEMS_COUNT": "{{count}} items"
+        "ITEMS_COUNT": "{{count}} items",
+        "LOGIN_REQUIRED": "Please log in to manage your wishlist",
+        "CLEARED": "Wishlist cleared successfully",
+        "ADD_ALL_SUCCESS": "All items added to cart",
+        "ADD_ALL_PARTIAL": "Some items could not be added to cart"
     },
     "REVIEWS": {
         "TITLE": "Reviews",

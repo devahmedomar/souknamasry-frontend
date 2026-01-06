@@ -17,6 +17,7 @@ import { PricePipe } from '../../pipes/price.pipe';
 })
 export class ProductCard {
   product = input.required<IProductCard>();
+  isFavourite = input<boolean>(false);
 
   addToCart = output<IProductCard>();
   addToWishlist = output<IProductCard>();

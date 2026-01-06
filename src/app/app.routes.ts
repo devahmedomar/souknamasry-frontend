@@ -31,6 +31,12 @@ export const routes: Routes = [
           import('./features/user/user.routes').then((m) => m.userRoutes),
         title: 'Account - Souknamasry',
       },
+      {
+        path: 'favourites',
+        loadChildren: () =>
+          import('./features/favourites/favourites.routes').then((m) => m.favouritesRoutes),
+        title: 'Favourites - Souknamasry',
+      },
     ],
   },
   {

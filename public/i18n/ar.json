@@ -29,7 +29,8 @@
         "ERROR": "خطأ",
         "WARNING": "تحذير",
         "INFO": "معلومات",
-        "FEATURE_COMING_SOON": "هذه الميزة قادمة قريباً"
+        "FEATURE_COMING_SOON": "هذه الميزة قادمة قريباً",
+        "ITEMS": "منتجات"
     },
     "NAV": {
         "HOME": "الرئيسية",
@@ -85,7 +86,8 @@
         "PRODUCT_ADDED_TO_WISHLIST": "تم إضافة المنتج للمفضلة",
         "PRODUCT_REMOVED_FROM_WISHLIST": "تم حذف المنتج من المفضلة",
         "COLOR": "اللون",
-        "SIZE": "المقاس"
+        "SIZE": "المقاس",
+        "CLEAR_FAV": "تفريغ المفضلة"
     },
     "CART": {
         "ADD_SUCCESS": "تم إضافة المنتج إلى السلة بنجاح",
@@ -442,11 +444,16 @@
         "ADD_TO_WISHLIST": "أضف للمفضلة",
         "REMOVE_FROM_WISHLIST": "حذف من المفضلة",
         "EMPTY_WISHLIST": "قائمة المفضلات فارغة",
+        "EMPTY_WISHLIST_DESC": "ابدأ بإضافة المنتجات التي تحبها إلى قائمة المفضلة",
         "ADD_ALL_TO_CART": "إضافة الكل للسلة",
         "SHARE_WISHLIST": "مشاركة القائمة",
         "ITEM_ADDED": "تم إضافة المنتج للمفضلة",
         "ITEM_REMOVED": "تم حذف المنتج من المفضلة",
-        "ITEMS_COUNT": "{{count}} منتج"
+        "ITEMS_COUNT": "{{count}} منتج",
+        "LOGIN_REQUIRED": "يرجى تسجيل الدخول لإدارة قائمة المفضلة",
+        "CLEARED": "تم مسح قائمة المفضلة بنجاح",
+        "ADD_ALL_SUCCESS": "تم إضافة جميع المنتجات للسلة",
+        "ADD_ALL_PARTIAL": "لم يتم إضافة بعض المنتجات للسلة"
     },
     "REVIEWS": {
         "TITLE": "التقييمات",
