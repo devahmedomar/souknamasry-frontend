@@ -276,15 +276,15 @@ export class CartPage implements OnInit {
 
     // Order helper methods
     /**
-     * Show message when user has no addresses and redirect to profile
+     * Show message when user has no addresses and redirect to addresses tab
      */
     private showNoAddressesMessage(): void {
         this.toast.warnT('CART_PAGE.NO_ADDRESSES_MESSAGE', 'CART_PAGE.NO_ADDRESSES_TITLE');
 
-        // Redirect to profile page after 2 seconds
-        setTimeout(() => {
-            this.router.navigate(['/user/profile']);
-        }, 2000);
+        // Redirect to profile page with addresses tab, auto-open modal, and return URL
+        this.router.navigate(['/user/profile'], {
+            queryParams: { tab: 'addresses', action: 'add', returnUrl: '/cart' }
+        });
     }
 
     /**

@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ProfileService } from '../../services/profile.service';
 import { AddressService, CreateAddressRequest } from '../../services/address.service';
@@ -20,11 +21,16 @@ import { ProfileSkeleton, AddressCardSkeleton, OrderCardSkeleton } from '../../.
 })
 export class ProfilePage implements OnInit {
     private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
     private profileService = inject(ProfileService);
     private addressService = inject(AddressService);
     private orderService = inject(OrderService);
     private toast = inject(ToastService);
     private translate = inject(TranslateService);
+
+    // Return URL for redirecting after address save (when coming from cart)
+    private returnUrl = signal<string | null>(null);
 
     user = signal<User | null>(null);
     addresses = signal<Address[]>([]);
@@ -63,6 +69,24 @@ export class ProfilePage implements OnInit {
     ngOnInit() {
         this.loadProfile();
         this.loadAddresses();
+
+        // Check for tab query parameter
+        this.route.queryParams.subscribe(params => {
+            const tab = params['tab'];
+            if (tab === 'addresses' || tab === 'orders' || tab === 'profile') {
+                this.activeTab.set(tab);
+
+                // Auto-open address modal if redirected from cart with no addresses
+                if (tab === 'addresses' && params['action'] === 'add') {
+                    this.openAddressModal();
+                }
+            }
+
+            // Store return URL for redirecting after address save
+            if (params['returnUrl']) {
+                this.returnUrl.set(params['returnUrl']);
+            }
+        });
     }
 
     loadOrders() {
@@ -239,6 +263,13 @@ export class ProfilePage implements OnInit {
                     this.closeAddressModal();
                     this.loadAddresses();
                     this.toast.successT(editId ? 'ADDRESSES.ADDRESS_UPDATED' : 'ADDRESSES.ADDRESS_ADDED');
+
+                    // Redirect to return URL if coming from cart (only for new addresses)
+                    const returnUrl = this.returnUrl();
+                    if (!editId && returnUrl) {
+                        this.returnUrl.set(null);
+                        this.router.navigateByUrl(returnUrl);
+                    }
                 },
                 error: (err) => {
                     this.isAddressLoading.set(false);
