@@ -45,7 +45,7 @@
                 class="card h-100 text-decoration-none border shadow-sm hover-shadow transition">
                 @if (child.image) {
                 <div class="card-img-top-wrapper bg-light overflow-hidden" style="height: 200px;">
-                    <img [src]="child.image" [alt]="child.name" class="w-100 h-100 object-fit-cover">
+                    <img [src]="child.image" [alt]="child.name" class="w-100 h-100 object-fit-cover" width="400" height="200" loading="lazy">
                 </div>
                 }
                 <div class="card-body text-center">

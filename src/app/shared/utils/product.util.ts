@@ -8,7 +8,7 @@ export class ProductUtil {
      * Get product image URL
      */
     static getProductImage(product: Product): string {
-        return product?.images?.[0] || product?.image || '/images/placeholder.png';
+        return product?.images?.[0] || product?.image || '/images/placeholder.svg';
     }
 
     /**

@@ -36,7 +36,7 @@ export class CartItemComponent {
     // Computed values
     productImage = computed(() => {
         const item = this.item();
-        return item.product?.images?.[0] || item.product?.image || '/images/placeholder.png';
+        return item.product?.images?.[0] || item.product?.image || '/images/placeholder.svg';
     });
 
     productName = computed(() => {
