@@ -16,6 +16,7 @@ import { AddressSelectorComponent } from '../../components/address-selector/addr
 import { Address } from '../../../../shared/models/address.interface';
 import { CreateOrderRequest, Order } from '../../../../shared/models/order.interface';
 import { PricePipe } from '../../../../shared/pipes/price.pipe';
+import { CartItemSkeleton, AddressCardSkeleton } from '../../../../shared/components/skeletons';
 
 /**
  * Cart Page Component - Main cart page with stepper
@@ -36,7 +37,9 @@ import { PricePipe } from '../../../../shared/pipes/price.pipe';
         CartItemComponent,
         OrderSummaryComponent,
         AddressSelectorComponent,
-        PricePipe
+        PricePipe,
+        CartItemSkeleton,
+        AddressCardSkeleton
     ],
     templateUrl: './cart-page.html',
     styleUrl: './cart-page.css',

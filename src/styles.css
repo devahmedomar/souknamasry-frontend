@@ -155,3 +155,103 @@ padding: 0;
   opacity: 0.9;
   margin-top: 0.25rem !important;
 }
+
+/* ========================================
+   Skeleton Shimmer Styles
+   ======================================== */
+
+/* Shimmer Animation Keyframes */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Base Skeleton Element */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #e0e0e0 25%,
+    #f0f0f0 50%,
+    #e0e0e0 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+/* Skeleton Variants */
+.skeleton-text {
+  height: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-text-sm {
+  height: 0.75rem;
+  margin-bottom: 0.375rem;
+}
+
+.skeleton-text-lg {
+  height: 1.25rem;
+  margin-bottom: 0.625rem;
+}
+
+.skeleton-title {
+  height: 1.5rem;
+  margin-bottom: 0.75rem;
+  width: 60%;
+}
+
+.skeleton-avatar {
+  border-radius: 50%;
+}
+
+.skeleton-button {
+  height: 2.5rem;
+  border-radius: 0.375rem;
+}
+
+.skeleton-image {
+  border-radius: 0.5rem;
+}
+
+.skeleton-card {
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.skeleton-badge {
+  height: 1.25rem;
+  width: 4rem;
+  border-radius: 0.25rem;
+}
+
+.skeleton-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.25rem;
+}
+
+.skeleton-star {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 2px;
+  display: inline-block;
+  margin-right: 2px;
+}
+
+/* Width Utilities for Skeleton */
+.skeleton-w-25 { width: 25%; }
+.skeleton-w-50 { width: 50%; }
+.skeleton-w-75 { width: 75%; }
+.skeleton-w-100 { width: 100%; }
+
+/* Skeleton Container with subtle background */
+.skeleton-container {
+  background-color: #fafafa;
+  border-radius: 0.75rem;
+  padding: 1rem;
+}

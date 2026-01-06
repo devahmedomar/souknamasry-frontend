@@ -1,0 +1,38 @@
+@for (item of items; track $index) {
+<div class="card h-100 border rounded-3">
+  <div class="card-body">
+    <!-- Badge -->
+    <div class="skeleton skeleton-badge mb-2"></div>
+
+    <!-- Name -->
+    <div class="skeleton skeleton-text skeleton-w-50 mb-2"></div>
+
+    <!-- Phone -->
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <div class="skeleton skeleton-icon"></div>
+      <div class="skeleton skeleton-text-sm skeleton-w-50"></div>
+    </div>
+
+    <!-- Address -->
+    <div class="d-flex align-items-start gap-2 mb-2">
+      <div class="skeleton skeleton-icon"></div>
+      <div class="flex-grow-1">
+        <div class="skeleton skeleton-text-sm skeleton-w-100 mb-1"></div>
+        <div class="skeleton skeleton-text-sm skeleton-w-75"></div>
+      </div>
+    </div>
+
+    <!-- Landmark -->
+    <div class="d-flex align-items-center gap-2">
+      <div class="skeleton skeleton-icon"></div>
+      <div class="skeleton skeleton-text-sm skeleton-w-50"></div>
+    </div>
+  </div>
+
+  <div class="card-footer bg-transparent border-0 pt-0 d-flex gap-2">
+    <div class="skeleton" style="width: 32px; height: 32px; border-radius: 6px;"></div>
+    <div class="skeleton" style="width: 32px; height: 32px; border-radius: 6px;"></div>
+    <div class="skeleton skeleton-w-50 ms-auto" style="height: 32px; border-radius: 6px;"></div>
+  </div>
+</div>
+}

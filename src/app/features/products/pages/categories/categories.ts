@@ -1,8 +1,8 @@
-import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
-import { map, switchMap, shareReplay, catchError } from 'rxjs/operators';
+import { map, switchMap, shareReplay, catchError, tap, startWith } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
 import { CategoriesService } from '../../services/categories.service';
@@ -13,10 +13,11 @@ import { CartService } from '../../../cart/services/cart.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
+import { ProductCardSkeleton, CategoryCardSkeleton } from '../../../../shared/components/skeletons';
 
 @Component({
   selector: 'app-categories',
-  imports: [CommonModule, RouterLink, ProductCard],
+  imports: [CommonModule, RouterLink, ProductCard, ProductCardSkeleton, CategoryCardSkeleton],
   templateUrl: './categories.html',
   styleUrl: './categories.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,31 +55,31 @@ export class Categories {
   loading = computed(() => this.category() === undefined); // toSignal starts with undefined if not provided
   error = computed(() => this.category() === null ? 'Category not found or error loading.' : null);
 
+  // Loading state for products
+  private _productsLoading = signal(false);
+  productsLoading = this._productsLoading.asReadonly();
+
   // Products data fetched whenever category changes and is a leaf
   products$ = toObservable(this.category).pipe(
     switchMap((cat) => {
       if (cat?.isLeaf) {
+        this._productsLoading.set(true);
         return this.productsService.getProductsByCategory(cat.path).pipe(
+          tap(() => this._productsLoading.set(false)),
           catchError((err) => {
             console.error('Error loading products:', err);
+            this._productsLoading.set(false);
             return of([]);
           })
         );
       }
+      this._productsLoading.set(false);
       return of([]);
     }),
     shareReplay(1)
   );
 
   products = toSignal(this.products$, { initialValue: [] as IProductCard[] });
-
-  // Refined productsLoading state using a simple computed check against the last emission
-  // Note: For complex loading states, we could use a separate signal, 
-  // but toSignal with switchMap is generally fast.
-  productsLoading = computed(() => {
-    const cat = this.category();
-    return cat?.isLeaf && this.products() === undefined;
-  });
 
   getBreadcrumbPath(index: number): string {
     const cat = this.category();

@@ -1,10 +1,16 @@
 <div class="container py-4">
     @if (loading()) {
-    <div class="text-center py-5">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+    <!-- Category Loading Skeleton -->
+    <div class="mb-4">
+        <div class="skeleton skeleton-text-sm" style="width: 200px;"></div>
+        <div class="skeleton skeleton-title mt-3" style="width: 250px; height: 2rem;"></div>
+    </div>
+    <div class="row g-4">
+        @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+        <div class="col-12 col-md-6 col-lg-4">
+            <app-category-card-skeleton></app-category-card-skeleton>
         </div>
-        <p class="mt-2 text-muted">Loading...</p>
+        }
     </div>
     }
 
@@ -70,10 +76,12 @@
 
         <!-- Note: productsLoading() is derived from the signal state -->
         @if (productsLoading()) {
-        <div class="text-center py-5">
-            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
-                <span class="visually-hidden">Loading products...</span>
+        <div class="row g-4">
+            @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+            <div class="col-12 col-md-6 col-lg-4">
+                <app-product-card-skeleton></app-product-card-skeleton>
             </div>
+            }
         </div>
         } @else {
         <div class="row g-4">

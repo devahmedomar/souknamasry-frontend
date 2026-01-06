@@ -1,0 +1,59 @@
+@for (item of items; track $index) {
+  @if (compact()) {
+  <!-- Compact Skeleton -->
+  <div class="card mb-2 border-0 bg-light">
+    <div class="card-body p-2">
+      <div class="row align-items-center">
+        <div class="col-3">
+          <div class="skeleton skeleton-image" style="width: 100%; aspect-ratio: 1/1;"></div>
+        </div>
+        <div class="col-7">
+          <div class="skeleton skeleton-text skeleton-w-75"></div>
+          <div class="skeleton skeleton-text-sm skeleton-w-50"></div>
+          <div class="skeleton skeleton-text skeleton-w-25 mt-1"></div>
+        </div>
+        <div class="col-2 text-end">
+          <div class="skeleton skeleton-icon"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  } @else {
+  <!-- Full Skeleton -->
+  <div class="card mb-3 border shadow-sm">
+    <div class="card-body">
+      <div class="row align-items-center">
+        <!-- Image -->
+        <div class="col-md-2 col-3">
+          <div class="skeleton skeleton-image" style="width: 100%; aspect-ratio: 1/1;"></div>
+        </div>
+
+        <!-- Details -->
+        <div class="col-md-4 col-9">
+          <div class="skeleton skeleton-text skeleton-w-75 mb-2"></div>
+          <div class="skeleton skeleton-text-sm skeleton-w-50"></div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="col-md-3 col-6 mt-3 mt-md-0">
+          <div class="d-flex align-items-center justify-content-center gap-2">
+            <div class="skeleton" style="width: 32px; height: 32px; border-radius: 4px;"></div>
+            <div class="skeleton" style="width: 60px; height: 32px; border-radius: 4px;"></div>
+            <div class="skeleton" style="width: 32px; height: 32px; border-radius: 4px;"></div>
+          </div>
+        </div>
+
+        <!-- Price -->
+        <div class="col-md-2 col-4 mt-3 mt-md-0 text-end">
+          <div class="skeleton skeleton-text skeleton-w-75 ms-auto"></div>
+        </div>
+
+        <!-- Remove -->
+        <div class="col-md-1 col-2 mt-3 mt-md-0 text-end">
+          <div class="skeleton skeleton-icon ms-auto"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+}

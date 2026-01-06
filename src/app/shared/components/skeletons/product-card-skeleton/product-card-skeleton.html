@@ -1,0 +1,30 @@
+@for (item of items; track $index) {
+<div class="card product-card-skeleton border-0 shadow-sm h-100 overflow-hidden">
+  <!-- Image Skeleton -->
+  <div class="skeleton skeleton-image" style="width: 100%; aspect-ratio: 1/1;"></div>
+
+  <!-- Content Skeleton -->
+  <div class="card-body text-center p-3 d-flex flex-column align-items-center gap-2">
+    <!-- Title -->
+    <div class="skeleton skeleton-text skeleton-w-75 mx-auto"></div>
+
+    <!-- Rating Stars -->
+    <div class="d-flex justify-content-center gap-1">
+      <span class="skeleton skeleton-star"></span>
+      <span class="skeleton skeleton-star"></span>
+      <span class="skeleton skeleton-star"></span>
+      <span class="skeleton skeleton-star"></span>
+      <span class="skeleton skeleton-star"></span>
+    </div>
+
+    <!-- Category -->
+    <div class="skeleton skeleton-text-sm skeleton-w-50 mx-auto"></div>
+
+    <!-- Price -->
+    <div class="skeleton skeleton-text-lg skeleton-w-25 mx-auto"></div>
+
+    <!-- Button -->
+    <div class="skeleton skeleton-button w-100 mt-2"></div>
+  </div>
+</div>
+}

@@ -3,10 +3,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HeroBanner } from '../../components/hero-banner/hero-banner';
 import { FeaturedProducts } from '../../components/featured-products/featured-products';
 import { SponsoredProducts } from '../../components/sponsored-products/sponsored-products';
+import { ProductCardSkeleton } from '../../../../shared/components/skeletons';
 
 @Component({
   selector: 'app-home-page',
-  imports: [TranslateModule, HeroBanner, FeaturedProducts, SponsoredProducts],
+  imports: [TranslateModule, HeroBanner, FeaturedProducts, SponsoredProducts, ProductCardSkeleton],
   templateUrl: './home-page.html',
   styleUrl: './home-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

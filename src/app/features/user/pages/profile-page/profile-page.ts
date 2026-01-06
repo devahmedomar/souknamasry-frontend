@@ -9,10 +9,11 @@ import { ToastService } from '../../../../shared/services/toast.service';
 import { User, UpdateProfileRequest } from '../../../../shared/models/user.interface';
 import { Address } from '../../../../shared/models/address.interface';
 import { OrderHistoryItem, OrderDetailed } from '../../../../shared/models/order.interface';
+import { ProfileSkeleton, AddressCardSkeleton, OrderCardSkeleton } from '../../../../shared/components/skeletons';
 
 @Component({
     selector: 'app-profile-page',
-    imports: [CommonModule, ReactiveFormsModule, TranslateModule],
+    imports: [CommonModule, ReactiveFormsModule, TranslateModule, ProfileSkeleton, AddressCardSkeleton, OrderCardSkeleton],
     templateUrl: './profile-page.html',
     styleUrl: './profile-page.css',
     changeDetection: ChangeDetectionStrategy.OnPush,

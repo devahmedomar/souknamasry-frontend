@@ -46,11 +46,7 @@
             <!-- Main Content -->
             <div class="col-lg-9">
                 @if (isLoading()) {
-                <div class="text-center py-5">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">{{ 'COMMON.LOADING' | translate }}</span>
-                    </div>
-                </div>
+                <app-profile-skeleton type="profile"></app-profile-skeleton>
                 } @else {
                     <!-- Profile Tab -->
                     @if (activeTab() === 'profile') {
@@ -208,11 +204,7 @@
                         </div>
                         <div class="card-body p-4 pt-0">
                             @if (isOrdersLoading()) {
-                            <div class="text-center py-5">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">{{ 'COMMON.LOADING' | translate }}</span>
-                                </div>
-                            </div>
+                            <app-order-card-skeleton [count]="3"></app-order-card-skeleton>
                             } @else if (orders().length === 0) {
                             <div class="text-center py-5">
                                 <i class="bi bi-box-seam text-muted" style="font-size: 3rem;"></i>
