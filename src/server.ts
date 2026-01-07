@@ -6,11 +6,30 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { generateSitemap } from './sitemap';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
+
+/**
+ * Sitemap generator
+ */
+app.get('/sitemap.xml', async (req, res) => {
+  try {
+    const host = req.get('host') || 'https://souknamasry.vercel.app/';
+    // Use the production API URL or getting from environment if possible, but strict referencing env from server needs care.
+    // We will use the known URL.
+    const apiUrl = 'https://souknamasry-be.vercel.app/api/';
+    const sitemap = await generateSitemap(apiUrl, host);
+    res.header('Content-Type', 'application/xml');
+    res.send(sitemap);
+  } catch (err) {
+    console.error('Sitemap generation error', err);
+    res.status(500).send('Error generating sitemap');
+  }
+});
 
 /**
  * Example Express Rest API endpoints can be defined here.

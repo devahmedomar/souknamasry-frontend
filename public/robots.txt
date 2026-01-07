@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+# Disallow: /auth/
+# Disallow: /cart/
+# Disallow: /checkout/
+
+Sitemap: https://souknamasry.vercel.app/sitemap.xml

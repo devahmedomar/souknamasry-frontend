@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
@@ -16,6 +16,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
 import { ProductCardSkeleton, CategoryCardSkeleton } from '../../../../shared/components/skeletons';
+import { SeoService } from '../../../../core/services/seo.service';
 
 @Component({
   selector: 'app-categories',
@@ -35,6 +36,40 @@ export class Categories {
   private authService = inject(AuthService);
   private messageService = inject(MessageService);
   private translateService = inject(TranslateService);
+  private seoService = inject(SeoService);
+
+  constructor() {
+    effect(() => {
+      const cat = this.category();
+      if (cat) {
+        const lang = this.translateService.currentLang;
+        const name = lang === 'ar' ? (cat.nameAr || cat.name) : cat.name;
+        const desc = cat.description ? cat.description : `Shop for ${name} at souknamasry. Best prices and fast delivery.`;
+
+        this.seoService.setSeoData({
+          title: name,
+          description: desc,
+          image: cat.image,
+          type: 'website'
+        });
+
+        // JSON-LD Breadcrumb
+        if (cat.breadcrumb) {
+          const schema = {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": cat.breadcrumb.map((b, i) => ({
+              "@type": "ListItem",
+              "position": i + 1,
+              "name": b.name,
+              "item": `https://souknamasry.vercel.app/categories/${this.getBreadcrumbPath(i)}`
+            }))
+          };
+          this.seoService.setJsonLd(schema);
+        }
+      }
+    });
+  }
 
   // Expose favourites state for template
   favouriteIds = this.favouritesState.productIds;
