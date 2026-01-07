@@ -221,17 +221,21 @@ export class CartPage implements OnInit {
                 // Clear cart (optimistic UI update)
                 this.cartService.clearCart().subscribe({
                     next: () => {
-                        // Redirect to home page after 2 seconds
+                        // Redirect to profile orders page after 2 seconds
                         setTimeout(() => {
-                            this.router.navigate(['/']);
+                            this.router.navigate(['/user/profile'], {
+                                queryParams: { tab: 'orders' }
+                            });
                         }, 2000);
                     },
                     error: (err) => {
                         // Even if cart clear fails, order was created successfully
                         console.warn('Cart clear failed but order created:', err);
-                        // Still redirect to home page
+                        // Still redirect to profile orders page
                         setTimeout(() => {
-                            this.router.navigate(['/']);
+                            this.router.navigate(['/user/profile'], {
+                                queryParams: { tab: 'orders' }
+                            });
                         }, 2000);
                     }
                 });
@@ -256,8 +260,10 @@ export class CartPage implements OnInit {
     }
 
     addNewAddress(): void {
-        // TODO: Implement add address dialog
-        this.toast.infoT('COMMON.FEATURE_COMING_SOON');
+        // Redirect to profile page with addresses tab, auto-open modal, and return URL
+        this.router.navigate(['/user/profile'], {
+            queryParams: { tab: 'addresses', action: 'add', returnUrl: '/cart' }
+        });
     }
 
     deleteAddress(addressId: string): void {

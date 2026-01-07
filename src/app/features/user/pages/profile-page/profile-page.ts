@@ -80,6 +80,11 @@ export class ProfilePage implements OnInit {
                 if (tab === 'addresses' && params['action'] === 'add') {
                     this.openAddressModal();
                 }
+
+                // Load orders if redirected to orders tab
+                if (tab === 'orders') {
+                    this.loadOrders();
+                }
             }
 
             // Store return URL for redirecting after address save
