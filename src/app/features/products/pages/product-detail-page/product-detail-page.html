@@ -1,1 +1,293 @@
-<p>product-detail-page works!</p>
+<div class="product-detail-page bg-secondary-50">
+    <!-- Loading State -->
+    @if (loading()) {
+    <div class="container py-4">
+        <app-product-detail-skeleton></app-product-detail-skeleton>
+    </div>
+    }
+
+    <!-- Error State -->
+    @if (error()) {
+    <div class="container py-5">
+        <div class="alert alert-danger text-center" role="alert">
+            <h4 class="alert-heading">{{ 'ERRORS.404_TITLE' | translate }}</h4>
+            <p>{{ error() | translate }}</p>
+            <a routerLink="/categories" class="btn btn-primary mt-3">
+                {{ 'ERRORS.GO_HOME' | translate }}
+            </a>
+        </div>
+    </div>
+    }
+
+    <!-- Product Content -->
+    @if (product(); as prod) {
+    <div class="container py-4">
+        <!-- Breadcrumb Navigation -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a routerLink="/categories" class="text-decoration-none text-dark-brown">
+                        {{ 'CATEGORIES.ALL_CATEGORIES' | translate }}
+                    </a>
+                </li>
+                @for (item of breadcrumb(); track item._id; let i = $index) {
+                <li class="breadcrumb-item">
+                    <a [routerLink]="getBreadcrumbRouterLink(i)" class="text-decoration-none text-dark-brown">
+                        {{ getBreadcrumbName(item) }}
+                    </a>
+                </li>
+                }
+                <li class="breadcrumb-item active" aria-current="page">
+                    <span class="text-muted">{{ getProductName() }}</span>
+                </li>
+            </ol>
+        </nav>
+
+        <div class="row g-4 g-lg-5">
+            <!-- Product Image Gallery -->
+            <div class="col-12 col-lg-6">
+                <div class="product-gallery">
+                    <!-- Main Image -->
+                    <div class="main-image-container position-relative mb-3">
+                        <div class="image-frame bg-white rounded-4 shadow-sm overflow-hidden">
+                            <img [src]="currentImage()" [alt]="getProductName()" class="main-image w-100"
+                                loading="eager">
+                        </div>
+                        <!-- Image Navigation Dots -->
+                        @if (prod.images && prod.images.length > 1) {
+                        <div class="image-dots position-absolute bottom-0 start-50 translate-middle-x mb-3">
+                            <div class="d-flex gap-2">
+                                @for (img of prod.images; track img; let i = $index) {
+                                <button type="button" class="dot" [class.active]="selectedImageIndex() === i"
+                                    (click)="selectImage(i)" [attr.aria-label]="'Image ' + (i + 1)">
+                                </button>
+                                }
+                            </div>
+                        </div>
+                        }
+                        <!-- Navigation Arrows -->
+                        @if (prod.images && prod.images.length > 1) {
+                        <button type="button" class="nav-arrow nav-arrow-prev" (click)="selectImage(selectedImageIndex() === 0 ? prod.images.length - 1 : selectedImageIndex() - 1)"
+                            aria-label="Previous image">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M15 18l-6-6 6-6" />
+                            </svg>
+                        </button>
+                        <button type="button" class="nav-arrow nav-arrow-next" (click)="selectImage(selectedImageIndex() === prod.images.length - 1 ? 0 : selectedImageIndex() + 1)"
+                            aria-label="Next image">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M9 18l6-6-6-6" />
+                            </svg>
+                        </button>
+                        }
+                    </div>
+
+                    <!-- Thumbnails -->
+                    @if (prod.images && prod.images.length > 1) {
+                    <div class="thumbnails-container">
+                        <div class="d-flex gap-2 justify-content-center flex-wrap">
+                            @for (img of prod.images; track img; let i = $index) {
+                            <button type="button" class="thumbnail" [class.active]="selectedImageIndex() === i"
+                                (click)="selectImage(i)">
+                                <img [src]="img" [alt]="getProductName() + ' thumbnail ' + (i + 1)" loading="lazy">
+                            </button>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Product Information -->
+            <div class="col-12 col-lg-6">
+                <div class="product-info">
+                    <!-- Favourite & Title -->
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h1 class="product-title h4 fw-bold mb-0">{{ getProductName() }}</h1>
+                        <button type="button" class="btn-favourite" [class.active]="isFavourite()"
+                            (click)="handleToggleFavourite()" [attr.aria-label]="isFavourite() ? 'Remove from wishlist' : 'Add to wishlist'">
+                            <svg width="24" height="24" viewBox="0 0 24 24" [attr.fill]="isFavourite() ? '#fd7e35' : 'none'"
+                                [attr.stroke]="isFavourite() ? '#fd7e35' : 'currentColor'" stroke-width="2">
+                                <path
+                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Shop/Category Name -->
+                    <p class="shop-name text-muted mb-2">{{ prod.category.name }}</p>
+
+                    <!-- Price -->
+                    <div class="price-section mb-4">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="current-price h5 fw-bold text-dark-brown mb-0">
+                                {{ 'PRODUCT.PRICE' | translate }} {{ prod.price | price }}
+                            </span>
+                            @if (discountPercentage() > 0 && prod.compareAtPrice) {
+                            <span class="original-price text-muted text-decoration-line-through">
+                                {{ prod.compareAtPrice | price }}
+                            </span>
+                            <span class="discount-badge bg-primary text-white px-2 py-1 rounded-pill small">
+                                -{{ discountPercentage() }}%
+                            </span>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Size Selector -->
+                    @if (prod.sizes?.length) {
+                    <div class="size-section mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="section-label fw-semibold">{{ 'PRODUCT.SIZE' | translate }}</span>
+                        </div>
+                        <div class="size-options d-flex gap-2 flex-wrap">
+                            @for (size of prod.sizes; track size) {
+                            <button type="button" class="size-option" [class.active]="selectedSize() === size"
+                                (click)="selectSize(size)">
+                                {{ size }}
+                            </button>
+                            }
+                        </div>
+                        <a href="javascript:void(0)" class="size-guide-link mt-2 d-inline-block small text-dark-brown">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" class="me-1">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="16" x2="12" y2="12" />
+                                <line x1="12" y1="8" x2="12.01" y2="8" />
+                            </svg>
+                            {{ 'PRODUCT.SIZE_GUIDE' | translate }}
+                        </a>
+                    </div>
+                    }
+
+                    <!-- Color Selector -->
+                    @if (prod.colors?.length) {
+                    <div class="color-section mb-4">
+                        <span class="section-label fw-semibold d-block mb-2">{{ 'PRODUCT.COLOR' | translate }}</span>
+                        <div class="color-options d-flex gap-2 flex-wrap">
+                            @for (color of prod.colors; track color.name) {
+                            <button type="button" class="color-option" [class.active]="selectedColor() === color.name"
+                                [style.background-color]="color.hex" (click)="selectColor(color.name)"
+                                [attr.aria-label]="color.name" [title]="color.name">
+                            </button>
+                            }
+                        </div>
+                        @if (selectedColor()) {
+                        <span class="selected-color-name small text-muted mt-2 d-block">
+                            {{ selectedColor() }}
+                        </span>
+                        }
+                    </div>
+                    }
+
+                    <!-- Quantity Selector (optional, for when stock > 1) -->
+                    @if (prod.stockQuantity > 1) {
+                    <div class="quantity-section mb-4">
+                        <span class="section-label fw-semibold d-block mb-2">{{ 'PRODUCT.QUANTITY' | translate }}</span>
+                        <div class="quantity-selector d-flex align-items-center">
+                            <button type="button" class="qty-btn" (click)="decrementQuantity()"
+                                [disabled]="quantity() <= 1">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                            </button>
+                            <span class="qty-value">{{ quantity() }}</span>
+                            <button type="button" class="qty-btn" (click)="incrementQuantity()"
+                                [disabled]="quantity() >= prod.stockQuantity">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    }
+
+                    <!-- Add to Cart Button -->
+                    <button type="button" class="btn-add-to-cart w-100 mb-4" (click)="handleAddToCart()"
+                        [disabled]="!prod.inStock">
+                        @if (prod.inStock) {
+                        {{ 'PRODUCT.ADD_TO_CART' | translate }}
+                        } @else {
+                        {{ 'PRODUCT.OUT_OF_STOCK' | translate }}
+                        }
+                    </button>
+
+                    <!-- Stock Status -->
+                    <div class="stock-status mb-4">
+                        @if (prod.inStock) {
+                        <span class="badge bg-success-subtle text-success">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" class="me-1">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            {{ 'PRODUCT.IN_STOCK' | translate }}
+                            @if (prod.stockQuantity <= 5 && prod.stockQuantity > 0) {
+                            <span class="ms-1">({{ prod.stockQuantity }} {{ 'PRODUCT.LIMITED_STOCK' | translate }})</span>
+                            }
+                        </span>
+                        } @else {
+                        <span class="badge bg-danger-subtle text-danger">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" class="me-1">
+                                <line x1="18" y1="6" x2="6" y2="18" />
+                                <line x1="6" y1="6" x2="18" y2="18" />
+                            </svg>
+                            {{ 'PRODUCT.OUT_OF_STOCK' | translate }}
+                        </span>
+                        }
+                    </div>
+
+                    <!-- Product Details Section -->
+                    <div class="product-details-section">
+                        <!-- Rating -->
+                        @if (prod.rating) {
+                        <div class="detail-item d-flex align-items-center mb-3">
+                            <span class="detail-label fw-semibold me-2">{{ 'PRODUCT.RATING' | translate }} :</span>
+                            <span class="rating-value">{{ prod.rating }}</span>
+                            <p-rating [ngModel]="prod.rating" [readonly]="true" class="ms-2"></p-rating>
+                        </div>
+                        }
+
+                        <!-- Description -->
+                        <div class="detail-item mb-3">
+                            <span class="detail-label fw-semibold d-block mb-1">{{ 'PRODUCT.DESCRIPTION' | translate }} :</span>
+                            <p class="detail-value text-muted mb-0">{{ getProductDescription() }}</p>
+                        </div>
+
+                        <!-- SKU -->
+                        @if (prod.sku) {
+                        <div class="detail-item mb-3">
+                            <span class="detail-label fw-semibold">{{ 'PRODUCT.SKU' | translate }} :</span>
+                            <span class="detail-value text-muted ms-2">{{ prod.sku }}</span>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Products Section -->
+        @if (relatedProductCards().length > 0) {
+        <div class="related-products-section mt-5 pt-4">
+            <h2 class="section-title h5 fw-bold mb-4">{{ 'PRODUCT.RELATED_PRODUCTS' | translate }}</h2>
+            <div class="row g-4">
+                @for (relatedProduct of relatedProductCards(); track relatedProduct.id) {
+                <div class="col-6 col-md-4 col-lg-3">
+                    <app-product-card [product]="relatedProduct"
+                        [isFavourite]="favouriteIds().has(relatedProduct.id.toString())"
+                        (addToCart)="handleRelatedAddToCart($event)"
+                        (addToWishlist)="handleRelatedToggleFavourite($event)">
+                    </app-product-card>
+                </div>
+                }
+            </div>
+        </div>
+        }
+    </div>
+    }
+</div>

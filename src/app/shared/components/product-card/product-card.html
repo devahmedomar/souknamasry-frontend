@@ -1,4 +1,8 @@
-<div class="card product-card border-0 shadow-sm h-100 overflow-hidden">
+<div class="card product-card border-0 shadow-sm h-100 overflow-hidden"
+     [class.clickable]="product().slug"
+     (click)="navigateToProduct()"
+     [attr.role]="product().slug ? 'button' : null"
+     [attr.tabindex]="product().slug ? 0 : null">
   <div class="position-relative">
     <div class="product-image-container position-relative" style="width: 100%; aspect-ratio: 1/1;">
       <img [ngSrc]="product().imageUrl || product().image || '/images/placeholder.svg'" [alt]="product().title" class="card-img-top product-image" fill />

@@ -60,11 +60,11 @@
         "SHARE": "Share",
         "IN_STOCK": "In Stock",
         "OUT_OF_STOCK": "Out of Stock",
-        "LIMITED_STOCK": "Limited Stock",
+        "LIMITED_STOCK": "left",
         "AVAILABLE": "Available",
         "UNAVAILABLE": "Unavailable",
-        "SELECT_SIZE": "Select Size",
-        "SELECT_COLOR": "Select Color",
+        "SELECT_SIZE": "Please select a size",
+        "SELECT_COLOR": "Please select a color",
         "QUANTITY": "Quantity",
         "PRICE": "Price",
         "DISCOUNT": "Discount",
@@ -86,7 +86,8 @@
         "PRODUCT_ADDED_TO_WISHLIST": "Product added to wishlist",
         "PRODUCT_REMOVED_FROM_WISHLIST": "Product removed from wishlist",
         "COLOR": "Color",
-        "SIZE": "Size"
+        "SIZE": "Size",
+        "NOT_FOUND": "Product not found"
     },
     "CART": {
         "ADD_SUCCESS": "Product added to cart successfully",
@@ -303,6 +304,7 @@
             "REGISTER_ERROR": "Registration failed. Please try again.",
             "SUCCESS": "Success",
             "ERROR": "Error",
+            "WARNING": "Warning",
             "LOGOUT_SUCCESS": "Logged out successfully",
             "SESSION_EXPIRED": "Your session has expired. Please log in again."
         }

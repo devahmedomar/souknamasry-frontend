@@ -20,6 +20,14 @@ export const routes: Routes = [
         title: 'Products - Souknamasry',
       },
       {
+        path: 'product/:slug',
+        loadComponent: () =>
+          import('./features/products/pages/product-detail-page/product-detail-page').then(
+            (m) => m.ProductDetailPage
+          ),
+        title: 'Product Details - Souknamasry',
+      },
+      {
         path: 'cart',
         loadChildren: () =>
           import('./features/cart/cart.routes').then((m) => m.cartRoutes),

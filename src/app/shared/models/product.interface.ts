@@ -39,3 +39,81 @@ export interface ProductsResponse {
         pages: number;
     };
 }
+
+// Product Details API Response interfaces
+export interface ProductCategory {
+    _id: string;
+    name: string;
+    nameAr?: string;
+    slug: string;
+    image: string;
+    description: string;
+    path?: string;
+    breadcrumb?: { _id: string; name: string; nameAr?: string; slug: string; path?: string }[];
+}
+
+export interface ProductDetails {
+    _id: string;
+    name: string;
+    nameAr?: string;
+    description: string;
+    descriptionAr?: string;
+    slug: string;
+    price: number;
+    compareAtPrice?: number;
+    category: ProductCategory;
+    images: string[];
+    inStock: boolean;
+    stockQuantity: number;
+    sku?: string;
+    isActive: boolean;
+    isFeatured: boolean;
+    views: number;
+    sizes?: string[];
+    colors?: ProductColor[];
+    rating?: number;
+    reviewCount?: number;
+    createdAt: Date;
+    updatedAt: Date;
+    relatedProducts: RelatedProduct[];
+}
+
+export interface ProductColor {
+    name: string;
+    nameAr?: string;
+    hex: string;
+}
+
+export interface RelatedProduct {
+    _id: string;
+    name: string;
+    nameAr?: string;
+    description: string;
+    slug: string;
+    price: number;
+    compareAtPrice?: number;
+    category: string;
+    images: string[];
+    inStock: boolean;
+    stockQuantity: number;
+    sku?: string;
+    isActive: boolean;
+    isFeatured: boolean;
+    views: number;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface ProductDetailsResponse {
+    status: 'success';
+    data: ProductDetails;
+}
+
+// Breadcrumb item for product details page
+export interface BreadcrumbItem {
+    _id: string;
+    name: string;
+    nameAr?: string;
+    slug: string;
+    path?: string;
+}

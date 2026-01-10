@@ -7,13 +7,4 @@ export const productRoutes: Routes = [
       import('./pages/categories/categories').then((m) => m.Categories),
     title: 'Products - Souknamasry',
   },
-  // Product Detail Page
-  {
-    path: ':id',
-    loadComponent: () =>
-      import('./pages/product-detail-page/product-detail-page').then(
-        (m) => m.ProductDetailPage
-      ),
-    title: 'Product Details - Souknamasry',
-  },
 ];

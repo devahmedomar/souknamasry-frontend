@@ -55,4 +55,15 @@ export class CategoriesService {
             })
         );
     }
+
+    getCategoryBreadcrumb(categoryId: string): Observable<{ _id: string; name: string; nameAr?: string; slug: string }[]> {
+        return this.http.get<{
+            status: string;
+            data: {
+                breadcrumb: { _id: string; name: string; nameAr?: string; slug: string }[];
+            };
+        }>(`${environment.apiUrl}categories/${categoryId}/breadcrumb`).pipe(
+            map(res => res.data.breadcrumb)
+        );
+    }
 }

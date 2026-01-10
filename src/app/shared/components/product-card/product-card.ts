@@ -1,6 +1,7 @@
-import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, output, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Rating } from 'primeng/rating';
 import { ButtonModule } from 'primeng/button';
 import { IProductCard } from '../../models/productCard';
@@ -16,6 +17,8 @@ import { PricePipe } from '../../pipes/price.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCard {
+  private router = inject(Router);
+
   product = input.required<IProductCard>();
   isFavourite = input<boolean>(false);
 
@@ -24,11 +27,20 @@ export class ProductCard {
 
   onAddToCart(event: Event) {
     event.stopPropagation();
+    event.preventDefault();
     this.addToCart.emit(this.product());
   }
 
   onAddToWishlist(event: Event) {
     event.stopPropagation();
+    event.preventDefault();
     this.addToWishlist.emit(this.product());
+  }
+
+  navigateToProduct() {
+    const prod = this.product();
+    if (prod.slug) {
+      this.router.navigate(['/product', prod.slug]);
+    }
   }
 }

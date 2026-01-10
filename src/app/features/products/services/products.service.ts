@@ -25,6 +25,7 @@ export class ProductsService {
         return {
             id: p._id,
             title: p.name,
+            slug: p.slug,
             category: p.category?.name || '',
             price: p.price,
             currency: 'جنيها', // Assuming EGP for now
