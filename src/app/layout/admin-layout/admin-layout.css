@@ -1,0 +1,16 @@
+.sidebar {
+  flex-shrink: 0;
+}
+
+.sidebar .nav-link {
+  transition: background-color 0.2s;
+}
+
+.sidebar .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .nav-link.active {
+  background-color: #007bff;
+  border-left: 4px solid #fff;
+}

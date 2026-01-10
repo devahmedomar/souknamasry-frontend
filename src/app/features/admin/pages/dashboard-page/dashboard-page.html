@@ -1,0 +1,52 @@
+<div class="container-fluid p-4">
+  <!-- Welcome Header -->
+  <div class="mb-4">
+    <h1 class="h2 mb-2">Welcome, {{ currentUser()?.firstName }}!</h1>
+    <p class="text-muted">Manage your e-commerce platform from here</p>
+  </div>
+
+  <!-- Dashboard Stats Grid -->
+  <div class="row g-3 mb-4">
+    <div class="col-12 col-md-6 col-lg-3" *ngFor="let stat of stats">
+      <p-card>
+        <div class="d-flex align-items-center">
+          <div class="stat-icon {{ stat.color }} text-white rounded-circle d-flex align-items-center justify-content-center me-3">
+            <i class="{{ stat.icon }}" style="font-size: 1.5rem;"></i>
+          </div>
+          <div>
+            <p class="text-muted mb-1 small">{{ stat.label }}</p>
+            <h3 class="mb-0">{{ stat.value }}</h3>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="p-3">
+        <h5 class="mb-0">Quick Actions</h5>
+      </div>
+    </ng-template>
+    <div class="row g-3">
+      <div class="col-12 col-md-4" *ngFor="let action of quickActions">
+        <p-button
+          [label]="action.title"
+          [icon]="action.icon"
+          styleClass="w-100 p-button-outlined"
+          size="large">
+          <ng-template pTemplate="content">
+            <div class="text-start w-100">
+              <div class="d-flex align-items-center mb-2">
+                <i class="{{ action.icon }} me-2" style="font-size: 1.5rem;"></i>
+                <span class="fw-bold">{{ action.title }}</span>
+              </div>
+              <small class="text-muted">{{ action.description }}</small>
+            </div>
+          </ng-template>
+        </p-button>
+      </div>
+    </div>
+  </p-card>
+</div>

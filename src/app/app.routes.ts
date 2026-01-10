@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './layout/main-layout/main-layout';
 import { AuthLayout } from './layout/auth-layout/auth-layout';
+import { AdminLayout } from './layout/admin-layout/admin-layout';
+import { adminGuard } from './shared/guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -66,5 +68,18 @@ export const routes: Routes = [
         title: 'Auth - Souknamasry',
       },
     ],
-  }
+  },
+  {
+    path: 'admin',
+    component: AdminLayout,
+    canActivate: [adminGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./features/admin/admin.routes').then((m) => m.adminRoutes),
+        title: 'Admin - Souknamasry',
+      },
+    ],
+  },
 ];
