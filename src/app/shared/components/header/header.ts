@@ -9,6 +9,7 @@ import { FavouritesService } from '../../../features/favourites/services/favouri
 import { FavouritesStateService } from '../../../features/favourites/services/favourites-state.service';
 import { AuthService } from '../../../features/auth/services/auth.service';
 import { ToastService } from '../../services/toast.service';
+import { SearchComponent } from '../search/search';
 
 /**
  * Header Component
@@ -20,7 +21,7 @@ import { ToastService } from '../../services/toast.service';
  */
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, FormsModule, TranslateModule, CommonModule],
+  imports: [RouterLink, FormsModule, TranslateModule, CommonModule, SearchComponent],
   templateUrl: './header.html',
   styleUrl: './header.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

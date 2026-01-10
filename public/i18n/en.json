@@ -206,7 +206,19 @@
         "POPULAR_SEARCHES": "Popular Searches",
         "RECENT_SEARCHES": "Recent Searches",
         "CLEAR_HISTORY": "Clear History",
-        "SEARCH_FOR": "Search for \"{{query}}\""
+        "SEARCH_FOR": "Search for \"{{query}}\"",
+        "LOADING": "Loading...",
+        "SEARCHING": "Searching...",
+        "TITLE": "Search",
+        "RESULTS_FOR": "Search Results for",
+        "PRODUCTS_FOUND": "products found",
+        "SORT_BY": "Sort by",
+        "NO_RESULTS_MESSAGE": "No products found for",
+        "TRY_DIFFERENT": "Try different keywords or check your spelling"
+    },
+    "PAGINATION": {
+        "PREVIOUS": "Previous",
+        "NEXT": "Next"
     },
     "HEADER": {
         "SEARCH_PLACEHOLDER": "Search",

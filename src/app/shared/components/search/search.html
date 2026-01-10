@@ -1,0 +1,56 @@
+<div class="search-container">
+  <div class="search-input-wrapper">
+    <input
+      type="text"
+      class="search-input"
+      [ngModel]="searchQuery()"
+      (ngModelChange)="onSearchInput($event)"
+      (keyup.enter)="onSearch()"
+      (blur)="onBlur()"
+      (focus)="onFocus()"
+      [placeholder]="'SEARCH.PLACEHOLDER' | translate"
+    />
+    <button class="search-button" (click)="onSearch()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+    </button>
+  </div>
+
+  @if (showSuggestions()) {
+    <div class="suggestions-dropdown">
+      @if (loading()) {
+        <div class="suggestion-loading">
+          <p>{{ 'SEARCH.LOADING' | translate }}</p>
+        </div>
+      }
+      @if (!loading() && suggestions().length > 0) {
+        <div class="suggestions-list">
+          @for (suggestion of suggestions(); track suggestion._id) {
+            <div
+              class="suggestion-item"
+              (click)="onSuggestionClick(suggestion)"
+            >
+              <img
+                [src]="suggestion.image || 'assets/placeholder.jpg'"
+                [alt]="suggestion.name"
+                class="suggestion-image"
+                loading="lazy"
+              />
+              <div class="suggestion-details">
+                <h4 class="suggestion-name">{{ suggestion.name }}</h4>
+                @if (suggestion.category) {
+                  <p class="suggestion-category">
+                    {{ suggestion.category.name }}
+                  </p>
+                }
+                <p class="suggestion-price">{{ suggestion.price }} جنيها</p>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

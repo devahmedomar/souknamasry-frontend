@@ -10,11 +10,9 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <form class="d-flex flex-1 search-form grow w-100" role="search">
-        <input class="form-control me-2 bg-secondary" type="search"
-          [placeholder]="'HEADER.SEARCH_PLACEHOLDER' | translate"
-          [aria-label]="'HEADER.SEARCH_PLACEHOLDER' | translate" />
-      </form>
+      <div class="d-flex flex-1 search-form grow w-100">
+        <app-search></app-search>
+      </div>
       <ul class="navbar-nav mb-2 mb-lg-0 d-flex flex-row align-items-center ms-auto justify-self-end">
         <!-- User Menu -->
         <li class="nav-item me-3 dropdown">

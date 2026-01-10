@@ -208,7 +208,19 @@
         "POPULAR_SEARCHES": "البحث الشائع",
         "RECENT_SEARCHES": "عمليات البحث الأخيرة",
         "CLEAR_HISTORY": "مسح السجل",
-        "SEARCH_FOR": "البحث عن \"{{query}}\""
+        "SEARCH_FOR": "البحث عن \"{{query}}\"",
+        "LOADING": "جاري التحميل...",
+        "SEARCHING": "جاري البحث...",
+        "TITLE": "بحث",
+        "RESULTS_FOR": "نتائج البحث عن",
+        "PRODUCTS_FOUND": "منتج",
+        "SORT_BY": "ترتيب حسب",
+        "NO_RESULTS_MESSAGE": "لم يتم العثور على منتجات لـ",
+        "TRY_DIFFERENT": "جرب كلمات مفتاحية مختلفة أو تحقق من الإملاء"
+    },
+    "PAGINATION": {
+        "PREVIOUS": "السابق",
+        "NEXT": "التالي"
     },
     "HEADER": {
         "SEARCH_PLACEHOLDER": "بحث",

@@ -117,3 +117,50 @@ export interface BreadcrumbItem {
     slug: string;
     path?: string;
 }
+
+// Search-related interfaces
+export interface ProductSearchParams {
+    search?: string;
+    category?: string | string[];
+    categories?: string[];
+    minPrice?: number;
+    maxPrice?: number;
+    page?: number;
+    limit?: number;
+    sort?: 'newest' | 'price-low' | 'price-high' | 'featured' | 'relevance';
+    inStock?: boolean;
+}
+
+export interface AutocompleteSuggestion {
+    _id: string;
+    name: string;
+    nameAr?: string;
+    slug: string;
+    price: number;
+    image?: string;
+    category?: {
+        _id: string;
+        name: string;
+        slug: string;
+    };
+}
+
+export interface AutocompleteResponse {
+    status: 'success';
+    data: {
+        suggestions: AutocompleteSuggestion[];
+    };
+}
+
+export interface ProductListResponse {
+    status: 'success';
+    data: {
+        products: ProductDetails[];
+        pagination: {
+            total: number;
+            page: number;
+            pages: number;
+            limit: number;
+        };
+    };
+}

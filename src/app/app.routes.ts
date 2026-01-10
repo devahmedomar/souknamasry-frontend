@@ -28,6 +28,14 @@ export const routes: Routes = [
         title: 'Product Details - Souknamasry',
       },
       {
+        path: 'search',
+        loadComponent: () =>
+          import('./features/products/pages/search-results-page/search-results-page').then(
+            (m) => m.SearchResultsPage
+          ),
+        title: 'Search Results - Souknamasry',
+      },
+      {
         path: 'cart',
         loadChildren: () =>
           import('./features/cart/cart.routes').then((m) => m.cartRoutes),
