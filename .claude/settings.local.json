@@ -9,7 +9,8 @@
       "Bash(du:*)",
       "Bash(dir:*)",
       "Bash(findstr:*)",
-      "Bash(ng generate:*)"
+      "Bash(ng generate:*)",
+      "Bash(find:*)"
     ]
   }
 }
