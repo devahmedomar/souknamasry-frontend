@@ -12,8 +12,28 @@ export const adminRoutes: Routes = [
       import('./pages/dashboard-page/dashboard-page').then((m) => m.DashboardPage),
     title: 'Admin Dashboard - Souknamasry',
   },
-  // Future routes:
-  // { path: 'products', ... }
-  // { path: 'orders', ... }
-  // { path: 'users', ... }
+  {
+    path: 'categories',
+    loadComponent: () =>
+      import('./pages/categories-page/categories-page').then((m) => m.CategoriesPage),
+    title: 'Category Management - Souknamasry',
+  },
+  {
+    path: 'users',
+    loadComponent: () =>
+      import('./pages/users-page/users-page').then((m) => m.UsersPage),
+    title: 'User Management - Souknamasry',
+  },
+  {
+    path: 'products',
+    loadComponent: () =>
+      import('./pages/products-page/products-page').then((m) => m.ProductsPage),
+    title: 'Product Management - Souknamasry',
+  },
+  {
+    path: 'orders',
+    loadComponent: () =>
+      import('./pages/orders-page/orders-page').then((m) => m.OrdersPage),
+    title: 'Order Management - Souknamasry',
+  },
 ];

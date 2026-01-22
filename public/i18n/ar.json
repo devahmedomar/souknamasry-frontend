@@ -44,7 +44,8 @@
         "WISHLIST": "المفضلة",
         "ORDERS": "طلباتي",
         "LOGOUT": "تسجيل الخروج",
-        "LOGIN": "تسجيل الدخول"
+        "LOGIN": "تسجيل الدخول",
+        "ADMIN_DASHBOARD": "لوحة التحكم"
     },
     "PRODUCT": {
         "ADD_TO_CART": "حطها في الشنطة",

@@ -10,7 +10,11 @@
       "Bash(dir:*)",
       "Bash(findstr:*)",
       "Bash(ng generate:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(del nul:*)",
+      "Bash(git diff:*)",
+      "Bash(npm start)",
+      "Bash(npm install:*)"
     ]
   }
 }

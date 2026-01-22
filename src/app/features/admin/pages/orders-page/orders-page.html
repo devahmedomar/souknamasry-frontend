@@ -1,0 +1,414 @@
+<div class="container-fluid p-4" ngSkipHydration>
+  <!-- Header -->
+  <div class="page-header">
+    <h1>📦 Order Management</h1>
+    <p>Manage all customer orders</p>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-card">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label small text-muted">Search Order Number</label>
+          <span class="p-input-icon-left w-100">
+            <i class="pi pi-search"></i>
+            <input
+              type="text"
+              pInputText
+              placeholder="Search by order number..."
+              class="w-100"
+              [(ngModel)]="searchTerm"
+              (keyup.enter)="onSearch()"
+            />
+          </span>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small text-muted">Order Status</label>
+          <p-select
+            [options]="orderStatusOptions"
+            [(ngModel)]="selectedOrderStatus"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Select Status"
+            class="w-100"
+            (onChange)="onFilterChange()"
+          ></p-select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small text-muted">Payment Status</label>
+          <p-select
+            [options]="paymentStatusOptions"
+            [(ngModel)]="selectedPaymentStatus"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Select Payment"
+            class="w-100"
+            (onChange)="onFilterChange()"
+          ></p-select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small text-muted">Start Date</label>
+          <p-datepicker
+            [(ngModel)]="startDate"
+            dateFormat="yy-mm-dd"
+            placeholder="Start Date"
+            class="w-100"
+            (onSelect)="onFilterChange()"
+            [showIcon]="true"
+          ></p-datepicker>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label small text-muted">End Date</label>
+          <p-datepicker
+            [(ngModel)]="endDate"
+            dateFormat="yy-mm-dd"
+            placeholder="End Date"
+            class="w-100"
+            (onSelect)="onFilterChange()"
+            [showIcon]="true"
+          ></p-datepicker>
+        </div>
+        <div class="col-md-1 d-flex align-items-end">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-search"
+            class="w-100"
+            (click)="onSearch()"
+            pTooltip="Search"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Orders Table -->
+  <div class="table-card">
+    <p-table
+        [value]="orders()"
+        [loading]="loading()"
+        [paginator]="true"
+        [rows]="rowsPerPage()"
+        [totalRecords]="totalRecords()"
+        [lazy]="true"
+        (onLazyLoad)="onPageChange($event)"
+        [rowsPerPageOptions]="[10, 20, 50, 100]"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} orders"
+        styleClass="p-datatable-striped"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Order #</th>
+            <th>Customer</th>
+            <th>Items</th>
+            <th>Total Amount</th>
+            <th>Order Status</th>
+            <th>Payment Status</th>
+            <th>Date</th>
+            <th style="width: 250px;">Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-order>
+          <tr>
+            <td>
+              <strong>{{ order.orderNumber }}</strong>
+            </td>
+            <td>
+              <div>
+                <strong>{{ order.user.firstName }} {{ order.user.lastName }}</strong>
+                <br /><small class="text-muted">{{ order.user.email }}</small>
+              </div>
+            </td>
+            <td>{{ order.items.length }} item(s)</td>
+            <td>
+              <strong>{{ formatCurrency(order.total) }}</strong>
+            </td>
+            <td>
+              <p-tag
+                [value]="order.status"
+                [severity]="getOrderStatusSeverity(order.status)"
+              ></p-tag>
+            </td>
+            <td>
+              <p-tag
+                [value]="order.paymentStatus"
+                [severity]="getPaymentStatusSeverity(order.paymentStatus)"
+              ></p-tag>
+            </td>
+            <td>{{ order.createdAt | date: 'short' }}</td>
+            <td>
+              <div class="d-flex gap-2">
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-eye"
+                  class="p-button-rounded p-button-text p-button-sm"
+                  pTooltip="View Details"
+                  (click)="openDetailsDialog(order)"
+                ></button>
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-refresh"
+                  class="p-button-rounded p-button-text p-button-sm"
+                  pTooltip="Update Order Status"
+                  (click)="openOrderStatusDialog(order)"
+                ></button>
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-dollar"
+                  class="p-button-rounded p-button-text p-button-sm"
+                  pTooltip="Update Payment Status"
+                  (click)="openPaymentStatusDialog(order)"
+                ></button>
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-text p-button-danger p-button-sm"
+                  pTooltip="Delete"
+                  (click)="deleteOrder(order)"
+                ></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="8" class="text-center py-5">
+              <i class="pi pi-shopping-cart" style="font-size: 4rem; color: #cbd5e1;"></i>
+              <p class="text-muted mt-3 mb-0" style="font-size: 1.125rem; font-weight: 500;">No orders found</p>
+              <p class="text-muted" style="font-size: 0.875rem;">Orders will appear here once customers make purchases</p>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+  </div>
+</div>
+
+<!-- Order Details Dialog -->
+<p-dialog
+  [(visible)]="showDetailsDialog"
+  header="📋 Order Details"
+  [modal]="true"
+  [style]="{ width: '800px' }"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="closeDetailsDialog()"
+>
+  @if (selectedOrder()) {
+    <div class="order-details">
+      <!-- Order Info -->
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h6 class="text-muted">Order Number</h6>
+          <p class="fw-bold">{{ selectedOrder()!.orderNumber }}</p>
+        </div>
+        <div class="col-md-6">
+          <h6 class="text-muted">Order Date</h6>
+          <p>{{ selectedOrder()!.createdAt | date: 'medium' }}</p>
+        </div>
+      </div>
+
+      <!-- Customer Info -->
+      <div class="mb-4">
+        <h6 class="text-muted">Customer Information</h6>
+        <p class="mb-1">
+          <strong>{{ selectedOrder()!.user.firstName }} {{ selectedOrder()!.user.lastName }}</strong>
+        </p>
+        <p class="mb-1">{{ selectedOrder()!.user.email }}</p>
+      </div>
+
+      <!-- Shipping Address -->
+      <div class="mb-4">
+        <h6 class="text-muted">Shipping Address</h6>
+        <p class="mb-1">
+          {{ selectedOrder()!.shippingAddress.name }}
+        </p>
+        <p class="mb-1">{{ selectedOrder()!.shippingAddress.phone }}</p>
+        <p class="mb-0">{{ getFullAddress(selectedOrder()!) }}</p>
+      </div>
+
+      <!-- Order Items -->
+      <div class="mb-4">
+        <h6 class="text-muted mb-3">Order Items</h6>
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of selectedOrder()!.items; track item.product) {
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      @if (item.productSnapshot.image) {
+                        <img
+                          [src]="item.productSnapshot.image"
+                          [alt]="item.productSnapshot.name"
+                          class="rounded me-2"
+                          width="40"
+                          height="40"
+                          style="object-fit: cover;"
+                        />
+                      }
+                      <span>{{ item.productSnapshot.name }}</span>
+                    </div>
+                  </td>
+                  <td>{{ formatCurrency(item.price) }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>{{ formatCurrency(item.totalPrice) }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="mb-3">
+        <div class="d-flex justify-content-between mb-2">
+          <span>Subtotal:</span>
+          <span>{{ formatCurrency(selectedOrder()!.subtotal) }}</span>
+        </div>
+        <div class="d-flex justify-content-between mb-2">
+          <span>Shipping:</span>
+          <span>{{ formatCurrency(selectedOrder()!.shippingCost) }}</span>
+        </div>
+        <div class="d-flex justify-content-between mb-2">
+          <span>Discount:</span>
+          <span>{{ formatCurrency(selectedOrder()!.discount) }}</span>
+        </div>
+        <hr />
+        <div class="d-flex justify-content-between">
+          <strong>Total:</strong>
+          <strong>{{ formatCurrency(selectedOrder()!.total) }}</strong>
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div class="row">
+        <div class="col-md-6">
+          <h6 class="text-muted">Order Status</h6>
+          <p-tag
+            [value]="selectedOrder()!.status"
+            [severity]="getOrderStatusSeverity(selectedOrder()!.status)"
+          ></p-tag>
+        </div>
+        <div class="col-md-6">
+          <h6 class="text-muted">Payment Status</h6>
+          <p-tag
+            [value]="selectedOrder()!.paymentStatus"
+            [severity]="getPaymentStatusSeverity(selectedOrder()!.paymentStatus)"
+          ></p-tag>
+        </div>
+      </div>
+
+      @if (selectedOrder()!.notes) {
+        <div class="mt-3">
+          <h6 class="text-muted">Notes</h6>
+          <p>{{ selectedOrder()!.notes }}</p>
+        </div>
+      }
+    </div>
+  }
+</p-dialog>
+
+<!-- Update Order Status Dialog -->
+<p-dialog
+  [(visible)]="showStatusDialog"
+  header="🔄 Update Order Status"
+  [modal]="true"
+  [style]="{ width: '400px' }"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="closeStatusDialog()"
+>
+  <div class="mb-3">
+    <label class="form-label">Order Status <span class="text-danger">*</span></label>
+    <p-select
+      [options]="orderStatusSelectOptions"
+      [(ngModel)]="newOrderStatus"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Select Status"
+      [appendTo]="'body'"
+      class="w-100"
+    ></p-select>
+  </div>
+
+  <div class="d-flex justify-content-end gap-2 mt-4">
+    <button
+      pButton
+      type="button"
+      label="Cancel"
+      class="p-button-secondary"
+      (click)="closeStatusDialog()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Update Status"
+      class="p-button-primary"
+      (click)="updateOrderStatus()"
+    ></button>
+  </div>
+</p-dialog>
+
+<!-- Update Payment Status Dialog -->
+<p-dialog
+  [(visible)]="showPaymentDialog"
+  header="💳 Update Payment Status"
+  [modal]="true"
+  [style]="{ width: '400px' }"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="closePaymentDialog()"
+>
+  <div class="mb-3">
+    <label class="form-label">Payment Status <span class="text-danger">*</span></label>
+    <p-select
+      [options]="paymentStatusSelectOptions"
+      [(ngModel)]="newPaymentStatus"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Select Status"
+      [appendTo]="'body'"
+      class="w-100"
+    ></p-select>
+  </div>
+
+  <div class="d-flex justify-content-end gap-2 mt-4">
+    <button
+      pButton
+      type="button"
+      label="Cancel"
+      class="p-button-secondary"
+      (click)="closePaymentDialog()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Update Status"
+      class="p-button-primary"
+      (click)="updatePaymentStatus()"
+    ></button>
+  </div>
+</p-dialog>
+
+<!-- Toast for notifications -->
+<p-toast position="top-right"></p-toast>
+
+<!-- Confirmation dialog -->
+<p-confirmDialog></p-confirmDialog>

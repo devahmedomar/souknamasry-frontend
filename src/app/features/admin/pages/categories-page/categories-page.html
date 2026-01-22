@@ -1,0 +1,243 @@
+<div class="container-fluid p-4">
+  <!-- Header -->
+  <div class="page-header d-flex justify-content-between align-items-center">
+    <div>
+      <h1>🏷️ Category Management</h1>
+      <p>Organize and manage your product categories</p>
+    </div>
+    <p-button
+      label="Add Category"
+      icon="pi pi-plus"
+      styleClass="add-button"
+      (onClick)="openCreateDialog()">
+    </p-button>
+  </div>
+
+  <!-- Categories Table -->
+  <div class="table-card">
+    <p-table
+    #dt
+    [value]="categories()"
+    [loading]="loading()"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} categories"
+    [globalFilterFields]="['name', 'description']"
+    styleClass="p-datatable-gridlines">
+
+    <ng-template pTemplate="caption">
+      <div class="d-flex align-items-center">
+        <i class="pi pi-search me-2" style="color: #667eea; font-size: 1.25rem;"></i>
+        <input
+          pInputText
+          type="text"
+          placeholder="Search categories..."
+          class="form-control"
+          (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="name">
+          Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th>Description</th>
+        <th pSortableColumn="parent">
+          Parent <p-sortIcon field="parent"></p-sortIcon>
+        </th>
+        <th>Image</th>
+        <th pSortableColumn="isActive">
+          Status <p-sortIcon field="isActive"></p-sortIcon>
+        </th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-category>
+      <tr>
+        <td>
+          <strong>{{ category.name }}</strong>
+        </td>
+        <td>
+          <span class="text-muted">
+            {{ category.description || '-' }}
+          </span>
+        </td>
+        <td>{{ getParentName(category) }}</td>
+        <td>
+          <img
+            *ngIf="category.image"
+            [src]="category.image"
+            [alt]="category.name"
+            class="category-thumbnail" />
+          <div *ngIf="!category.image" class="category-placeholder">
+            <i class="pi pi-image"></i>
+          </div>
+        </td>
+        <td>
+          <p-tag
+            [value]="category.isActive ? 'Active' : 'Inactive'"
+            [severity]="category.isActive ? 'success' : 'danger'">
+          </p-tag>
+        </td>
+        <td>
+          <div class="d-flex gap-2">
+            <p-button
+              icon="pi pi-pencil"
+              severity="info"
+              styleClass="p-button-sm p-button-text"
+              (onClick)="openEditDialog(category)"
+              pTooltip="Edit">
+            </p-button>
+            <p-button
+              [icon]="category.isActive ? 'pi pi-eye-slash' : 'pi pi-eye'"
+              [severity]="category.isActive ? 'warn' : 'success'"
+              styleClass="p-button-sm p-button-text"
+              (onClick)="toggleCategoryStatus(category)"
+              [pTooltip]="category.isActive ? 'Deactivate' : 'Activate'">
+            </p-button>
+            <p-button
+              icon="pi pi-trash"
+              severity="danger"
+              styleClass="p-button-sm p-button-text"
+              (onClick)="deleteCategory(category)"
+              pTooltip="Delete">
+            </p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center py-5">
+          <i class="pi pi-inbox" style="font-size: 4rem; color: #cbd5e1;"></i>
+          <p class="text-muted mt-3 mb-0" style="font-size: 1.125rem; font-weight: 500;">No categories found</p>
+          <p class="text-muted" style="font-size: 0.875rem;">Create your first category to get started</p>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  </div>
+</div>
+
+<!-- Create/Edit Dialog -->
+<p-dialog
+  [(visible)]="dialogVisible"
+  [header]="isEditMode() ? '✏️ Edit Category' : '➕ Create New Category'"
+  [modal]="true"
+  [style]="{ width: '600px' }"
+  [draggable]="false"
+  [resizable]="false">
+
+  <form [formGroup]="categoryForm" (ngSubmit)="saveCategory()">
+    <div class="row g-3">
+      <!-- Name -->
+      <div class="col-12">
+        <label for="name" class="form-label">
+          Name <span class="text-danger">*</span>
+        </label>
+        <input
+          id="name"
+          type="text"
+          pInputText
+          formControlName="name"
+          class="w-100"
+          placeholder="Enter category name" />
+        <small
+          *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched"
+          class="text-danger">
+          Name is required (2-100 characters)
+        </small>
+      </div>
+
+      <!-- Description -->
+      <div class="col-12">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          id="description"
+          p-textarea
+          formControlName="description"
+          class="w-100"
+          rows="3"
+          placeholder="Enter category description (optional)">
+        </textarea>
+        <small
+          *ngIf="categoryForm.get('description')?.invalid && categoryForm.get('description')?.touched"
+          class="text-danger">
+          Description must be less than 500 characters
+        </small>
+      </div>
+
+      <!-- Image URL -->
+      <div class="col-12">
+        <label for="image" class="form-label">Image URL</label>
+        <input
+          id="image"
+          type="text"
+          pInputText
+          formControlName="image"
+          class="w-100"
+          placeholder="Enter image URL (optional)" />
+      </div>
+
+      <!-- Parent Category -->
+      <div class="col-12">
+        <label for="parent" class="form-label">Parent Category</label>
+        <p-select
+          formControlName="parent"
+          [options]="parentCategories()"
+          optionLabel="name"
+          optionValue="_id"
+          placeholder="Select parent category (optional)"
+          [showClear]="true"
+          [appendTo]="'body'"
+          styleClass="w-100">
+        </p-select>
+        <small class="text-muted">
+          Leave empty to create a root category
+        </small>
+      </div>
+
+      <!-- Active Status -->
+      <div class="col-12">
+        <div class="form-check">
+          <p-checkbox
+            formControlName="isActive"
+            [binary]="true"
+            inputId="isActive">
+          </p-checkbox>
+          <label for="isActive" class="form-check-label ms-2">
+            Active
+          </label>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      severity="secondary"
+      styleClass="p-button-text"
+      (onClick)="closeDialog()">
+    </p-button>
+    <p-button
+      [label]="isEditMode() ? 'Update' : 'Create'"
+      icon="pi pi-check"
+      severity="primary"
+      (onClick)="saveCategory()"
+      [disabled]="categoryForm.invalid">
+    </p-button>
+  </ng-template>
+</p-dialog>
+
+<!-- Toast Messages -->
+<p-toast></p-toast>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog></p-confirmDialog>

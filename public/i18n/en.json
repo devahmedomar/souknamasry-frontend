@@ -44,7 +44,8 @@
         "WISHLIST": "Wishlist",
         "ORDERS": "My Orders",
         "LOGOUT": "Logout",
-        "LOGIN": "Login"
+        "LOGIN": "Login",
+        "ADMIN_DASHBOARD": "Admin Dashboard"
     },
     "PRODUCT": {
         "ADD_TO_CART": "Add to Cart",

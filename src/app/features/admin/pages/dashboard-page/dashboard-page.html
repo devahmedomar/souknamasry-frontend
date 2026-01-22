@@ -1,52 +1,282 @@
 <div class="container-fluid p-4">
   <!-- Welcome Header -->
-  <div class="mb-4">
-    <h1 class="h2 mb-2">Welcome, {{ currentUser()?.firstName }}!</h1>
-    <p class="text-muted">Manage your e-commerce platform from here</p>
+  <div class="welcome-header">
+    <h1>Welcome back, {{ currentUser()?.firstName }}! 👋</h1>
+    <p>Here's what's happening with your store today</p>
   </div>
 
-  <!-- Dashboard Stats Grid -->
-  <div class="row g-3 mb-4">
-    <div class="col-12 col-md-6 col-lg-3" *ngFor="let stat of stats">
-      <p-card>
-        <div class="d-flex align-items-center">
-          <div class="stat-icon {{ stat.color }} text-white rounded-circle d-flex align-items-center justify-content-center me-3">
-            <i class="{{ stat.icon }}" style="font-size: 1.5rem;"></i>
-          </div>
-          <div>
-            <p class="text-muted mb-1 small">{{ stat.label }}</p>
-            <h3 class="mb-0">{{ stat.value }}</h3>
+  @if (loading()) {
+    <div class="text-center py-5">
+      <i class="pi pi-spin pi-spinner" style="font-size: 3rem;"></i>
+      <p class="mt-3 text-muted">Loading dashboard...</p>
+    </div>
+  }
+
+  @if (!loading() && dashboardData()) {
+    <!-- Revenue Statistics -->
+    <div class="mb-4">
+      <div class="row g-4">
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="stat-card">
+            <div class="d-flex align-items-center">
+              <div class="stat-icon bg-primary-gradient text-white me-3">
+                <i class="pi pi-dollar" style="font-size: 1.5rem;"></i>
+              </div>
+              <div class="flex-grow-1">
+                <p class="stat-label">Total Revenue</p>
+                <h3 class="stat-value">{{ formatCurrency(dashboardData()!.revenue.totalRevenue) }}</h3>
+              </div>
+            </div>
           </div>
         </div>
-      </p-card>
-    </div>
-  </div>
-
-  <!-- Quick Actions -->
-  <p-card>
-    <ng-template pTemplate="header">
-      <div class="p-3">
-        <h5 class="mb-0">Quick Actions</h5>
-      </div>
-    </ng-template>
-    <div class="row g-3">
-      <div class="col-12 col-md-4" *ngFor="let action of quickActions">
-        <p-button
-          [label]="action.title"
-          [icon]="action.icon"
-          styleClass="w-100 p-button-outlined"
-          size="large">
-          <ng-template pTemplate="content">
-            <div class="text-start w-100">
-              <div class="d-flex align-items-center mb-2">
-                <i class="{{ action.icon }} me-2" style="font-size: 1.5rem;"></i>
-                <span class="fw-bold">{{ action.title }}</span>
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="stat-card">
+            <div class="d-flex align-items-center">
+              <div class="stat-icon bg-success-gradient text-white me-3">
+                <i class="pi pi-calendar" style="font-size: 1.5rem;"></i>
               </div>
-              <small class="text-muted">{{ action.description }}</small>
+              <div class="flex-grow-1">
+                <p class="stat-label">Monthly Revenue</p>
+                <h3 class="stat-value">{{ formatCurrency(dashboardData()!.revenue.monthlyRevenue) }}</h3>
+              </div>
             </div>
-          </ng-template>
-        </p-button>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="stat-card">
+            <div class="d-flex align-items-center">
+              <div class="stat-icon bg-info-gradient text-white me-3">
+                <i class="pi pi-sun" style="font-size: 1.5rem;"></i>
+              </div>
+              <div class="flex-grow-1">
+                <p class="stat-label">Daily Revenue</p>
+                <h3 class="stat-value">{{ formatCurrency(dashboardData()!.revenue.dailyRevenue) }}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="stat-card">
+            <div class="d-flex align-items-center">
+              <div class="stat-icon bg-warning-gradient text-white me-3">
+                <i class="pi pi-chart-line" style="font-size: 1.5rem;"></i>
+              </div>
+              <div class="flex-grow-1">
+                <p class="stat-label">Growth Rate</p>
+                <h3 class="stat-value">{{ dashboardData()!.revenue.revenueGrowth }}%</h3>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </p-card>
+
+    <!-- Orders & Products & Users Statistics -->
+    <div class="row g-4 mb-4">
+      <!-- Orders -->
+      <div class="col-12 col-lg-4">
+        <div class="info-card">
+          <div class="card-header-custom">
+            <h5>📦 Orders Overview</h5>
+          </div>
+          <div class="stats-list">
+            <div class="stat-item d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">Total Orders</span>
+              <strong>{{ dashboardData()!.orders.totalOrders }}</strong>
+            </div>
+            <div class="stat-item d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">Pending</span>
+              <p-tag [value]="dashboardData()!.orders.pendingOrders.toString()" severity="warn"></p-tag>
+            </div>
+            <div class="stat-item d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">Processing</span>
+              <p-tag [value]="dashboardData()!.orders.processingOrders.toString()" severity="info"></p-tag>
+            </div>
+            <div class="stat-item d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">Delivered</span>
+              <p-tag [value]="dashboardData()!.orders.deliveredOrders.toString()" severity="success"></p-tag>
+            </div>
+            <div class="stat-item d-flex justify-content-between align-items-center">
+              <span class="text-muted">Cancelled</span>
+              <p-tag [value]="dashboardData()!.orders.cancelledOrders.toString()" severity="danger"></p-tag>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products -->
+      <div class="col-12 col-lg-4">
+        <div class="info-card">
+          <div class="card-header-custom">
+            <h5>🛍️ Products Overview</h5>
+          </div>
+          <div class="stats-list">
+            <div class="stat-item d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">Total Products</span>
+              <strong>{{ dashboardData()!.products.totalProducts }}</strong>
+            </div>
+            <div class="stat-item d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">Active</span>
+              <p-tag [value]="dashboardData()!.products.activeProducts.toString()" severity="success"></p-tag>
+            </div>
+            <div class="stat-item d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">Inactive</span>
+              <p-tag [value]="dashboardData()!.products.inactiveProducts.toString()" severity="danger"></p-tag>
+            </div>
+            <div class="stat-item d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">In Stock</span>
+              <span class="badge bg-success">{{ dashboardData()!.products.inStockProducts }}</span>
+            </div>
+            <div class="stat-item d-flex justify-content-between align-items-center">
+              <span class="text-muted">Low Stock</span>
+              <span class="badge bg-warning">{{ dashboardData()!.products.lowStockProducts }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Users -->
+      <div class="col-12 col-lg-4">
+        <div class="info-card">
+          <div class="card-header-custom">
+            <h5>👥 Users Overview</h5>
+          </div>
+          <div class="stats-list">
+            <div class="stat-item d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">Total Users</span>
+              <strong>{{ dashboardData()!.users.totalUsers }}</strong>
+            </div>
+            <div class="stat-item d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">Active Users</span>
+              <p-tag [value]="dashboardData()!.users.activeUsers.toString()" severity="success"></p-tag>
+            </div>
+            <div class="stat-item d-flex justify-content-between align-items-center">
+              <span class="text-muted">New This Month</span>
+              <p-tag [value]="dashboardData()!.users.monthlyNewUsers.toString()" severity="info"></p-tag>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row g-4 mb-4">
+      <!-- Revenue Trend Chart -->
+      <div class="col-12 col-lg-8">
+        <div class="chart-card">
+          <div class="card-header-custom">
+            <h5>📈 Revenue Trend (Last 30 Days)</h5>
+          </div>
+          <div class="chart-wrapper">
+            @if (revenueChartData()) {
+              <div style="height: 300px;">
+                <p-chart type="line" [data]="revenueChartData()" [options]="revenueChartOptions()"></p-chart>
+              </div>
+            } @else {
+              <div class="text-center py-5">
+                <i class="pi pi-spin pi-spinner loading-spinner" style="font-size: 2rem; color: #667eea;"></i>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Sales by Category Chart -->
+      <div class="col-12 col-lg-4">
+        <div class="chart-card">
+          <div class="card-header-custom">
+            <h5>🎯 Sales by Category</h5>
+          </div>
+          <div class="chart-wrapper">
+            @if (categoryChartData()) {
+              <div style="height: 300px;">
+                <p-chart type="doughnut" [data]="categoryChartData()" [options]="categoryChartOptions()"></p-chart>
+              </div>
+            } @else {
+              <div class="text-center py-5">
+                <i class="pi pi-spin pi-spinner loading-spinner" style="font-size: 2rem; color: #667eea;"></i>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Orders & Top Selling Products -->
+    <div class="row g-4">
+      <!-- Recent Orders -->
+      <div class="col-12 col-lg-7">
+        <div class="modern-table">
+          <div class="card-header-custom d-flex justify-content-between align-items-center">
+            <h5>🕒 Recent Orders</h5>
+            <a routerLink="/admin/orders" class="btn btn-sm btn-link">View All →</a>
+          </div>
+          <p-table [value]="dashboardData()!.recentOrders" styleClass="p-datatable-sm">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Order #</th>
+                <th>Customer</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-order>
+              <tr>
+                <td>{{ order.orderNumber }}</td>
+                <td>{{ order.user.firstName }} {{ order.user.lastName }}</td>
+                <td>{{ formatCurrency(order.totalAmount) }}</td>
+                <td>
+                  <p-tag [value]="order.status" [severity]="getOrderStatusSeverity(order.status)"></p-tag>
+                </td>
+                <td>{{ order.createdAt | date: 'short' }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+
+      <!-- Top Selling Products -->
+      <div class="col-12 col-lg-5">
+        <div class="info-card">
+          <div class="card-header-custom d-flex justify-content-between align-items-center">
+            <h5>⭐ Top Selling Products</h5>
+            <a routerLink="/admin/products" class="btn btn-sm btn-link">View All →</a>
+          </div>
+          <div>
+            @for (product of dashboardData()!.topSellingProducts; track product._id) {
+              <div class="product-item d-flex align-items-center">
+                @if (product.images && product.images.length > 0) {
+                  <img [src]="product.images[0]" [alt]="product.name" class="product-image me-3">
+                } @else {
+                  <div class="product-placeholder me-3 d-flex align-items-center justify-content-center">
+                    <i class="pi pi-image text-muted" style="font-size: 1.5rem;"></i>
+                  </div>
+                }
+                <div class="flex-grow-1">
+                  <h6 class="mb-1" style="font-weight: 600; color: #2d3748;">{{ product.name }}</h6>
+                  <div class="d-flex align-items-center gap-2">
+                    <small class="text-muted">
+                      <i class="pi pi-shopping-cart me-1"></i>{{ product.totalSold }} sold
+                    </small>
+                    <small class="text-muted">•</small>
+                    <small style="color: #11998e; font-weight: 600;">
+                      {{ formatCurrency(product.revenue) }}
+                    </small>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (!loading() && !dashboardData()) {
+    <div class="text-center py-5">
+      <i class="pi pi-exclamation-circle" style="font-size: 3rem; color: #ff9800;"></i>
+      <p class="mt-3 text-muted">Please log in as an admin to view the dashboard</p>
+    </div>
+  }
 </div>

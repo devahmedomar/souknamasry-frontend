@@ -45,6 +45,12 @@ export class Header implements OnInit {
   // Check if user is logged in
   isLoggedIn = computed(() => !!this.authService.token());
 
+  // Check if user is admin
+  isAdmin = computed(() => {
+    const user = this.authService.currentUser();
+    return user?.role === 'admin';
+  });
+
   // Profile link based on login status
   profileLink = computed(() => this.isLoggedIn() ? '/user/profile' : '/auth/login');
 
