@@ -2,11 +2,11 @@
   <!-- Header -->
   <div class="page-header d-flex justify-content-between align-items-center">
     <div>
-      <h1>🛍️ Product Management</h1>
-      <p>Manage all products in your store</p>
+      <h1>🛍️ {{ 'ADMIN.PRODUCTS.TITLE' | translate }}</h1>
+      <p>{{ 'ADMIN.PRODUCTS.SUBTITLE' | translate }}</p>
     </div>
     <p-button
-      label="Add New Product"
+      [label]="'ADMIN.PRODUCTS.ADD_PRODUCT' | translate"
       icon="pi pi-plus"
       styleClass="add-button"
       (click)="openCreateDialog()">
@@ -18,13 +18,13 @@
     <div class="card-body">
       <div class="row g-3">
         <div class="col-md-3">
-          <label class="form-label small text-muted">Search</label>
+          <label class="form-label small text-muted">{{ 'ADMIN.PRODUCTS.SEARCH_LABEL' | translate }}</label>
           <span class="p-input-icon-left w-100">
             <i class="pi pi-search"></i>
             <input
               type="text"
               pInputText
-              placeholder="Search products..."
+              [placeholder]="'ADMIN.PRODUCTS.SEARCH_PLACEHOLDER' | translate"
               class="w-100"
               [(ngModel)]="searchTerm"
               (keyup.enter)="onSearch()"
@@ -32,37 +32,37 @@
           </span>
         </div>
         <div class="col-md-2">
-          <label class="form-label small text-muted">Category</label>
+          <label class="form-label small text-muted">{{ 'ADMIN.PRODUCTS.CATEGORY_LABEL' | translate }}</label>
           <p-select
             [options]="getCategoryOptions()"
             [(ngModel)]="selectedCategory"
             optionLabel="label"
             optionValue="value"
-            placeholder="Select Category"
+            [placeholder]="'ADMIN.PRODUCTS.SELECT_CATEGORY_PLACEHOLDER' | translate"
             class="w-100"
             (onChange)="onFilterChange()"
           ></p-select>
         </div>
         <div class="col-md-2">
-          <label class="form-label small text-muted">Status</label>
+          <label class="form-label small text-muted">{{ 'ADMIN.PRODUCTS.STATUS_LABEL' | translate }}</label>
           <p-select
             [options]="activeStatusOptions"
             [(ngModel)]="selectedActiveStatus"
             optionLabel="label"
             optionValue="value"
-            placeholder="Select Status"
+            [placeholder]="'ADMIN.PRODUCTS.SELECT_STATUS_PLACEHOLDER' | translate"
             class="w-100"
             (onChange)="onFilterChange()"
           ></p-select>
         </div>
         <div class="col-md-2">
-          <label class="form-label small text-muted">Stock</label>
+          <label class="form-label small text-muted">{{ 'ADMIN.PRODUCTS.STOCK_LABEL' | translate }}</label>
           <p-select
             [options]="stockStatusOptions"
             [(ngModel)]="selectedStockStatus"
             optionLabel="label"
             optionValue="value"
-            placeholder="Select Stock"
+            [placeholder]="'ADMIN.PRODUCTS.SELECT_STOCK_PLACEHOLDER' | translate"
             class="w-100"
             (onChange)="onFilterChange()"
           ></p-select>
@@ -71,7 +71,7 @@
           <button
             pButton
             type="button"
-            label="Search"
+            [label]="'ADMIN.PRODUCTS.SEARCH_BUTTON' | translate"
             icon="pi pi-search"
             class="w-100"
             (click)="onSearch()"
@@ -93,18 +93,18 @@
         (onLazyLoad)="onPageChange($event)"
         [rowsPerPageOptions]="[10, 20, 50, 100]"
         [showCurrentPageReport]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+        [currentPageReportTemplate]="'ADMIN.PRODUCTS.PAGINATION_TEXT' | translate"
         styleClass="p-datatable-striped"
       >
         <ng-template pTemplate="header">
           <tr>
-            <th style="width: 80px;">Image</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Status</th>
-            <th style="width: 250px;">Actions</th>
+            <th style="width: 80px;">{{ 'ADMIN.PRODUCTS.TABLE_IMAGE' | translate }}</th>
+            <th>{{ 'ADMIN.PRODUCTS.TABLE_NAME' | translate }}</th>
+            <th>{{ 'ADMIN.PRODUCTS.TABLE_CATEGORY' | translate }}</th>
+            <th>{{ 'ADMIN.PRODUCTS.TABLE_PRICE' | translate }}</th>
+            <th>{{ 'ADMIN.PRODUCTS.TABLE_STOCK' | translate }}</th>
+            <th>{{ 'ADMIN.PRODUCTS.TABLE_STATUS' | translate }}</th>
+            <th style="width: 250px;">{{ 'ADMIN.PRODUCTS.TABLE_ACTIONS' | translate }}</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-product>
@@ -136,14 +136,14 @@
               <div class="d-flex align-items-center gap-2">
                 <span>{{ product.stockQuantity }}</span>
                 <p-tag
-                  [value]="product.inStock ? 'In Stock' : 'Out of Stock'"
+                  [value]="(product.inStock ? 'ADMIN.PRODUCTS.STOCK_IN_STOCK' : 'ADMIN.PRODUCTS.STOCK_OUT_OF_STOCK') | translate"
                   [severity]="getStockSeverity(product.inStock)"
                 ></p-tag>
               </div>
             </td>
             <td>
               <p-tag
-                [value]="product.isActive ? 'Active' : 'Inactive'"
+                [value]="(product.isActive ? 'ADMIN.PRODUCTS.STATUS_ACTIVE' : 'ADMIN.PRODUCTS.STATUS_INACTIVE') | translate"
                 [severity]="getActiveSeverity(product.isActive)"
               ></p-tag>
             </td>
@@ -154,7 +154,7 @@
                   type="button"
                   icon="pi pi-pencil"
                   class="p-button-rounded p-button-text p-button-sm"
-                  pTooltip="Edit"
+                  [pTooltip]="'ADMIN.PRODUCTS.EDIT_TOOLTIP' | translate"
                   (click)="openEditDialog(product)"
                 ></button>
                 <button
@@ -162,7 +162,7 @@
                   type="button"
                   icon="pi pi-box"
                   class="p-button-rounded p-button-text p-button-sm"
-                  pTooltip="Update Stock"
+                  [pTooltip]="'ADMIN.PRODUCTS.UPDATE_STOCK_TOOLTIP' | translate"
                   (click)="openStockDialog(product)"
                 ></button>
                 <button
@@ -170,7 +170,7 @@
                   type="button"
                   [icon]="product.isActive ? 'pi pi-eye-slash' : 'pi pi-eye'"
                   class="p-button-rounded p-button-text p-button-sm"
-                  [pTooltip]="product.isActive ? 'Deactivate' : 'Activate'"
+                  [pTooltip]="(product.isActive ? 'ADMIN.PRODUCTS.DEACTIVATE_TOOLTIP' : 'ADMIN.PRODUCTS.ACTIVATE_TOOLTIP') | translate"
                   (click)="toggleProductActive(product)"
                 ></button>
                 <button
@@ -178,7 +178,7 @@
                   type="button"
                   icon="pi pi-trash"
                   class="p-button-rounded p-button-text p-button-danger p-button-sm"
-                  pTooltip="Delete"
+                  [pTooltip]="'ADMIN.PRODUCTS.DELETE_TOOLTIP' | translate"
                   (click)="deleteProduct(product)"
                 ></button>
               </div>
@@ -189,8 +189,8 @@
           <tr>
             <td colspan="7" class="text-center py-5">
               <i class="pi pi-box" style="font-size: 4rem; color: #cbd5e1;"></i>
-              <p class="text-muted mt-3 mb-0" style="font-size: 1.125rem; font-weight: 500;">No products found</p>
-              <p class="text-muted" style="font-size: 0.875rem;">Add your first product to get started</p>
+              <p class="text-muted mt-3 mb-0" style="font-size: 1.125rem; font-weight: 500;">{{ 'ADMIN.PRODUCTS.NO_PRODUCTS_FOUND' | translate }}</p>
+              <p class="text-muted" style="font-size: 0.875rem;">{{ 'ADMIN.PRODUCTS.NO_PRODUCTS_MESSAGE' | translate }}</p>
             </td>
           </tr>
         </ng-template>

@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { UserAdminService } from '../../services/user-admin.service';
 import { User, UserQueryParams } from '../../models/user.model';
 
@@ -23,6 +24,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
     TableModule,
     ButtonModule,
     InputTextModule,

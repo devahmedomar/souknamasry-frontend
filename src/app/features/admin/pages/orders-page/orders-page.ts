@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { OrderAdminService } from '../../services/order-admin.service';
 import {
   Order,
@@ -27,6 +28,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
   standalone: true,
   imports: [
     CommonModule,
+    TranslateModule,
     FormsModule,
     TableModule,
     ButtonModule,

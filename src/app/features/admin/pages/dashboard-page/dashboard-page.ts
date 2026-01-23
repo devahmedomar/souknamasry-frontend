@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../../auth/services/auth.service';
 import { StatisticsAdminService } from '../../services/statistics-admin.service';
 import { DashboardOverview } from '../../models/statistics.model';
@@ -16,6 +17,7 @@ import { ChartModule } from 'primeng/chart';
   imports: [
     CommonModule,
     RouterLink,
+    TranslateModule,
     CardModule,
     ButtonModule,
     TableModule,

@@ -2,11 +2,11 @@
   <!-- Header -->
   <div class="page-header d-flex justify-content-between align-items-center">
     <div>
-      <h1>👥 User Management</h1>
-      <p>Manage all users and administrators</p>
+      <h1>👥 {{ 'ADMIN.USERS.TITLE' | translate }}</h1>
+      <p>{{ 'ADMIN.USERS.SUBTITLE' | translate }}</p>
     </div>
     <p-button
-      label="Add New User"
+      [label]="'ADMIN.USERS.ADD_NEW_USER' | translate"
       icon="pi pi-plus"
       styleClass="add-button"
       (click)="openCreateDialog()">
@@ -18,13 +18,13 @@
     <div class="card-body">
       <div class="row g-3">
         <div class="col-md-4">
-          <label class="form-label small text-muted">Search</label>
+          <label class="form-label small text-muted">{{ 'ADMIN.USERS.SEARCH_LABEL' | translate }}</label>
           <span class="p-input-icon-left w-100">
             <i class="pi pi-search"></i>
             <input
               type="text"
               pInputText
-              placeholder="Search by name, email, or phone"
+              [placeholder]="'ADMIN.USERS.SEARCH_PLACEHOLDER' | translate"
               class="w-100"
               [(ngModel)]="searchTerm"
               (keyup.enter)="onSearch()"
@@ -32,25 +32,25 @@
           </span>
         </div>
         <div class="col-md-3">
-          <label class="form-label small text-muted">Role</label>
+          <label class="form-label small text-muted">{{ 'ADMIN.USERS.ROLE_LABEL' | translate }}</label>
           <p-select
             [options]="roleOptions"
             [(ngModel)]="selectedRole"
             optionLabel="label"
             optionValue="value"
-            placeholder="Select Role"
+            [placeholder]="'ADMIN.USERS.SELECT_ROLE_PLACEHOLDER' | translate"
             class="w-100"
             (onChange)="onFilterChange()"
           ></p-select>
         </div>
         <div class="col-md-3">
-          <label class="form-label small text-muted">Status</label>
+          <label class="form-label small text-muted">{{ 'ADMIN.USERS.STATUS_LABEL' | translate }}</label>
           <p-select
             [options]="statusOptions"
             [(ngModel)]="selectedStatus"
             optionLabel="label"
             optionValue="value"
-            placeholder="Select Status"
+            [placeholder]="'ADMIN.USERS.SELECT_STATUS_PLACEHOLDER' | translate"
             class="w-100"
             (onChange)="onFilterChange()"
           ></p-select>
@@ -59,7 +59,7 @@
           <button
             pButton
             type="button"
-            label="Search"
+            [label]="'ADMIN.USERS.SEARCH_BUTTON' | translate"
             icon="pi pi-search"
             class="w-100"
             (click)="onSearch()"
@@ -81,19 +81,19 @@
         (onLazyLoad)="onPageChange($event)"
         [rowsPerPageOptions]="[10, 20, 50, 100]"
         [showCurrentPageReport]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
+        [currentPageReportTemplate]="'ADMIN.USERS.PAGINATION_TEXT' | translate"
         styleClass="p-datatable-striped"
       >
         <ng-template pTemplate="header">
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>City</th>
-            <th>Role</th>
-            <th>Status</th>
-            <th>Created At</th>
-            <th style="width: 200px;">Actions</th>
+            <th>{{ 'ADMIN.USERS.TABLE_NAME' | translate }}</th>
+            <th>{{ 'ADMIN.USERS.TABLE_EMAIL' | translate }}</th>
+            <th>{{ 'ADMIN.USERS.TABLE_PHONE' | translate }}</th>
+            <th>{{ 'ADMIN.USERS.TABLE_CITY' | translate }}</th>
+            <th>{{ 'ADMIN.USERS.TABLE_ROLE' | translate }}</th>
+            <th>{{ 'ADMIN.USERS.TABLE_STATUS' | translate }}</th>
+            <th>{{ 'ADMIN.USERS.TABLE_CREATED_AT' | translate }}</th>
+            <th style="width: 200px;">{{ 'ADMIN.USERS.TABLE_ACTIONS' | translate }}</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-user>
@@ -125,7 +125,7 @@
             </td>
             <td>
               <p-tag
-                [value]="user.isActive ? 'Active' : 'Inactive'"
+                [value]="(user.isActive ? 'ADMIN.USERS.STATUS_ACTIVE' : 'ADMIN.USERS.STATUS_INACTIVE') | translate"
                 [severity]="getStatusSeverity(user.isActive)"
               ></p-tag>
             </td>
@@ -137,7 +137,7 @@
                   type="button"
                   icon="pi pi-pencil"
                   class="p-button-rounded p-button-text p-button-sm"
-                  pTooltip="Edit"
+                  [pTooltip]="'ADMIN.USERS.EDIT_TOOLTIP' | translate"
                   (click)="openEditDialog(user)"
                 ></button>
                 <button
@@ -145,7 +145,7 @@
                   type="button"
                   [icon]="user.isActive ? 'pi pi-ban' : 'pi pi-check'"
                   class="p-button-rounded p-button-text p-button-sm"
-                  [pTooltip]="user.isActive ? 'Deactivate' : 'Activate'"
+                  [pTooltip]="(user.isActive ? 'ADMIN.USERS.DEACTIVATE_TOOLTIP' : 'ADMIN.USERS.ACTIVATE_TOOLTIP') | translate"
                   (click)="toggleUserStatus(user)"
                 ></button>
                 <button
@@ -153,7 +153,7 @@
                   type="button"
                   icon="pi pi-trash"
                   class="p-button-rounded p-button-text p-button-danger p-button-sm"
-                  pTooltip="Delete"
+                  [pTooltip]="'ADMIN.USERS.DELETE_TOOLTIP' | translate"
                   (click)="deleteUser(user)"
                 ></button>
               </div>
@@ -164,8 +164,8 @@
           <tr>
             <td colspan="8" class="text-center py-5">
               <i class="pi pi-users" style="font-size: 4rem; color: #cbd5e1;"></i>
-              <p class="text-muted mt-3 mb-0" style="font-size: 1.125rem; font-weight: 500;">No users found</p>
-              <p class="text-muted" style="font-size: 0.875rem;">Create your first user to get started</p>
+              <p class="text-muted mt-3 mb-0" style="font-size: 1.125rem; font-weight: 500;">{{ 'ADMIN.USERS.NO_USERS_FOUND' | translate }}</p>
+              <p class="text-muted" style="font-size: 0.875rem;">{{ 'ADMIN.USERS.NO_USERS_MESSAGE' | translate }}</p>
             </td>
           </tr>
         </ng-template>
@@ -176,7 +176,7 @@
 <!-- User Form Dialog -->
 <p-dialog
   [(visible)]="showDialog"
-  [header]="isEditMode() ? '✏️ Edit User' : '➕ Create New User'"
+  [header]="(isEditMode() ? '✏️ ' + ('ADMIN.USERS.EDIT_USER_TITLE' | translate) : '➕ ' + ('ADMIN.USERS.CREATE_USER_TITLE' | translate))"
   [modal]="true"
   [style]="{ width: '600px' }"
   [closable]="true"
@@ -187,125 +187,125 @@
   <form [formGroup]="userForm" (ngSubmit)="saveUser()">
     <div class="row g-3">
       <div class="col-md-6">
-        <label class="form-label">First Name <span class="text-danger">*</span></label>
+        <label class="form-label">{{ 'ADMIN.USERS.FIRST_NAME_LABEL' | translate }} <span class="text-danger">{{ 'ADMIN.USERS.REQUIRED_FIELD' | translate }}</span></label>
         <input
           type="text"
           pInputText
           class="w-100"
           formControlName="firstName"
-          placeholder="Enter first name"
+          [placeholder]="'ADMIN.USERS.FIRST_NAME_PLACEHOLDER' | translate"
         />
         @if (userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched) {
-          <small class="text-danger">First name is required</small>
+          <small class="text-danger">{{ 'ADMIN.USERS.FIRST_NAME_REQUIRED' | translate }}</small>
         }
       </div>
 
       <div class="col-md-6">
-        <label class="form-label">Last Name <span class="text-danger">*</span></label>
+        <label class="form-label">{{ 'ADMIN.USERS.LAST_NAME_LABEL' | translate }} <span class="text-danger">{{ 'ADMIN.USERS.REQUIRED_FIELD' | translate }}</span></label>
         <input
           type="text"
           pInputText
           class="w-100"
           formControlName="lastName"
-          placeholder="Enter last name"
+          [placeholder]="'ADMIN.USERS.LAST_NAME_PLACEHOLDER' | translate"
         />
         @if (userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched) {
-          <small class="text-danger">Last name is required</small>
+          <small class="text-danger">{{ 'ADMIN.USERS.LAST_NAME_REQUIRED' | translate }}</small>
         }
       </div>
 
       <div class="col-md-12">
-        <label class="form-label">Email <span class="text-danger">*</span></label>
+        <label class="form-label">{{ 'ADMIN.USERS.EMAIL_LABEL' | translate }} <span class="text-danger">{{ 'ADMIN.USERS.REQUIRED_FIELD' | translate }}</span></label>
         <input
           type="email"
           pInputText
           class="w-100"
           formControlName="email"
-          placeholder="Enter email address"
+          [placeholder]="'ADMIN.USERS.EMAIL_PLACEHOLDER' | translate"
         />
         @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
-          <small class="text-danger">Valid email is required</small>
+          <small class="text-danger">{{ 'ADMIN.USERS.EMAIL_REQUIRED' | translate }}</small>
         }
       </div>
 
       @if (!isEditMode()) {
         <div class="col-md-12">
-          <label class="form-label">Password <span class="text-danger">*</span></label>
+          <label class="form-label">{{ 'ADMIN.USERS.PASSWORD_LABEL' | translate }} <span class="text-danger">{{ 'ADMIN.USERS.REQUIRED_FIELD' | translate }}</span></label>
           <input
             type="password"
             pInputText
             class="w-100"
             formControlName="password"
-            placeholder="Enter password (min 6 characters)"
+            [placeholder]="'ADMIN.USERS.PASSWORD_PLACEHOLDER' | translate"
           />
           @if (userForm.get('password')?.invalid && userForm.get('password')?.touched) {
-            <small class="text-danger">Password is required (min 6 characters)</small>
+            <small class="text-danger">{{ 'ADMIN.USERS.PASSWORD_REQUIRED' | translate }}</small>
           }
         </div>
       }
 
       <div class="col-md-6">
-        <label class="form-label">Phone</label>
+        <label class="form-label">{{ 'ADMIN.USERS.PHONE_LABEL' | translate }}</label>
         <input
           type="tel"
           pInputText
           class="w-100"
           formControlName="phone"
-          placeholder="Enter phone number"
+          [placeholder]="'ADMIN.USERS.PHONE_PLACEHOLDER' | translate"
         />
       </div>
 
       <div class="col-md-6">
-        <label class="form-label">City</label>
+        <label class="form-label">{{ 'ADMIN.USERS.CITY_LABEL' | translate }}</label>
         <input
           type="text"
           pInputText
           class="w-100"
           formControlName="city"
-          placeholder="Enter city"
+          [placeholder]="'ADMIN.USERS.CITY_PLACEHOLDER' | translate"
         />
       </div>
 
       <div class="col-md-6">
-        <label class="form-label">Role <span class="text-danger">*</span></label>
+        <label class="form-label">{{ 'ADMIN.USERS.ROLE_LABEL' | translate }} <span class="text-danger">{{ 'ADMIN.USERS.REQUIRED_FIELD' | translate }}</span></label>
         <p-select
           [options]="[
-            { label: 'Customer', value: 'customer' },
-            { label: 'Admin', value: 'admin' }
+            { label: ('ADMIN.USERS.ROLE_CUSTOMER' | translate), value: 'customer' },
+            { label: ('ADMIN.USERS.ROLE_ADMIN' | translate), value: 'admin' }
           ]"
           formControlName="role"
           optionLabel="label"
           optionValue="value"
-          placeholder="Select Role"
+          [placeholder]="'ADMIN.USERS.SELECT_ROLE_PLACEHOLDER' | translate"
           [appendTo]="'body'"
           class="w-100"
         ></p-select>
       </div>
 
       <div class="col-md-6">
-        <label class="form-label">Status <span class="text-danger">*</span></label>
+        <label class="form-label">{{ 'ADMIN.USERS.STATUS_LABEL' | translate }} <span class="text-danger">{{ 'ADMIN.USERS.REQUIRED_FIELD' | translate }}</span></label>
         <p-select
           [options]="[
-            { label: 'Active', value: true },
-            { label: 'Inactive', value: false }
+            { label: ('ADMIN.USERS.STATUS_ACTIVE' | translate), value: true },
+            { label: ('ADMIN.USERS.STATUS_INACTIVE' | translate), value: false }
           ]"
           formControlName="isActive"
           optionLabel="label"
           optionValue="value"
-          placeholder="Select Status"
+          [placeholder]="'ADMIN.USERS.SELECT_STATUS_PLACEHOLDER' | translate"
           [appendTo]="'body'"
           class="w-100"
         ></p-select>
       </div>
 
       <div class="col-md-12">
-        <label class="form-label">Image URL</label>
+        <label class="form-label">{{ 'ADMIN.USERS.IMAGE_URL_LABEL' | translate }}</label>
         <input
           type="url"
           pInputText
           class="w-100"
           formControlName="imageUrl"
-          placeholder="Enter image URL"
+          [placeholder]="'ADMIN.USERS.IMAGE_URL_PLACEHOLDER' | translate"
         />
       </div>
     </div>
@@ -314,14 +314,14 @@
       <button
         pButton
         type="button"
-        label="Cancel"
+        [label]="'ADMIN.USERS.CANCEL_BUTTON' | translate"
         class="p-button-secondary"
         (click)="closeDialog()"
       ></button>
       <button
         pButton
         type="submit"
-        [label]="isEditMode() ? 'Update User' : 'Create User'"
+        [label]="(isEditMode() ? 'ADMIN.USERS.UPDATE_BUTTON' : 'ADMIN.USERS.CREATE_BUTTON') | translate"
         class="p-button-primary"
         [disabled]="userForm.invalid"
       ></button>

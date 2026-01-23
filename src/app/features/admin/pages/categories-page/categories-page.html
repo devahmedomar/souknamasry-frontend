@@ -2,11 +2,11 @@
   <!-- Header -->
   <div class="page-header d-flex justify-content-between align-items-center">
     <div>
-      <h1>🏷️ Category Management</h1>
-      <p>Organize and manage your product categories</p>
+      <h1>🏷️ {{ 'ADMIN.CATEGORIES.TITLE' | translate }}</h1>
+      <p>{{ 'ADMIN.CATEGORIES.SUBTITLE' | translate }}</p>
     </div>
     <p-button
-      label="Add Category"
+      [label]="'ADMIN.CATEGORIES.ADD_CATEGORY' | translate"
       icon="pi pi-plus"
       styleClass="add-button"
       (onClick)="openCreateDialog()">
@@ -23,7 +23,7 @@
     [rows]="10"
     [rowsPerPageOptions]="[10, 25, 50]"
     [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} categories"
+    [currentPageReportTemplate]="'ADMIN.CATEGORIES.PAGINATION_TEXT' | translate"
     [globalFilterFields]="['name', 'description']"
     styleClass="p-datatable-gridlines">
 
@@ -33,7 +33,7 @@
         <input
           pInputText
           type="text"
-          placeholder="Search categories..."
+          [placeholder]="'ADMIN.CATEGORIES.SEARCH_PLACEHOLDER' | translate"
           class="form-control"
           (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
       </div>
@@ -42,17 +42,17 @@
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="name">
-          Name <p-sortIcon field="name"></p-sortIcon>
+          {{ 'ADMIN.CATEGORIES.TABLE_NAME' | translate }} <p-sortIcon field="name"></p-sortIcon>
         </th>
-        <th>Description</th>
+        <th>{{ 'ADMIN.CATEGORIES.TABLE_DESCRIPTION' | translate }}</th>
         <th pSortableColumn="parent">
-          Parent <p-sortIcon field="parent"></p-sortIcon>
+          {{ 'ADMIN.CATEGORIES.TABLE_PARENT' | translate }} <p-sortIcon field="parent"></p-sortIcon>
         </th>
-        <th>Image</th>
+        <th>{{ 'ADMIN.CATEGORIES.TABLE_IMAGE' | translate }}</th>
         <th pSortableColumn="isActive">
-          Status <p-sortIcon field="isActive"></p-sortIcon>
+          {{ 'ADMIN.CATEGORIES.TABLE_STATUS' | translate }} <p-sortIcon field="isActive"></p-sortIcon>
         </th>
-        <th>Actions</th>
+        <th>{{ 'ADMIN.CATEGORIES.TABLE_ACTIONS' | translate }}</th>
       </tr>
     </ng-template>
 
@@ -79,7 +79,7 @@
         </td>
         <td>
           <p-tag
-            [value]="category.isActive ? 'Active' : 'Inactive'"
+            [value]="(category.isActive ? 'ADMIN.CATEGORIES.STATUS_ACTIVE' : 'ADMIN.CATEGORIES.STATUS_INACTIVE') | translate"
             [severity]="category.isActive ? 'success' : 'danger'">
           </p-tag>
         </td>
@@ -90,21 +90,21 @@
               severity="info"
               styleClass="p-button-sm p-button-text"
               (onClick)="openEditDialog(category)"
-              pTooltip="Edit">
+              [pTooltip]="'ADMIN.CATEGORIES.EDIT_TOOLTIP' | translate">
             </p-button>
             <p-button
               [icon]="category.isActive ? 'pi pi-eye-slash' : 'pi pi-eye'"
               [severity]="category.isActive ? 'warn' : 'success'"
               styleClass="p-button-sm p-button-text"
               (onClick)="toggleCategoryStatus(category)"
-              [pTooltip]="category.isActive ? 'Deactivate' : 'Activate'">
+              [pTooltip]="(category.isActive ? 'ADMIN.CATEGORIES.DEACTIVATE_TOOLTIP' : 'ADMIN.CATEGORIES.ACTIVATE_TOOLTIP') | translate">
             </p-button>
             <p-button
               icon="pi pi-trash"
               severity="danger"
               styleClass="p-button-sm p-button-text"
               (onClick)="deleteCategory(category)"
-              pTooltip="Delete">
+              [pTooltip]="'ADMIN.CATEGORIES.DELETE_TOOLTIP' | translate">
             </p-button>
           </div>
         </td>
@@ -115,8 +115,8 @@
       <tr>
         <td colspan="6" class="text-center py-5">
           <i class="pi pi-inbox" style="font-size: 4rem; color: #cbd5e1;"></i>
-          <p class="text-muted mt-3 mb-0" style="font-size: 1.125rem; font-weight: 500;">No categories found</p>
-          <p class="text-muted" style="font-size: 0.875rem;">Create your first category to get started</p>
+          <p class="text-muted mt-3 mb-0" style="font-size: 1.125rem; font-weight: 500;">{{ 'ADMIN.CATEGORIES.NO_CATEGORIES_FOUND' | translate }}</p>
+          <p class="text-muted" style="font-size: 0.875rem;">{{ 'ADMIN.CATEGORIES.NO_CATEGORIES_MESSAGE' | translate }}</p>
         </td>
       </tr>
     </ng-template>
@@ -127,7 +127,7 @@
 <!-- Create/Edit Dialog -->
 <p-dialog
   [(visible)]="dialogVisible"
-  [header]="isEditMode() ? '✏️ Edit Category' : '➕ Create New Category'"
+  [header]="(isEditMode() ? '✏️ ' + ('ADMIN.CATEGORIES.EDIT_CATEGORY_TITLE' | translate) : '➕ ' + ('ADMIN.CATEGORIES.CREATE_CATEGORY_TITLE' | translate))"
   [modal]="true"
   [style]="{ width: '600px' }"
   [draggable]="false"
@@ -138,7 +138,7 @@
       <!-- Name -->
       <div class="col-12">
         <label for="name" class="form-label">
-          Name <span class="text-danger">*</span>
+          {{ 'ADMIN.CATEGORIES.NAME_LABEL' | translate }} <span class="text-danger">{{ 'ADMIN.CATEGORIES.REQUIRED_FIELD' | translate }}</span>
         </label>
         <input
           id="name"
@@ -146,59 +146,59 @@
           pInputText
           formControlName="name"
           class="w-100"
-          placeholder="Enter category name" />
+          [placeholder]="'ADMIN.CATEGORIES.NAME_PLACEHOLDER' | translate" />
         <small
           *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched"
           class="text-danger">
-          Name is required (2-100 characters)
+          {{ 'ADMIN.CATEGORIES.NAME_REQUIRED' | translate }}
         </small>
       </div>
 
       <!-- Description -->
       <div class="col-12">
-        <label for="description" class="form-label">Description</label>
+        <label for="description" class="form-label">{{ 'ADMIN.CATEGORIES.DESCRIPTION_LABEL' | translate }}</label>
         <textarea
           id="description"
           p-textarea
           formControlName="description"
           class="w-100"
           rows="3"
-          placeholder="Enter category description (optional)">
+          [placeholder]="'ADMIN.CATEGORIES.DESCRIPTION_PLACEHOLDER' | translate">
         </textarea>
         <small
           *ngIf="categoryForm.get('description')?.invalid && categoryForm.get('description')?.touched"
           class="text-danger">
-          Description must be less than 500 characters
+          {{ 'ADMIN.CATEGORIES.DESCRIPTION_ERROR' | translate }}
         </small>
       </div>
 
       <!-- Image URL -->
       <div class="col-12">
-        <label for="image" class="form-label">Image URL</label>
+        <label for="image" class="form-label">{{ 'ADMIN.CATEGORIES.IMAGE_URL_LABEL' | translate }}</label>
         <input
           id="image"
           type="text"
           pInputText
           formControlName="image"
           class="w-100"
-          placeholder="Enter image URL (optional)" />
+          [placeholder]="'ADMIN.CATEGORIES.IMAGE_URL_PLACEHOLDER' | translate" />
       </div>
 
       <!-- Parent Category -->
       <div class="col-12">
-        <label for="parent" class="form-label">Parent Category</label>
+        <label for="parent" class="form-label">{{ 'ADMIN.CATEGORIES.PARENT_CATEGORY_LABEL' | translate }}</label>
         <p-select
           formControlName="parent"
           [options]="parentCategories()"
           optionLabel="name"
           optionValue="_id"
-          placeholder="Select parent category (optional)"
+          [placeholder]="'ADMIN.CATEGORIES.PARENT_CATEGORY_PLACEHOLDER' | translate"
           [showClear]="true"
           [appendTo]="'body'"
           styleClass="w-100">
         </p-select>
         <small class="text-muted">
-          Leave empty to create a root category
+          {{ 'ADMIN.CATEGORIES.PARENT_CATEGORY_HINT' | translate }}
         </small>
       </div>
 
@@ -211,7 +211,7 @@
             inputId="isActive">
           </p-checkbox>
           <label for="isActive" class="form-check-label ms-2">
-            Active
+            {{ 'ADMIN.CATEGORIES.ACTIVE_LABEL' | translate }}
           </label>
         </div>
       </div>
@@ -220,14 +220,14 @@
 
   <ng-template pTemplate="footer">
     <p-button
-      label="Cancel"
+      [label]="'ADMIN.CATEGORIES.CANCEL_BUTTON' | translate"
       icon="pi pi-times"
       severity="secondary"
       styleClass="p-button-text"
       (onClick)="closeDialog()">
     </p-button>
     <p-button
-      [label]="isEditMode() ? 'Update' : 'Create'"
+      [label]="(isEditMode() ? 'ADMIN.CATEGORIES.UPDATE_BUTTON' : 'ADMIN.CATEGORIES.CREATE_BUTTON') | translate"
       icon="pi pi-check"
       severity="primary"
       (onClick)="saveCategory()"

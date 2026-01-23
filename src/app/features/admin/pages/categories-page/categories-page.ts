@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -26,6 +27,7 @@ import {
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    TranslateModule,
     TableModule,
     ButtonModule,
     DialogModule,

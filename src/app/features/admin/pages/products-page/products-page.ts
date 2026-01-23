@@ -8,6 +8,7 @@ import {
   Validators,
   FormArray,
 } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { ProductAdminService } from '../../services/product-admin.service';
 import { CategoryAdminService } from '../../services/category-admin.service';
 import { Product, ProductQueryParams } from '../../models/product.model';
@@ -35,6 +36,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
     TableModule,
     ButtonModule,
     InputTextModule,

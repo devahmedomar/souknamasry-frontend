@@ -1,14 +1,14 @@
 <div class="container-fluid p-4">
   <!-- Welcome Header -->
   <div class="welcome-header">
-    <h1>Welcome back, {{ currentUser()?.firstName }}! 👋</h1>
-    <p>Here's what's happening with your store today</p>
+    <h1>{{ 'ADMIN.DASHBOARD.WELCOME' | translate }}, {{ currentUser()?.firstName }}! 👋</h1>
+    <p>{{ 'ADMIN.DASHBOARD.SUBTITLE' | translate }}</p>
   </div>
 
   @if (loading()) {
     <div class="text-center py-5">
       <i class="pi pi-spin pi-spinner" style="font-size: 3rem;"></i>
-      <p class="mt-3 text-muted">Loading dashboard...</p>
+      <p class="mt-3 text-muted">{{ 'ADMIN.DASHBOARD.LOADING' | translate }}</p>
     </div>
   }
 
@@ -23,7 +23,7 @@
                 <i class="pi pi-dollar" style="font-size: 1.5rem;"></i>
               </div>
               <div class="flex-grow-1">
-                <p class="stat-label">Total Revenue</p>
+                <p class="stat-label">{{ 'ADMIN.DASHBOARD.TOTAL_REVENUE' | translate }}</p>
                 <h3 class="stat-value">{{ formatCurrency(dashboardData()!.revenue.totalRevenue) }}</h3>
               </div>
             </div>
@@ -36,7 +36,7 @@
                 <i class="pi pi-calendar" style="font-size: 1.5rem;"></i>
               </div>
               <div class="flex-grow-1">
-                <p class="stat-label">Monthly Revenue</p>
+                <p class="stat-label">{{ 'ADMIN.DASHBOARD.MONTHLY_REVENUE' | translate }}</p>
                 <h3 class="stat-value">{{ formatCurrency(dashboardData()!.revenue.monthlyRevenue) }}</h3>
               </div>
             </div>
@@ -77,27 +77,27 @@
       <div class="col-12 col-lg-4">
         <div class="info-card">
           <div class="card-header-custom">
-            <h5>📦 Orders Overview</h5>
+            <h5>📦 {{ 'ADMIN.DASHBOARD.ORDERS_OVERVIEW' | translate }}</h5>
           </div>
           <div class="stats-list">
             <div class="stat-item d-flex justify-content-between align-items-center mb-3">
-              <span class="text-muted">Total Orders</span>
+              <span class="text-muted">{{ 'ADMIN.DASHBOARD.TOTAL_ORDERS' | translate }}</span>
               <strong>{{ dashboardData()!.orders.totalOrders }}</strong>
             </div>
             <div class="stat-item d-flex justify-content-between align-items-center mb-3">
-              <span class="text-muted">Pending</span>
+              <span class="text-muted">{{ 'ORDERS.STATUS_PENDING' | translate }}</span>
               <p-tag [value]="dashboardData()!.orders.pendingOrders.toString()" severity="warn"></p-tag>
             </div>
             <div class="stat-item d-flex justify-content-between align-items-center mb-3">
-              <span class="text-muted">Processing</span>
+              <span class="text-muted">{{ 'ORDERS.STATUS_PROCESSING' | translate }}</span>
               <p-tag [value]="dashboardData()!.orders.processingOrders.toString()" severity="info"></p-tag>
             </div>
             <div class="stat-item d-flex justify-content-between align-items-center mb-3">
-              <span class="text-muted">Delivered</span>
+              <span class="text-muted">{{ 'ORDERS.STATUS_DELIVERED' | translate }}</span>
               <p-tag [value]="dashboardData()!.orders.deliveredOrders.toString()" severity="success"></p-tag>
             </div>
             <div class="stat-item d-flex justify-content-between align-items-center">
-              <span class="text-muted">Cancelled</span>
+              <span class="text-muted">{{ 'ORDERS.STATUS_CANCELLED' | translate }}</span>
               <p-tag [value]="dashboardData()!.orders.cancelledOrders.toString()" severity="danger"></p-tag>
             </div>
           </div>
@@ -108,27 +108,27 @@
       <div class="col-12 col-lg-4">
         <div class="info-card">
           <div class="card-header-custom">
-            <h5>🛍️ Products Overview</h5>
+            <h5>🛍️ {{ 'NAV.PRODUCTS' | translate }}</h5>
           </div>
           <div class="stats-list">
             <div class="stat-item d-flex justify-content-between align-items-center mb-3">
-              <span class="text-muted">Total Products</span>
+              <span class="text-muted">{{ 'NAV.PRODUCTS' | translate }}</span>
               <strong>{{ dashboardData()!.products.totalProducts }}</strong>
             </div>
             <div class="stat-item d-flex justify-content-between align-items-center mb-3">
-              <span class="text-muted">Active</span>
+              <span class="text-muted">{{ 'PRODUCT.AVAILABLE' | translate }}</span>
               <p-tag [value]="dashboardData()!.products.activeProducts.toString()" severity="success"></p-tag>
             </div>
             <div class="stat-item d-flex justify-content-between align-items-center mb-3">
-              <span class="text-muted">Inactive</span>
+              <span class="text-muted">{{ 'PRODUCT.UNAVAILABLE' | translate }}</span>
               <p-tag [value]="dashboardData()!.products.inactiveProducts.toString()" severity="danger"></p-tag>
             </div>
             <div class="stat-item d-flex justify-content-between align-items-center mb-3">
-              <span class="text-muted">In Stock</span>
+              <span class="text-muted">{{ 'PRODUCT.IN_STOCK' | translate }}</span>
               <span class="badge bg-success">{{ dashboardData()!.products.inStockProducts }}</span>
             </div>
             <div class="stat-item d-flex justify-content-between align-items-center">
-              <span class="text-muted">Low Stock</span>
+              <span class="text-muted">{{ 'PRODUCT.LIMITED_STOCK' | translate }}</span>
               <span class="badge bg-warning">{{ dashboardData()!.products.lowStockProducts }}</span>
             </div>
           </div>
@@ -139,19 +139,19 @@
       <div class="col-12 col-lg-4">
         <div class="info-card">
           <div class="card-header-custom">
-            <h5>👥 Users Overview</h5>
+            <h5>👥 {{ 'ADMIN.DASHBOARD.TOTAL_CUSTOMERS' | translate }}</h5>
           </div>
           <div class="stats-list">
             <div class="stat-item d-flex justify-content-between align-items-center mb-3">
-              <span class="text-muted">Total Users</span>
+              <span class="text-muted">{{ 'ADMIN.DASHBOARD.TOTAL_CUSTOMERS' | translate }}</span>
               <strong>{{ dashboardData()!.users.totalUsers }}</strong>
             </div>
             <div class="stat-item d-flex justify-content-between align-items-center mb-3">
-              <span class="text-muted">Active Users</span>
+              <span class="text-muted">{{ 'PRODUCT.AVAILABLE' | translate }}</span>
               <p-tag [value]="dashboardData()!.users.activeUsers.toString()" severity="success"></p-tag>
             </div>
             <div class="stat-item d-flex justify-content-between align-items-center">
-              <span class="text-muted">New This Month</span>
+              <span class="text-muted">{{ 'ADMIN.DASHBOARD.NEW_CUSTOMERS' | translate }}</span>
               <p-tag [value]="dashboardData()!.users.monthlyNewUsers.toString()" severity="info"></p-tag>
             </div>
           </div>
@@ -165,7 +165,7 @@
       <div class="col-12 col-lg-8">
         <div class="chart-card">
           <div class="card-header-custom">
-            <h5>📈 Revenue Trend (Last 30 Days)</h5>
+            <h5>📈 {{ 'ADMIN.DASHBOARD.REVENUE_OVERVIEW' | translate }}</h5>
           </div>
           <div class="chart-wrapper">
             @if (revenueChartData()) {
@@ -185,7 +185,7 @@
       <div class="col-12 col-lg-4">
         <div class="chart-card">
           <div class="card-header-custom">
-            <h5>🎯 Sales by Category</h5>
+            <h5>🎯 {{ 'CATEGORIES.TITLE' | translate }}</h5>
           </div>
           <div class="chart-wrapper">
             @if (categoryChartData()) {
@@ -208,17 +208,17 @@
       <div class="col-12 col-lg-7">
         <div class="modern-table">
           <div class="card-header-custom d-flex justify-content-between align-items-center">
-            <h5>🕒 Recent Orders</h5>
-            <a routerLink="/admin/orders" class="btn btn-sm btn-link">View All →</a>
+            <h5>🕒 {{ 'ADMIN.DASHBOARD.RECENT_ORDERS' | translate }}</h5>
+            <a routerLink="/admin/orders" class="btn btn-sm btn-link">{{ 'ADMIN.DASHBOARD.VIEW_ALL_ORDERS' | translate }} →</a>
           </div>
           <p-table [value]="dashboardData()!.recentOrders" styleClass="p-datatable-sm">
             <ng-template pTemplate="header">
               <tr>
-                <th>Order #</th>
-                <th>Customer</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Date</th>
+                <th>{{ 'ADMIN.DASHBOARD.ORDER_NUMBER' | translate }}</th>
+                <th>{{ 'ADMIN.DASHBOARD.CUSTOMER' | translate }}</th>
+                <th>{{ 'ADMIN.DASHBOARD.AMOUNT' | translate }}</th>
+                <th>{{ 'ADMIN.DASHBOARD.STATUS' | translate }}</th>
+                <th>{{ 'ORDERS.ORDER_DATE' | translate }}</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-order>
@@ -240,8 +240,8 @@
       <div class="col-12 col-lg-5">
         <div class="info-card">
           <div class="card-header-custom d-flex justify-content-between align-items-center">
-            <h5>⭐ Top Selling Products</h5>
-            <a routerLink="/admin/products" class="btn btn-sm btn-link">View All →</a>
+            <h5>⭐ {{ 'ADMIN.DASHBOARD.TOP_SELLING_PRODUCTS' | translate }}</h5>
+            <a routerLink="/admin/products" class="btn btn-sm btn-link">{{ 'ADMIN.DASHBOARD.VIEW_ALL_PRODUCTS' | translate }} →</a>
           </div>
           <div>
             @for (product of dashboardData()!.topSellingProducts; track product._id) {
@@ -276,7 +276,7 @@
   @if (!loading() && !dashboardData()) {
     <div class="text-center py-5">
       <i class="pi pi-exclamation-circle" style="font-size: 3rem; color: #ff9800;"></i>
-      <p class="mt-3 text-muted">Please log in as an admin to view the dashboard</p>
+      <p class="mt-3 text-muted">{{ 'ADMIN.DASHBOARD.LOGIN_REQUIRED' | translate }}</p>
     </div>
   }
 </div>
