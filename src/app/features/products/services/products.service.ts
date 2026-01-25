@@ -77,6 +77,34 @@ export class ProductsService {
         });
     }
 
+    getFeaturedProducts(limit: number = 10): Observable<IProductCard[]> {
+        let httpParams = new HttpParams();
+
+        if (limit < 1 || limit > 20) {
+            limit = 10;
+        }
+
+        httpParams = httpParams.set('limit', limit.toString());
+
+        return this.http.get<{ status: string; data: { products: any[] } }>(`${environment.apiUrl}products/featured`, { params: httpParams }).pipe(
+            map((res) => res.data.products.map(p => this.mapToProductCard(p)))
+        );
+    }
+
+    getSponsoredProducts(limit: number = 10): Observable<IProductCard[]> {
+        let httpParams = new HttpParams();
+
+        if (limit < 1 || limit > 20) {
+            limit = 10;
+        }
+
+        httpParams = httpParams.set('limit', limit.toString());
+
+        return this.http.get<{ status: string; data: { products: any[] } }>(`${environment.apiUrl}products/sponsored`, { params: httpParams }).pipe(
+            map((res) => res.data.products.map(p => this.mapToProductCard(p)))
+        );
+    }
+
     private mapToProductCard(p: any): IProductCard {
         const firstImage = p.images?.[0];
         const imageUrl = typeof firstImage === 'string'

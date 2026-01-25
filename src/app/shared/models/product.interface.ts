@@ -68,6 +68,7 @@ export interface ProductDetails {
     sku?: string;
     isActive: boolean;
     isFeatured: boolean;
+    isSponsored?: boolean;
     views: number;
     sizes?: string[];
     colors?: ProductColor[];
@@ -99,6 +100,7 @@ export interface RelatedProduct {
     sku?: string;
     isActive: boolean;
     isFeatured: boolean;
+    isSponsored?: boolean;
     views: number;
     createdAt: Date;
     updatedAt: Date;

@@ -104,7 +104,9 @@
             <th>{{ 'ADMIN.PRODUCTS.TABLE_PRICE' | translate }}</th>
             <th>{{ 'ADMIN.PRODUCTS.TABLE_STOCK' | translate }}</th>
             <th>{{ 'ADMIN.PRODUCTS.TABLE_STATUS' | translate }}</th>
-            <th style="width: 250px;">{{ 'ADMIN.PRODUCTS.TABLE_ACTIONS' | translate }}</th>
+            <th style="width: 100px;">Featured</th>
+            <th style="width: 100px;">Sponsored</th>
+            <th style="width: 300px;">{{ 'ADMIN.PRODUCTS.TABLE_ACTIONS' | translate }}</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-product>
@@ -147,6 +149,24 @@
                 [severity]="getActiveSeverity(product.isActive)"
               ></p-tag>
             </td>
+            <td class="text-center">
+              <i
+                class="pi"
+                [ngClass]="product.isFeatured ? 'pi-star-fill text-warning' : 'pi-star text-muted'"
+                style="font-size: 1.25rem; cursor: pointer;"
+                (click)="toggleFeatured(product)"
+                [pTooltip]="product.isFeatured ? 'Remove from Featured' : 'Mark as Featured'"
+              ></i>
+            </td>
+            <td class="text-center">
+              <i
+                class="pi"
+                [ngClass]="product.isSponsored ? 'pi-megaphone text-success' : 'pi-megaphone text-muted'"
+                style="font-size: 1.25rem; cursor: pointer;"
+                (click)="toggleSponsored(product)"
+                [pTooltip]="product.isSponsored ? 'Remove from Sponsored' : 'Mark as Sponsored'"
+              ></i>
+            </td>
             <td>
               <div class="d-flex gap-2">
                 <button
@@ -187,7 +207,7 @@
         </ng-template>
         <ng-template pTemplate="emptymessage">
           <tr>
-            <td colspan="7" class="text-center py-5">
+            <td colspan="9" class="text-center py-5">
               <i class="pi pi-box" style="font-size: 4rem; color: #cbd5e1;"></i>
               <p class="text-muted mt-3 mb-0" style="font-size: 1.125rem; font-weight: 500;">{{ 'ADMIN.PRODUCTS.NO_PRODUCTS_FOUND' | translate }}</p>
               <p class="text-muted" style="font-size: 0.875rem;">{{ 'ADMIN.PRODUCTS.NO_PRODUCTS_MESSAGE' | translate }}</p>

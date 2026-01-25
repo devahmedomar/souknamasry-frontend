@@ -13,6 +13,8 @@ export interface Product {
   stockQuantity: number;
   inStock: boolean;
   isActive: boolean;
+  isFeatured?: boolean;
+  isSponsored?: boolean;
   slug: string;
   createdAt: string;
   updatedAt: string;
@@ -50,6 +52,14 @@ export interface UpdateProductStockDto {
 
 export interface ToggleProductActiveDto {
   isActive: boolean;
+}
+
+export interface ToggleFeaturedDto {
+  isFeatured: boolean;
+}
+
+export interface ToggleSponsoredDto {
+  isSponsored: boolean;
 }
 
 export interface ProductsResponse {

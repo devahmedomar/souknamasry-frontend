@@ -8,6 +8,8 @@ import {
   UpdateProductDto,
   UpdateProductStockDto,
   ToggleProductActiveDto,
+  ToggleFeaturedDto,
+  ToggleSponsoredDto,
   ProductsResponse,
   ProductResponse,
   ProductQueryParams,
@@ -102,6 +104,34 @@ export class ProductAdminService {
   ): Observable<ProductResponse> {
     return this.http.patch<ProductResponse>(
       `${this.apiUrl}/${id}/toggle-active`,
+      data
+    );
+  }
+
+  /**
+   * Toggle product featured status
+   * PATCH /api/admin/products/:id/featured
+   */
+  toggleFeatured(
+    id: string,
+    data: ToggleFeaturedDto
+  ): Observable<ProductResponse> {
+    return this.http.patch<ProductResponse>(
+      `${this.apiUrl}/${id}/featured`,
+      data
+    );
+  }
+
+  /**
+   * Toggle product sponsored status
+   * PATCH /api/admin/products/:id/sponsored
+   */
+  toggleSponsored(
+    id: string,
+    data: ToggleSponsoredDto
+  ): Observable<ProductResponse> {
+    return this.http.patch<ProductResponse>(
+      `${this.apiUrl}/${id}/sponsored`,
       data
     );
   }

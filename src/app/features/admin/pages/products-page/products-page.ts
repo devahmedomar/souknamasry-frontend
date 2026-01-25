@@ -368,6 +368,56 @@ export class ProductsPage implements OnInit {
     });
   }
 
+  toggleFeatured(product: Product): void {
+    const newStatus = !product.isFeatured;
+    const action = newStatus ? 'mark as featured' : 'remove from featured';
+
+    this.productService
+      .toggleFeatured(product._id, { isFeatured: newStatus })
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: `Product ${action} successfully`,
+          });
+          this.loadProducts();
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: `Failed to ${action}`,
+          });
+        },
+      });
+  }
+
+  toggleSponsored(product: Product): void {
+    const newStatus = !product.isSponsored;
+    const action = newStatus ? 'mark as sponsored' : 'remove from sponsored';
+
+    this.productService
+      .toggleSponsored(product._id, { isSponsored: newStatus })
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: `Product ${action} successfully`,
+          });
+          this.loadProducts();
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: `Failed to ${action}`,
+          });
+        },
+      });
+  }
+
   deleteProduct(product: Product): void {
     this.confirmationService.confirm({
       message: `Are you sure you want to permanently delete "${product.name}"? This action cannot be undone.`,
