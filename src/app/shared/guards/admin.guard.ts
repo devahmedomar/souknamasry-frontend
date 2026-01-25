@@ -1,10 +1,10 @@
 import { inject, PLATFORM_ID } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { CanActivateFn } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from '../../features/auth/services/auth.service';
 
-export const adminGuard: CanActivateFn = (route, state) => {
+export const adminGuard: CanActivateFn = (route, state): boolean | UrlTree => {
   const authService = inject(AuthService);
   const router = inject(Router);
   const platformId = inject(PLATFORM_ID);
@@ -14,23 +14,27 @@ export const adminGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
+  // AuthService loads from localStorage in its constructor, which is synchronous
+  // By the time the guard runs, the data should be available
   const token = authService.token();
   const user = authService.currentUser();
 
+  console.log('Admin Guard - Token:', !!token, 'User:', !!user, 'Role:', user?.role);
+
   // First check if user is authenticated
   if (!token || !user) {
-    router.navigate(['/auth/login'], {
+    console.log('Admin Guard - No auth, redirecting to login');
+    return router.createUrlTree(['/auth/login'], {
       queryParams: { returnUrl: state.url },
     });
-    return false;
   }
 
   // Then check if user has admin role
   if (user.role !== 'admin') {
-    // Redirect non-admin users (including customers) to home
-    router.navigate(['/']);
-    return false;
+    console.log('Admin Guard - Not admin, redirecting to home');
+    return router.createUrlTree(['/']);
   }
 
+  console.log('Admin Guard - Access granted');
   return true;
 };

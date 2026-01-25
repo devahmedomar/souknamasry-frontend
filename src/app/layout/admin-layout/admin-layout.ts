@@ -9,6 +9,9 @@ import { AuthService } from '../../features/auth/services/auth.service';
   imports: [RouterOutlet, RouterLink, FormsModule, TranslateModule],
   templateUrl: './admin-layout.html',
   styleUrl: './admin-layout.css',
+  host: {
+    ngSkipHydration: 'true'
+  }
 })
 export class AdminLayout {
   private readonly authService = inject(AuthService);

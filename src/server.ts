@@ -5,10 +5,13 @@ import {
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express from 'express';
-import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import { generateSitemap } from './sitemap';
 
-const browserDistFolder = join(import.meta.dirname, '../browser');
+const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+const browserDistFolder = join(serverDistFolder, '../browser');
+const indexHtml = join(browserDistFolder, 'index.html');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
@@ -58,11 +61,25 @@ app.use(
  * Handle all other requests by rendering the Angular application.
  */
 app.use((req, res, next) => {
+  // Skip SSR for admin routes - serve static HTML for client-side rendering
+  // This avoids hydration issues with PrimeNG components and ensures localStorage access
+  if (req.url.startsWith('/admin')) {
+    res.sendFile(indexHtml, (err) => {
+      if (err) {
+        // If file doesn't exist (e.g., dev mode), fall back to SSR
+        console.log('Index file not found for admin route, using SSR fallback');
+        angularApp
+          .handle(req)
+          .then((response) => (response ? writeResponseToNodeResponse(response, res) : next()))
+          .catch(next);
+      }
+    });
+    return;
+  }
+
   angularApp
     .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
+    .then((response) => (response ? writeResponseToNodeResponse(response, res) : next()))
     .catch(next);
 });
 

@@ -1,9 +1,12 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../../features/auth/services/auth.service';
+import { catchError, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const authService = inject(AuthService);
+    const router = inject(Router);
     const token = authService.token();
 
     if (token) {
@@ -12,7 +15,18 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
                 Authorization: `Bearer ${token}`
             }
         });
-        return next(cloned);
+
+        return next(cloned).pipe(
+            catchError((error: HttpErrorResponse) => {
+                if (error.status === 401) {
+                    // Token is invalid or expired
+                    console.error('Authentication failed - token expired or invalid');
+                    authService.clearAuthData();
+                    router.navigate(['/auth/login']);
+                }
+                return throwError(() => error);
+            })
+        );
     }
 
     return next(req);

@@ -44,7 +44,7 @@ export class AuthService {
     logout(): Observable<LogoutResponse | null> {
         return this.http.post<LogoutResponse>(`${this.baseUrl}/logout`, {}).pipe(
             tap(() => this.clearAuthData()),
-            catchError((error) => {
+            catchError(() => {
                 // Clear auth data even if API call fails
                 this.clearAuthData();
                 return of(null);
@@ -74,10 +74,14 @@ export class AuthService {
         if (isPlatformBrowser(this.platformId)) {
             const token = localStorage.getItem('token');
             const user = localStorage.getItem('user');
-            if (token) this.token.set(token);
+
+            if (token) {
+                this.token.set(token);
+            }
             if (user) {
                 try {
-                    this.currentUser.set(JSON.parse(user));
+                    const parsedUser = JSON.parse(user);
+                    this.currentUser.set(parsedUser);
                 } catch (e) {
                     console.error('Error parsing user data from localStorage', e);
                 }

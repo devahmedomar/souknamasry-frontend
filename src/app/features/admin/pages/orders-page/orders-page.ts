@@ -44,6 +44,9 @@ import { MessageService, ConfirmationService } from 'primeng/api';
   providers: [MessageService, ConfirmationService],
   templateUrl: './orders-page.html',
   styleUrl: './orders-page.css',
+  host: {
+    ngSkipHydration: 'true'
+  }
 })
 export class OrdersPage implements OnInit {
   private readonly orderService = inject(OrderAdminService);
