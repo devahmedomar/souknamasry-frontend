@@ -1,41 +1,54 @@
-<div class="card product-card border-0 shadow-sm h-100 overflow-hidden"
-     [class.clickable]="product().slug"
-     (click)="navigateToProduct()"
-     [attr.role]="product().slug ? 'button' : null"
-     [attr.tabindex]="product().slug ? 0 : null">
-  <div class="position-relative">
-    <div class="product-image-container position-relative" style="width: 100%; aspect-ratio: 1/1;">
-      <img [ngSrc]="product().imageUrl || product().image || '/images/placeholder.svg'" [alt]="product().title" class="card-img-top product-image" fill />
+<div class="product-card" [class.clickable]="product().slug" (click)="navigateToProduct()"
+  [attr.role]="product().slug ? 'button' : null" [attr.tabindex]="product().slug ? 0 : null"
+  (keydown.enter)="navigateToProduct()">
+
+  <!-- Image Container -->
+  <div class="product-image-wrapper">
+    <div class="product-image-container">
+      <img [ngSrc]="product().imageUrl || product().image || '/images/placeholder.svg'" [alt]="product().title"
+        class="product-image" fill />
     </div>
 
-    <!-- Top Left Cart Icon -->
-    <div class="position-absolute top-0 start-0 p-3 z-1">
-      <button pButton type="button" icon="fas fa-shopping-cart"
-        class="p-button-rounded p-button-text bg-white text-dark shadow-sm icon-btn"
-        (click)="onAddToCart($event)"></button>
-    </div>
+    <!-- Wishlist Button - Top Right -->
+    <button type="button" class="wishlist-btn" [class.active]="isFavourite()" (click)="onAddToWishlist($event)"
+      [attr.aria-label]="(isFavourite() ? 'PRODUCT.REMOVE_FROM_WISHLIST' : 'PRODUCT.ADD_TO_WISHLIST') | translate">
+      <i [class]="isFavourite() ? 'fas fa-heart' : 'far fa-heart'"></i>
+    </button>
 
-    <!-- Top Right Wishlist Icon -->
-    <div class="position-absolute top-0 end-0 p-3 z-1">
-      <button pButton type="button"
-        [icon]="isFavourite() ? 'fas fa-heart' : 'far fa-heart'"
-        [class]="isFavourite() ? 'p-button-rounded p-button-text shadow-sm icon-btn favourite-active' : 'p-button-rounded p-button-text bg-white text-dark shadow-sm icon-btn'"
-        (click)="onAddToWishlist($event)"></button>
+    <!-- Quick Add to Cart on Hover (Desktop) -->
+    <div class="quick-add-overlay">
+      <button type="button" class="quick-add-btn" (click)="onAddToCart($event)">
+        <i class="fas fa-shopping-cart me-2"></i>
+        {{ 'PRODUCT.ADD_TO_CART' | translate }}
+      </button>
     </div>
   </div>
 
-  <div class="card-body text-center p-3 d-flex flex-column align-items-center gap-1 bg-secondary-50">
-    <h3 class="card-title fw-bold text-dark-brown mb-1 h5">{{ product().title }}</h3>
+  <!-- Product Info -->
+  <div class="product-info">
+    <!-- Product Title -->
+    <h3 class="product-title">{{ product().title }}</h3>
 
-    <div class="mb-1">
+    <!-- Rating -->
+    @if (product().rating && product().rating > 0) {
+    <div class="product-rating">
       <p-rating [ngModel]="product().rating" [readonly]="true" class="custom-rating"></p-rating>
     </div>
+    }
 
-    <span class="text-muted small">{{ product().category }}</span>
+    <!-- Category -->
+    @if (product().category) {
+    <span class="product-category">{{ product().category }}</span>
+    }
 
-    <div class="fw-bold fs-5 text-dark-brown mb-2">{{ product().price | price }}</div>
+    <!-- Price -->
+    <div class="product-price-wrapper">
+      <span class="product-price">{{ product().price | price }}</span>
+    </div>
 
-    <button class="btn btn-primary w-100 rounded-3 text-white fw-bold py-2 add-btn" (click)="onAddToCart($event)">
+    <!-- Add to Cart Button (Mobile & Fallback) -->
+    <button type="button" class="add-to-cart-btn" (click)="onAddToCart($event)">
+      <i class="fas fa-shopping-cart me-2"></i>
       {{ 'PRODUCT.ADD_TO_CART' | translate }}
     </button>
   </div>

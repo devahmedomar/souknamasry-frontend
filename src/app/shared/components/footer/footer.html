@@ -1,38 +1,45 @@
-<footer class="mt-5">
-  <div class="bg-primary py-3">
+<footer class="footer">
+  <!-- Contact Banner -->
+  <div class="footer-banner bg-primary py-4">
     <div class="container">
-      <div class="help row">
-        <div class="col-lg-5 text-white">
-          <h3>{{ 'FOOTER.NEED_HELP' | translate }}</h3>
-          <p>{{ 'FOOTER.CONTACT_US_TEXT' | translate }}</p>
+      <div class="row align-items-center">
+        <div class="col-lg-4 mb-4 mb-lg-0">
+          <h3 class="text-white mb-2 fs-4 font-semibold">{{ 'FOOTER.NEED_HELP' | translate }}</h3>
+          <p class="text-white mb-0 opacity-90">{{ 'FOOTER.CONTACT_US_TEXT' | translate }}</p>
         </div>
-        <div class="col-lg-7">
-          <div class="d-flex justify-content-between flex-wrap">
-            <div class="d-flex align-items-center my-3">
-              <div class="icon me-2 rounded-circle bg-white d-flex justify-content-center align-items-center">
-                <i class="fa fa-message"></i>
-              </div>
-              <div class="">
-                <h4 class="fs-6">{{ 'FOOTER.OUR_CHAT' | translate }}</h4>
-                <p>{{ 'FOOTER.TALK_TO_US' | translate }}</p>
-              </div>
-            </div>
-            <div class="d-flex align-items-center my-3">
-              <div class="icon me-2 rounded-circle bg-white d-flex justify-content-center align-items-center">
-                <i class="fa fa-phone"></i>
-              </div>
-              <div class="">
-                <h4 class="fs-6">{{ 'FOOTER.OUR_PHONE' | translate }}</h4>
-                <p>+20 1029147032</p>
+        <div class="col-lg-8">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fa fa-message"></i>
+                </div>
+                <div class="contact-info">
+                  <h4 class="contact-title">{{ 'FOOTER.OUR_CHAT' | translate }}</h4>
+                  <p class="contact-text">{{ 'FOOTER.TALK_TO_US' | translate }}</p>
+                </div>
               </div>
             </div>
-            <div class="d-flex align-items-center my-3">
-              <div class="icon me-2 rounded-circle bg-white d-flex justify-content-center align-items-center">
-                <i class="fa fa-envelope"></i>
+            <div class="col-md-4">
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fa fa-phone"></i>
+                </div>
+                <div class="contact-info">
+                  <h4 class="contact-title">{{ 'FOOTER.OUR_PHONE' | translate }}</h4>
+                  <p class="contact-text">+20 1029147032</p>
+                </div>
               </div>
-              <div class="">
-                <h4 class="fs-6">{{ 'FOOTER.OUR_EMAIL' | translate }}</h4>
-                <p>souknamasry22@gmail.com</p>
+            </div>
+            <div class="col-md-4">
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fa fa-envelope"></i>
+                </div>
+                <div class="contact-info">
+                  <h4 class="contact-title">{{ 'FOOTER.OUR_EMAIL' | translate }}</h4>
+                  <p class="contact-text">souknamasry22@gmail.com</p>
+                </div>
               </div>
             </div>
           </div>
@@ -40,65 +47,132 @@
       </div>
     </div>
   </div>
-  <div class="footer-bottom bg-light py-5">
-    <div class="container">
-      <div class="row">
-        <!-- Sell with us -->
-        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-          <h5 class="fw-semibold mb-3">{{ 'FOOTER.SELL_WITH_US' | translate }}</h5>
-          <ul class="list-unstyled m-0 p-0">
-            <li class="mb-2">{{ 'FOOTER.BUSINESS' | translate }}</li>
-          </ul>
-        </div>
 
-        <!-- Our terms & service -->
-        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-          <h5 class="fw-semibold mb-3">{{ 'FOOTER.TERMS_SERVICE' | translate }}</h5>
-          <ul class="list-unstyled m-0 p-0">
-            <li class="mb-2">
-              <a href="#" class="text-dark text-decoration-none">{{ 'FOOTER.TERMS_CONDITIONS' | translate }}</a>
-            </li>
-            <li class="mb-2">
-              <a href="#" class="text-dark text-decoration-none">{{ 'FOOTER.PRIVACY_POLICY' | translate }}</a>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Category -->
-        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-          <h5 class="fw-semibold mb-3">{{ 'FOOTER.CATEGORY' | translate }}</h5>
-          <ul class="list-unstyled m-0 p-0">
-            <li class="mb-2">
-              <a href="#" class="text-dark text-decoration-none">{{ 'FOOTER.CLOTHES' | translate }}</a>
-            </li>
-            <li class="mb-2">
-              <a href="#" class="text-dark text-decoration-none">{{ 'FOOTER.HOUSEWARES' | translate }}</a>
-            </li>
-            <li class="mb-2">
-              <a href="#" class="text-dark text-decoration-none">{{ 'FOOTER.MAKEUP' | translate }}</a>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Follow us -->
+  <!-- Main Footer Content -->
+  <div class="footer-main">
+    <div class="container py-5">
+      <div class="row g-4">
+        <!-- About Section -->
         <div class="col-lg-3 col-md-6">
-          <h5 class="fw-semibold mb-3">{{ 'FOOTER.FOLLOW_US' | translate }}</h5>
-          <div class="d-flex gap-2">
-            <a href="#"
-              class="text-decoration-none d-inline-flex align-items-center justify-content-center bg-white text-dark rounded p-2"
-              style="width: 40px; height: 40px" aria-label="Facebook">
-              <i class="fab fa-facebook fs-5"></i>
+          <h5 class="footer-title">{{ 'FOOTER.SELL_WITH_US' | translate }}</h5>
+          <ul class="footer-links">
+            <li><a href="#">{{ 'FOOTER.BUSINESS' | translate }}</a></li>
+            <li><a href="#">{{ 'FOOTER.BECOME_PARTNER' | translate }}</a></li>
+            <li><a href="#">{{ 'FOOTER.AFFILIATE_PROGRAM' | translate }}</a></li>
+          </ul>
+        </div>
+
+        <!-- Terms & Service -->
+        <div class="col-lg-3 col-md-6">
+          <h5 class="footer-title">{{ 'FOOTER.TERMS_SERVICE' | translate }}</h5>
+          <ul class="footer-links">
+            <li><a href="#">{{ 'FOOTER.TERMS_CONDITIONS' | translate }}</a></li>
+            <li><a href="#">{{ 'FOOTER.PRIVACY_POLICY' | translate }}</a></li>
+            <li><a href="#">{{ 'FOOTER.SHIPPING_POLICY' | translate }}</a></li>
+            <li><a href="#">{{ 'FOOTER.RETURN_POLICY' | translate }}</a></li>
+          </ul>
+        </div>
+
+        <!-- Categories -->
+        <div class="col-lg-3 col-md-6">
+          <h5 class="footer-title">{{ 'FOOTER.CATEGORY' | translate }}</h5>
+          <ul class="footer-links">
+            <li><a href="#">{{ 'FOOTER.CLOTHES' | translate }}</a></li>
+            <li><a href="#">{{ 'FOOTER.HOUSEWARES' | translate }}</a></li>
+            <li><a href="#">{{ 'FOOTER.MAKEUP' | translate }}</a></li>
+            <li><a href="#">{{ 'FOOTER.ELECTRONICS' | translate }}</a></li>
+          </ul>
+        </div>
+
+        <!-- Newsletter & Social -->
+        <div class="col-lg-3 col-md-6">
+          <h5 class="footer-title">{{ 'FOOTER.NEWSLETTER' | translate }}</h5>
+          <p class="footer-newsletter-text">
+            {{ 'FOOTER.NEWSLETTER_TEXT' | translate }}
+          </p>
+          <form class="newsletter-form">
+            <div class="input-group">
+              <input
+                type="email"
+                class="form-control newsletter-input"
+                placeholder="{{ 'FOOTER.EMAIL_PLACEHOLDER' | translate }}"
+                aria-label="Email"
+              />
+              <button class="btn btn-primary newsletter-btn" type="submit">
+                <i class="fa fa-paper-plane"></i>
+              </button>
+            </div>
+          </form>
+
+          <!-- Social Links -->
+          <h5 class="footer-title mt-4">{{ 'FOOTER.FOLLOW_US' | translate }}</h5>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Facebook">
+              <i class="fab fa-facebook"></i>
             </a>
-            <a href="#"
-              class="text-decoration-none d-inline-flex align-items-center justify-content-center bg-white text-dark rounded p-2"
-              style="width: 40px; height: 40px" aria-label="Instagram">
-              <i class="fab fa-instagram fs-5"></i>
+            <a href="#" class="social-link" aria-label="Instagram">
+              <i class="fab fa-instagram"></i>
             </a>
-            <a href="#"
-              class="d-inline-flex text-decoration-none align-items-center justify-content-center bg-white text-dark rounded p-2"
-              style="width: 40px; height: 40px" aria-label="Twitter">
-              <i class="fab fa-twitter fs-5"></i>
+            <a href="#" class="social-link" aria-label="Twitter">
+              <i class="fab fa-twitter"></i>
             </a>
+            <a href="#" class="social-link" aria-label="YouTube">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trust Badges & Payment -->
+  <div class="footer-trust">
+    <div class="container py-4">
+      <div class="row align-items-center">
+        <div class="col-md-6 mb-3 mb-md-0">
+          <div class="trust-badges">
+            <div class="trust-badge">
+              <i class="fa fa-shipping-fast"></i>
+              <span>{{ 'FOOTER.FREE_SHIPPING' | translate }}</span>
+            </div>
+            <div class="trust-badge">
+              <i class="fa fa-undo"></i>
+              <span>{{ 'FOOTER.EASY_RETURNS' | translate }}</span>
+            </div>
+            <div class="trust-badge">
+              <i class="fa fa-shield-alt"></i>
+              <span>{{ 'FOOTER.SECURE_PAYMENT' | translate }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <div class="payment-methods">
+            <span class="payment-label">{{ 'FOOTER.WE_ACCEPT' | translate }}</span>
+            <i class="fab fa-cc-visa payment-icon"></i>
+            <i class="fab fa-cc-mastercard payment-icon"></i>
+            <i class="fab fa-cc-paypal payment-icon"></i>
+            <i class="fas fa-money-bill-wave payment-icon"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Copyright -->
+  <div class="footer-bottom">
+    <div class="container py-3">
+      <div class="row align-items-center">
+        <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+          <p class="copyright-text mb-0">
+            &copy; {{ currentYear }} {{ 'FOOTER.SOUKNAMASRY' | translate }}.
+            {{ 'FOOTER.ALL_RIGHTS_RESERVED' | translate }}
+          </p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <div class="footer-bottom-links">
+            <a href="#">{{ 'FOOTER.HELP_CENTER' | translate }}</a>
+            <span class="divider">|</span>
+            <a href="#">{{ 'FOOTER.CONTACT_US' | translate }}</a>
           </div>
         </div>
       </div>

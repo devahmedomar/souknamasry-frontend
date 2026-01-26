@@ -9,5 +9,5 @@ import { TranslateModule } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Footer {
-
+  currentYear = new Date().getFullYear();
 }
