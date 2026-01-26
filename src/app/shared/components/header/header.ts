@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, computed, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, OnInit, computed, signal, ChangeDetectionStrategy, HostListener } from '@angular/core';
 import { Router, RouterLink } from "@angular/router";
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
@@ -18,6 +18,7 @@ import { SearchComponent } from '../search/search';
  * - Handle language switching
  * - Display cart item count
  * - Handle user logout
+ * - Sticky header with scroll behavior
  */
 @Component({
   selector: 'app-header',
@@ -57,9 +58,19 @@ export class Header implements OnInit {
   // Logout loading state
   loggingOut = signal(false);
 
+  // Scroll state for sticky header behavior
+  isScrolled = signal(false);
+
   // Current language for template access
   get currentLang(): string {
     return this.translateService.currentLang;
+  }
+
+  // Listen to window scroll events
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+    this.isScrolled.set(scrollPosition > 50);
   }
 
   ngOnInit(): void {

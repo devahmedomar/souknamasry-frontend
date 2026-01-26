@@ -5,10 +5,11 @@ import { CarouselModule } from 'primeng/carousel';
 import { ProductsService } from '../../../products/services/products.service';
 import { CommonModule } from '@angular/common';
 import { ProductCardSkeleton } from '../../../../shared/components/skeletons';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-featured-products',
-  imports: [ProductCard, CarouselModule, CommonModule, ProductCardSkeleton],
+  imports: [ProductCard, CarouselModule, CommonModule, ProductCardSkeleton, TranslateModule],
   templateUrl: './featured-products.html',
   styleUrl: './featured-products.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,7 +54,7 @@ export class FeaturedProducts implements OnInit {
       },
       error: (err) => {
         console.error('Error loading featured products:', err);
-        this.error.set('Failed to load featured products');
+        this.error.set('HOMEPAGE.ERROR_LOADING_FEATURED');
         this.loading.set(false);
       }
     });

@@ -12,12 +12,12 @@
     } @else if (error()) {
         <div class="alert alert-warning text-center" role="alert">
             <i class="pi pi-exclamation-triangle me-2"></i>
-            {{ error() }}
+            {{ error() | translate }}
         </div>
     } @else if (products().length === 0) {
         <div class="text-center py-5">
             <i class="pi pi-inbox" style="font-size: 3rem; color: #cbd5e1;"></i>
-            <p class="mt-3 text-muted">No sponsored products available</p>
+            <p class="mt-3 text-muted">{{ 'HOMEPAGE.NO_SPONSORED_PRODUCTS' | translate }}</p>
         </div>
     } @else {
         <p-carousel [value]="products()" [numVisible]="3" [numScroll]="1" [circular]="true"

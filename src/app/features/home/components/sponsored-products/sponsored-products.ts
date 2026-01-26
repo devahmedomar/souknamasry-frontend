@@ -54,7 +54,7 @@ export class SponsoredProducts implements OnInit {
       },
       error: (err) => {
         console.error('Error loading sponsored products:', err);
-        this.error.set('Failed to load sponsored products');
+        this.error.set('HOMEPAGE.ERROR_LOADING_SPONSORED');
         this.loading.set(false);
       }
     });
