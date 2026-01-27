@@ -1,0 +1,105 @@
+<!-- Loading State -->
+@if (isLoading()) {
+  @for (skeleton of [1, 2]; track skeleton) {
+    <section class="section-wrapper">
+      <!-- Skeleton Header -->
+      <div class="section-header">
+        <div class="section-title-wrapper">
+          <div class="skeleton skeleton-title"></div>
+          <div class="skeleton skeleton-description"></div>
+        </div>
+        <div class="skeleton skeleton-button"></div>
+      </div>
+
+      <!-- Skeleton Carousel -->
+      <div class="py-4">
+        <div class="skeleton-carousel">
+          <div class="skeleton-carousel-track">
+            @for (item of [1, 2, 3]; track item) {
+              <div class="skeleton-carousel-item">
+                <app-product-card-skeleton />
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+  }
+}
+
+<!-- Error State -->
+@else if (error()) {
+  <div class="error-container">
+    <div class="error-content">
+      <i class="pi pi-exclamation-triangle error-icon"></i>
+      <h3 class="error-title">{{ 'ERRORS.LOAD_FAILED' | translate }}</h3>
+      <p class="error-message">{{ error() }}</p>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="reload()">
+        <i class="pi pi-refresh"></i>
+        {{ 'COMMON.TRY_AGAIN' | translate }}
+      </button>
+    </div>
+  </div>
+}
+
+<!-- Sections Content -->
+@else if (sections().length > 0) {
+  @for (section of sections(); track trackBySection($index, section)) {
+    <section class="section-wrapper">
+      <!-- Section Header -->
+      <div class="section-header">
+        <div class="section-title-wrapper">
+          <h2 class="section-title">{{ section.category.name }}</h2>
+          @if (section.category.description) {
+            <p class="section-description">{{ section.category.description }}</p>
+          }
+        </div>
+        <a
+          [routerLink]="['/categories', section.category.slug]"
+          class="view-all-link">
+          {{ 'COMMON.VIEW_ALL' | translate }}
+          <i class="pi pi-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Products Carousel -->
+      @if (section.products.length > 0) {
+        <div class="py-4">
+          <p-carousel
+            [value]="getSectionProducts(section)"
+            [numVisible]="3"
+            [numScroll]="1"
+            [circular]="true"
+            [responsiveOptions]="responsiveOptions">
+            <ng-template let-product pTemplate="item">
+              <div class="p-2 h-100">
+                <app-product-card [product]="product" />
+              </div>
+            </ng-template>
+          </p-carousel>
+        </div>
+      }
+
+      <!-- Empty State for Section -->
+      @else {
+        <div class="empty-section">
+          <p class="empty-message">{{ 'PRODUCT.NO_PRODUCTS' | translate }}</p>
+        </div>
+      }
+    </section>
+  }
+}
+
+<!-- No Sections State -->
+@else {
+  <div class="empty-container">
+    <div class="empty-content">
+      <i class="pi pi-inbox empty-icon"></i>
+      <h3 class="empty-title">{{ 'SECTIONS.NO_SECTIONS' | translate }}</h3>
+      <p class="empty-message">{{ 'SECTIONS.NO_SECTIONS_DESCRIPTION' | translate }}</p>
+    </div>
+  </div>
+}

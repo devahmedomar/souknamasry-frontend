@@ -3,12 +3,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HeroBanner } from '../../components/hero-banner/hero-banner';
 import { FeaturedProducts } from '../../components/featured-products/featured-products';
 import { SponsoredProducts } from '../../components/sponsored-products/sponsored-products';
+import { DynamicSectionsComponent } from '../../components/dynamic-sections/dynamic-sections.component';
 import { ProductCardSkeleton } from '../../../../shared/components/skeletons';
 import { SeoService } from '../../../../core/services/seo.service';
 
 @Component({
   selector: 'app-home-page',
-  imports: [TranslateModule, HeroBanner, FeaturedProducts, SponsoredProducts, ProductCardSkeleton],
+  imports: [TranslateModule, HeroBanner, FeaturedProducts, SponsoredProducts, DynamicSectionsComponent, ProductCardSkeleton],
   templateUrl: './home-page.html',
   styleUrl: './home-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

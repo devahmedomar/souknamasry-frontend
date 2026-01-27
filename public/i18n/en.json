@@ -128,7 +128,8 @@
     "PRODUCT_REMOVED_FROM_WISHLIST": "Product removed from wishlist",
     "COLOR": "Color",
     "SIZE": "Size",
-    "NOT_FOUND": "Product not found"
+    "NOT_FOUND": "Product not found",
+    "NO_PRODUCTS": "No products available"
   },
   "CART": {
     "ADD_SUCCESS": "Product added to cart successfully",
@@ -589,8 +590,13 @@
     "500_MESSAGE": "Sorry, something went wrong. Please try again later.",
     "NETWORK_ERROR": "Network connection error",
     "LOADING_ERROR": "Failed to load data",
+    "LOAD_FAILED": "Failed to load content",
     "GO_HOME": "Go Home",
     "REFRESH": "Refresh Page"
+  },
+  "SECTIONS": {
+    "NO_SECTIONS": "No sections available",
+    "NO_SECTIONS_DESCRIPTION": "Check back later for new product collections"
   },
   "ADMIN": {
     "DASHBOARD": {
