@@ -1,48 +1,71 @@
 <app-hero-banner></app-hero-banner>
 
 <div class="container">
-    <h3 class="mb-4">{{ 'HOMEPAGE.FEATURED_PRODUCTS' | translate }}</h3>
-    @defer (on viewport) {
-        <app-featured-products></app-featured-products>
-    } @placeholder {
-        <div class="row g-4 py-4">
-            @for (i of [1, 2, 3, 4]; track i) {
-            <div class="col-6 col-md-4 col-lg-3">
-                <app-product-card-skeleton></app-product-card-skeleton>
-            </div>
-            }
-        </div>
-    } @loading (minimum 200ms) {
-        <div class="row g-4 py-4">
-            @for (i of [1, 2, 3, 4]; track i) {
-            <div class="col-6 col-md-4 col-lg-3">
-                <app-product-card-skeleton></app-product-card-skeleton>
-            </div>
-            }
-        </div>
+  <h3 class="mb-4">{{ 'HOMEPAGE.FEATURED_PRODUCTS' | translate }}</h3>
+  @defer (on viewport) {
+  <app-featured-products></app-featured-products>
+  } @placeholder {
+  <div class="row g-4 py-4">
+    @for (i of [1, 2, 3, 4]; track i) {
+    <div class="col-6 col-md-4 col-lg-3">
+      <app-product-card-skeleton></app-product-card-skeleton>
+    </div>
     }
+  </div>
+  } @loading (minimum 200ms) {
+  <div class="row g-4 py-4">
+    @for (i of [1, 2, 3, 4]; track i) {
+    <div class="col-6 col-md-4 col-lg-3">
+      <app-product-card-skeleton></app-product-card-skeleton>
+    </div>
+    }
+  </div>
+  }
+</div>
+
+<!-- Dynamic Category Sections -->
+<div class="container">
+  @defer (on viewport) {
+  <app-dynamic-sections [sortBy]="'newest'" [limit]="10"></app-dynamic-sections>
+  } @placeholder {
+  <div class="row g-4 py-4">
+    @for (i of [1, 2, 3, 4]; track i) {
+    <div class="col-6 col-md-4 col-lg-3">
+      <app-product-card-skeleton></app-product-card-skeleton>
+    </div>
+    }
+  </div>
+  } @loading (minimum 200ms) {
+  <div class="row g-4 py-4">
+    @for (i of [1, 2, 3, 4]; track i) {
+    <div class="col-6 col-md-4 col-lg-3">
+      <app-product-card-skeleton></app-product-card-skeleton>
+    </div>
+    }
+  </div>
+  }
 </div>
 
 <div class="gradient-warmy">
-    <div class="container">
-        @defer (on viewport) {
-            <app-sponsored-products></app-sponsored-products>
-        } @placeholder {
-            <div class="row g-4 py-4">
-                @for (i of [1, 2, 3, 4]; track i) {
-                <div class="col-6 col-md-4 col-lg-3">
-                    <app-product-card-skeleton></app-product-card-skeleton>
-                </div>
-                }
-            </div>
-        } @loading (minimum 200ms) {
-            <div class="row g-4 py-4">
-                @for (i of [1, 2, 3, 4]; track i) {
-                <div class="col-6 col-md-4 col-lg-3">
-                    <app-product-card-skeleton></app-product-card-skeleton>
-                </div>
-                }
-            </div>
-        }
+  <div class="container">
+    @defer (on viewport) {
+    <app-sponsored-products></app-sponsored-products>
+    } @placeholder {
+    <div class="row g-4 py-4">
+      @for (i of [1, 2, 3, 4]; track i) {
+      <div class="col-6 col-md-4 col-lg-3">
+        <app-product-card-skeleton></app-product-card-skeleton>
+      </div>
+      }
     </div>
+    } @loading (minimum 200ms) {
+    <div class="row g-4 py-4">
+      @for (i of [1, 2, 3, 4]; track i) {
+      <div class="col-6 col-md-4 col-lg-3">
+        <app-product-card-skeleton></app-product-card-skeleton>
+      </div>
+      }
+    </div>
+    }
+  </div>
 </div>
