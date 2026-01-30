@@ -7,7 +7,7 @@ import {
   input
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
@@ -17,6 +17,9 @@ import { IProductCard } from '../../../../shared/models/productCard';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
 import { ProductCardSkeleton } from '../../../../shared/components/skeletons/product-card-skeleton/product-card-skeleton';
 import { CartService } from '../../../cart/services/cart.service';
+import { FavouritesService } from '../../../favourites/services/favourites.service';
+import { FavouritesStateService } from '../../../favourites/services/favourites-state.service';
+import { AuthService } from '../../../auth/services/auth.service';
 import { ToastService } from '../../../../shared/services/toast.service';
 
 /**
@@ -42,7 +45,11 @@ import { ToastService } from '../../../../shared/services/toast.service';
 export class DynamicSectionsComponent implements OnInit {
   private readonly homepageSectionsService = inject(HomepageSectionsService);
   private readonly cartService = inject(CartService);
+  private readonly favouritesService = inject(FavouritesService);
+  private readonly favouritesState = inject(FavouritesStateService);
+  private readonly authService = inject(AuthService);
   private readonly toastService = inject(ToastService);
+  private readonly router = inject(Router);
 
   // Input properties
   sortBy = input<'newest' | 'popular'>('newest');
@@ -52,6 +59,7 @@ export class DynamicSectionsComponent implements OnInit {
   sections = signal<HomepageSection[]>([]);
   isLoading = signal<boolean>(true);
   error = signal<string | null>(null);
+  favouriteIds = this.favouritesState.productIds;
 
   // Cache for mapped products to prevent re-rendering
   private productCache = new Map<string, IProductCard[]>();
@@ -133,16 +141,22 @@ export class DynamicSectionsComponent implements OnInit {
    * Handle add to cart event
    */
   onAddToCart(product: IProductCard): void {
+    if (!this.authService.token()) {
+      this.toastService.errorT('CART.LOGIN_REQUIRED');
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
     this.cartService.addToCart({
       productId: String(product.id),
       quantity: 1
     }).subscribe({
       next: () => {
-        this.toastService.success('Product added to cart successfully');
+        this.toastService.successT('CART.ADD_SUCCESS');
       },
       error: (err: any) => {
         console.error('Error adding to cart:', err);
-        this.toastService.error('Failed to add product to cart');
+        this.toastService.error(err.error?.message || 'Failed to add product to cart');
       }
     });
   }
@@ -150,9 +164,37 @@ export class DynamicSectionsComponent implements OnInit {
   /**
    * Handle add to wishlist event
    */
-  onAddToWishlist(_product: IProductCard): void {
-    // Wishlist functionality can be implemented here
-    this.toastService.info('Wishlist feature coming soon!');
+  onAddToWishlist(product: IProductCard): void {
+    if (!this.authService.token()) {
+      this.toastService.errorT('WISHLIST.LOGIN_REQUIRED');
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
+    const productId = product.id.toString();
+    const isFav = this.favouriteIds().has(productId);
+
+    if (isFav) {
+      this.favouritesService.removeFromFavourites(productId).subscribe({
+        next: () => {
+          this.toastService.successT('WISHLIST.ITEM_REMOVED');
+        },
+        error: (err) => {
+          console.error('Error removing from wishlist:', err);
+          this.toastService.error(err.error?.message || 'Failed to remove from wishlist');
+        }
+      });
+    } else {
+      this.favouritesService.addToFavourites(productId).subscribe({
+        next: () => {
+          this.toastService.successT('WISHLIST.ITEM_ADDED');
+        },
+        error: (err) => {
+          console.error('Error adding to wishlist:', err);
+          this.toastService.error(err.error?.message || 'Failed to add to wishlist');
+        }
+      });
+    }
   }
 
   /**

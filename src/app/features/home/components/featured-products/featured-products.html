@@ -22,7 +22,12 @@
             [responsiveOptions]="responsiveOptions" [autoplayInterval]="3000">
             <ng-template let-product pTemplate="item">
                 <div class="p-2 h-100">
-                    <app-product-card [product]="product"></app-product-card>
+                    <app-product-card
+                        [product]="product"
+                        [isFavourite]="favouriteIds().has(product.id.toString())"
+                        (addToCart)="onAddToCart($event)"
+                        (addToWishlist)="onAddToWishlist($event)">
+                    </app-product-card>
                 </div>
             </ng-template>
         </p-carousel>
