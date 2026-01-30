@@ -2,6 +2,21 @@ import { inject, Injectable, signal, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError, of } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
+import { environment } from '../../../../environments/environment';
+
+export interface LoginCredentials {
+    phone: string;
+    password: string;
+    recaptchaToken: string | null;
+}
+
+export interface RegisterData {
+    phone: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    recaptchaToken: string | null;
+}
 
 export interface LoginResponse {
     status: string;
@@ -24,7 +39,7 @@ export interface LogoutResponse {
 export class AuthService {
     private http = inject(HttpClient);
     private platformId = inject(PLATFORM_ID);
-    private baseUrl = 'https://souknamasry-be.vercel.app/api/auth';
+    private baseUrl = `${environment.apiUrl}auth`;
 
     token = signal<string | null>(null);
     currentUser = signal<any | null>(null);
@@ -33,11 +48,11 @@ export class AuthService {
         this.loadAuthData();
     }
 
-    login(credentials: any): Observable<LoginResponse> {
+    login(credentials: LoginCredentials): Observable<LoginResponse> {
         return this.http.post<LoginResponse>(`${this.baseUrl}/login`, credentials);
     }
 
-    register(userData: any): Observable<any> {
+    register(userData: RegisterData): Observable<any> {
         return this.http.post<any>(`${this.baseUrl}/register`, userData);
     }
 

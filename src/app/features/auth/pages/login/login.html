@@ -20,17 +20,17 @@
                   </div>
                   }
 
-                  <!-- Email or Phone Input -->
+                  <!-- Phone Input -->
                   <div class="mb-3">
-                    <input type="email" class="form-control py-2 px-3 border-secondary"
-                      [placeholder]="'AUTH.LOGIN.EMAIL_PLACEHOLDER' | translate" formControlName="email"
-                      [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" />
-                    @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+                    <input type="tel" class="form-control py-2 px-3 border-secondary"
+                      [placeholder]="'AUTH.LOGIN.PHONE_PLACEHOLDER' | translate" formControlName="phone"
+                      [class.is-invalid]="loginForm.get('phone')?.invalid && loginForm.get('phone')?.touched" />
+                    @if (loginForm.get('phone')?.invalid && loginForm.get('phone')?.touched) {
                     <div class="invalid-feedback">
-                      @if (loginForm.get('email')?.errors?.['required']) {
+                      @if (loginForm.get('phone')?.errors?.['required']) {
                       {{ 'AUTH.VALIDATION.REQUIRED' | translate }}
-                      } @else if (loginForm.get('email')?.errors?.['email']) {
-                      {{ 'AUTH.VALIDATION.INVALID_EMAIL' | translate }}
+                      } @else if (loginForm.get('phone')?.errors?.['pattern']) {
+                      {{ 'AUTH.VALIDATION.INVALID_PHONE' | translate }}
                       }
                     </div>
                     }

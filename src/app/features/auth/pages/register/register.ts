@@ -4,6 +4,7 @@ import { Router, RouterLink } from "@angular/router";
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../../../shared/services/toast.service';
+import { RecaptchaService } from '../../../../shared/services/recaptcha.service';
 
 export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const password = control.get('password');
@@ -27,56 +28,63 @@ export class Register {
   private router = inject(Router);
   private toast = inject(ToastService);
   private translate = inject(TranslateService);
+  private recaptchaService = inject(RecaptchaService);
 
   isLoading = signal<boolean>(false);
 
   registerForm: FormGroup = this.fb.group({
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
     phone: ['', [Validators.required, Validators.pattern('^[0-9]{11}$')]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     confirmPassword: ['', [Validators.required]],
     agreeTerms: [false, [Validators.requiredTrue]]
   }, { validators: passwordMatchValidator });
 
-  onSubmit() {
+  async onSubmit() {
     if (this.registerForm.valid) {
       this.isLoading.set(true);
 
-      const { firstName, lastName, email, password } = this.registerForm.value;
-      const registrationData = {
-        firstName,
-        lastName,
-        email,
-        password,
-        role: 'customer',
-        isActive: true
-      };
+      try {
+        const recaptchaToken = await this.recaptchaService.execute('register');
 
-      this.authService.register(registrationData).subscribe({
-        next: (response) => {
-          this.isLoading.set(false);
-          this.toast.successT('AUTH.MESSAGES.REGISTER_SUCCESS');
-          this.router.navigate(['/auth/login']);
-        },
-        error: (err) => {
-          this.isLoading.set(false);
-          let detail = this.translate.instant('AUTH.MESSAGES.REGISTER_ERROR');
+        const { firstName, lastName, phone, password } = this.registerForm.value;
+        const registrationData = {
+          phone,
+          password,
+          firstName,
+          lastName,
+          recaptchaToken
+        };
 
-          if (err.error?.data) {
-            const errorMessages = Object.values(err.error.data).flat();
-            if (errorMessages.length > 0) {
-              detail = errorMessages.join('. ');
+        this.authService.register(registrationData).subscribe({
+          next: (response) => {
+            this.isLoading.set(false);
+            this.toast.successT('AUTH.MESSAGES.REGISTER_SUCCESS');
+            this.router.navigate(['/auth/login']);
+          },
+          error: (err) => {
+            this.isLoading.set(false);
+            let detail = this.translate.instant('AUTH.MESSAGES.REGISTER_ERROR');
+
+            if (err.error?.data) {
+              const errorMessages = Object.values(err.error.data).flat();
+              if (errorMessages.length > 0) {
+                detail = errorMessages.join('. ');
+              }
+            } else if (err.error?.message) {
+              detail = err.error.message;
             }
-          } else if (err.error?.message) {
-            detail = err.error.message;
-          }
 
-          this.toast.error(detail);
-          console.error('Registration error', err);
-        }
-      });
+            this.toast.error(detail);
+            console.error('Registration error', err);
+          }
+        });
+      } catch (error) {
+        this.isLoading.set(false);
+        this.toast.error(this.translate.instant('AUTH.VALIDATION.RECAPTCHA_ERROR'));
+        console.error('reCAPTCHA error', error);
+      }
     } else {
       this.registerForm.markAllAsTouched();
     }

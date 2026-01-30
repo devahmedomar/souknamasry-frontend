@@ -41,22 +41,6 @@
                     </div>
                   </div>
 
-                  <!-- Email Input -->
-                  <div class="mb-3">
-                    <input type="email" class="form-control py-2 px-3 border-secondary"
-                      [placeholder]="'AUTH.REGISTER.EMAIL' | translate" formControlName="email"
-                      [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" />
-                    @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
-                    <div class="invalid-feedback">
-                      @if (registerForm.get('email')?.errors?.['required']) {
-                      {{ 'AUTH.VALIDATION.REQUIRED' | translate }}
-                      } @else if (registerForm.get('email')?.errors?.['email']) {
-                      {{ 'AUTH.VALIDATION.INVALID_EMAIL' | translate }}
-                      }
-                    </div>
-                    }
-                  </div>
-
                   <!-- Phone Input -->
                   <div class="mb-3">
                     <input type="tel" class="form-control py-2 px-3 border-secondary"

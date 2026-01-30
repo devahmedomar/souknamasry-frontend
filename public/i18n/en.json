@@ -316,8 +316,8 @@
   "AUTH": {
     "LOGIN": {
       "TITLE": "Welcome back!",
-      "SUBTITLE": "Please enter your email or phone to log in.",
-      "EMAIL_PLACEHOLDER": "Email or phone",
+      "SUBTITLE": "Please enter your phone number to log in.",
+      "PHONE_PLACEHOLDER": "Phone number (11 digits)",
       "PASSWORD_PLACEHOLDER": "Password",
       "REMEMBER_ME": "Remember me",
       "BUTTON": "Log in",
@@ -363,7 +363,9 @@
       "INVALID_PHONE": "Please enter a valid 11-digit phone number",
       "MIN_LENGTH": "Minimum length is {{ min }} characters",
       "PASSWORD_MISMATCH": "Passwords do not match",
-      "REQUIRED_TERMS": "You must agree to the terms"
+      "REQUIRED_TERMS": "You must agree to the terms",
+      "RECAPTCHA_REQUIRED": "Please complete the reCAPTCHA verification",
+      "RECAPTCHA_ERROR": "reCAPTCHA verification failed. Please try again."
     },
     "MESSAGES": {
       "LOGIN_SUCCESS": "Login successful",

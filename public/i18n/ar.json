@@ -279,8 +279,8 @@
     "AUTH": {
         "LOGIN": {
             "TITLE": "مرحبًا بعودتك!",
-            "SUBTITLE": "الرجاء إدخال البريد الإلكتروني أو الهاتف لتسجيل الدخول.",
-            "EMAIL_PLACEHOLDER": "البريد الإلكتروني أو الهاتف",
+            "SUBTITLE": "الرجاء إدخال رقم الهاتف لتسجيل الدخول.",
+            "PHONE_PLACEHOLDER": "رقم الهاتف (11 رقم)",
             "PASSWORD_PLACEHOLDER": "كلمة المرور",
             "REMEMBER_ME": "تذكرني",
             "BUTTON": "تسجيل الدخول",
@@ -326,7 +326,9 @@
             "INVALID_PHONE": "يرجى إدخال رقم هاتف صحيح مكون من 11 رقمًا",
             "MIN_LENGTH": "الحد الأدنى هو {{ min }} أحرف",
             "PASSWORD_MISMATCH": "كلمات المرور غير متطابقة",
-            "REQUIRED_TERMS": "يجب عليك الموافقة على الشروط"
+            "REQUIRED_TERMS": "يجب عليك الموافقة على الشروط",
+            "RECAPTCHA_REQUIRED": "يرجى إكمال التحقق من reCAPTCHA",
+            "RECAPTCHA_ERROR": "فشل التحقق من reCAPTCHA. يرجى المحاولة مرة أخرى."
         },
         "MESSAGES": {
             "LOGIN_SUCCESS": "تم تسجيل الدخول بنجاح",
