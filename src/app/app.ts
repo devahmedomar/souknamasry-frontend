@@ -20,7 +20,13 @@ export class App implements OnInit {
   constructor() {
     this.translate.addLangs(['en', 'ar']);
     this.translate.setDefaultLang('ar');
-    this.translate.use('ar');
+
+    // Load saved language from localStorage or default to 'ar'
+    let savedLang = 'ar';
+    if (isPlatformBrowser(this.platformId)) {
+      savedLang = localStorage.getItem('lang') || 'ar';
+    }
+    this.translate.use(savedLang);
 
     this.translate.onLangChange.subscribe((event) => {
       if (isPlatformBrowser(this.platformId)) {

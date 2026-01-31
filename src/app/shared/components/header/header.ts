@@ -83,7 +83,9 @@ export class Header implements OnInit {
 
   changeLang(event: Event): void {
     const select = event.target as HTMLSelectElement;
-    this.translateService.use(select.value);
+    const lang = select.value;
+    localStorage.setItem('lang', lang);
+    this.translateService.use(lang);
   }
 
   logout(): void {

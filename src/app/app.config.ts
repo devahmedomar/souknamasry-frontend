@@ -1,5 +1,9 @@
-import { ApplicationConfig, importProvidersFrom, provideZonelessChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  provideZonelessChangeDetection,
+} from '@angular/core';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { providePrimeNG } from 'primeng/config';
@@ -11,7 +15,11 @@ import Aura from '@primeuix/themes/aura';
 import { Observable } from 'rxjs';
 
 export class TranslateHttpLoader implements TranslateLoader {
-  constructor(private http: HttpClient, public prefix: string = '/assets/i18n/', public suffix: string = '.json') { }
+  constructor(
+    private http: HttpClient,
+    public prefix: string = '/assets/i18n/',
+    public suffix: string = '.json',
+  ) {}
 
   public getTranslation(lang: string): Observable<any> {
     return this.http.get(`${this.prefix}${lang}${this.suffix}`);
@@ -25,27 +33,30 @@ export function HttpLoaderFactory(http: HttpClient) {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
-    provideRouter(routes),
-    providePrimeNG({
-            theme: {
-                preset: Aura
-            }
-        }),
-    provideClientHydration(withEventReplay()),
-    provideHttpClient(
-      withFetch(),
-      withInterceptors([authInterceptor])
+    provideRouter(
+      routes,
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'top',
+        anchorScrolling: 'enabled',
+      }),
     ),
+    providePrimeNG({
+      theme: {
+        preset: Aura,
+      },
+    }),
+    provideClientHydration(withEventReplay()),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     MessageService,
     importProvidersFrom(
       TranslateModule.forRoot({
         loader: {
           provide: TranslateLoader,
           useFactory: HttpLoaderFactory,
-          deps: [HttpClient]
-        }
-      })
+          deps: [HttpClient],
+        },
+      }),
     ),
-    providePrimeNG()
-  ]
+    providePrimeNG(),
+  ],
 };
