@@ -5,6 +5,7 @@ import {
   signal,
   ChangeDetectionStrategy,
   PLATFORM_ID,
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, isPlatformBrowser, ViewportScroller } from '@angular/common';
@@ -35,6 +36,7 @@ import {
   ],
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.css',
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfilePage implements OnInit {

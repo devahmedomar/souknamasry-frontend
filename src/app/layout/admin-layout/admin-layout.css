@@ -14,3 +14,19 @@
   background-color: #007bff;
   border-left: 4px solid #fff;
 }
+
+/* Force Light Mode on Admin Layout (Exclude from Dark Theme) */
+.admin-layout {
+  background-color: #FFFFFF !important;
+  color: #111827 !important;
+}
+
+[data-theme="dark"] .admin-layout {
+  background-color: #FFFFFF !important;
+  color: #111827 !important;
+  color-scheme: light !important;
+}
+
+[data-theme="dark"] .admin-layout * {
+  color-scheme: light !important;
+}

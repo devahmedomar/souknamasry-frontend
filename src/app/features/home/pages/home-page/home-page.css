@@ -1,3 +1,30 @@
 .gradient-warmy {
     background: linear-gradient(180deg, #c9a89a 0%, #e8d4c4 50%, #f4e4d0 100%);
 }
+
+/* ========================================
+   DARK MODE HOME PAGE STYLES
+   ======================================== */
+
+[data-theme="dark"] .gradient-warmy {
+    background: linear-gradient(180deg, #1a1f2e 0%, #2d1810 50%, #1c2128 100%);
+}
+
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6 {
+    color: #e6edf3;
+}
+
+[data-theme="dark"] .text-muted {
+    color: #8b949e !important;
+}
+
+[data-theme="dark"] .alert-warning {
+    background-color: #2d1810;
+    border-color: #f0b72f;
+    color: #f8e3a1;
+}

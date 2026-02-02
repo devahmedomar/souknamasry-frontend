@@ -307,3 +307,64 @@
     justify-content: center;
   }
 }
+
+/* ========================================
+   DARK MODE FOOTER STYLES
+   ======================================== */
+
+[data-theme="dark"] .footer {
+  background-color: #161b22;
+  border-top: 1px solid #30363d;
+}
+
+[data-theme="dark"] .footer-banner {
+  background: linear-gradient(135deg, #1a1f2e 0%, #2d1810 100%);
+}
+
+[data-theme="dark"] .footer-link {
+  color: #8b949e;
+}
+
+[data-theme="dark"] .footer-link:hover {
+  color: #e6edf3;
+}
+
+[data-theme="dark"] .footer-title,
+[data-theme="dark"] .contact-title {
+  color: #e6edf3;
+}
+
+[data-theme="dark"] .contact-text {
+  color: #8b949e;
+}
+
+[data-theme="dark"] .contact-item {
+  background-color: #1c2128;
+  border-color: #30363d;
+}
+
+[data-theme="dark"] .contact-item:hover {
+  background-color: #21262d;
+  border-color: #484f58;
+}
+
+[data-theme="dark"] .contact-icon {
+  background-color: #2d1810;
+  color: #ff8c4b;
+}
+
+[data-theme="dark"] .social-link {
+  color: #8b949e;
+  border-color: #30363d;
+}
+
+[data-theme="dark"] .social-link:hover {
+  color: #ff8c4b;
+  border-color: #ff8c4b;
+  background-color: rgba(255, 140, 75, 0.1);
+}
+
+[data-theme="dark"] .footer-bottom {
+  border-top-color: #30363d;
+  color: #8b949e;
+}

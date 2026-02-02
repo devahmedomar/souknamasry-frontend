@@ -1,5 +1,6 @@
 import { Component, inject, signal, PLATFORM_ID, OnInit } from '@angular/core';
 import { SeoService } from './core/services/seo.service';
+import { ThemeService } from './core/services/theme.service';
 import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { isPlatformBrowser } from '@angular/common';
@@ -16,8 +17,11 @@ export class App implements OnInit {
   private translate = inject(TranslateService);
   private platformId = inject(PLATFORM_ID);
   private seoService = inject(SeoService);
+  private themeService = inject(ThemeService);
 
   constructor() {
+    // Initialize theme before language setup to prevent FOUC
+    this.themeService.initializeTheme();
     this.translate.addLangs(['en', 'ar']);
     this.translate.setDefaultLang('ar');
 

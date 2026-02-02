@@ -1,0 +1,9 @@
+<button
+  type="button"
+  class="theme-toggle-btn"
+  (click)="toggleTheme()"
+  [attr.aria-label]="ariaLabel()"
+  [title]="tooltipText()">
+  <i class="fa-solid fa-sun" [class.hidden]="isDarkMode()"></i>
+  <i class="fa-solid fa-moon" [class.hidden]="!isDarkMode()"></i>
+</button>

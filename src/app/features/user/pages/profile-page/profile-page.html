@@ -14,7 +14,7 @@
                                 <span class="avatar-initials">{{ user()?.firstName?.charAt(0) }}{{ user()?.lastName?.charAt(0) }}</span>
                                 }
                             </div>
-                            <h5 class="fw-bold mb-1">{{ user()?.firstName }} {{ user()?.lastName }}</h5>
+                            <h5 class="fw-bold mb-1 text-gray-900">{{ user()?.firstName }} {{ user()?.lastName }}</h5>
                             <p class="text-muted small mb-0">{{ user()?.email }}</p>
                         </div>
 
@@ -52,7 +52,7 @@
                     @if (activeTab() === 'profile') {
                     <div class="card border-0 shadow-sm rounded-4">
                         <div class="card-header bg-transparent border-0 p-4 d-flex justify-content-between align-items-center">
-                            <h4 class="fw-bold mb-0">{{ 'ACCOUNT.PERSONAL_INFO' | translate }}</h4>
+                            <h4 class="fw-bold mb-0 text-gray-900">{{ 'ACCOUNT.PERSONAL_INFO' | translate }}</h4>
                             @if (!isEditingProfile()) {
                             <button class="btn btn-outline-primary btn-sm rounded-3" (click)="toggleEditProfile()">
                                 <i class="bi bi-pencil me-1"></i>
@@ -108,23 +108,23 @@
                             <div class="row g-4">
                                 <div class="col-md-6">
                                     <label class="text-muted small">{{ 'ACCOUNT.FIRST_NAME' | translate }}</label>
-                                    <p class="mb-0 fw-medium">{{ user()?.firstName }}</p>
+                                    <p class="mb-0 fw-medium text-gray-900">{{ user()?.firstName }}</p>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="text-muted small">{{ 'ACCOUNT.LAST_NAME' | translate }}</label>
-                                    <p class="mb-0 fw-medium">{{ user()?.lastName }}</p>
+                                    <p class="mb-0 fw-medium text-gray-900">{{ user()?.lastName }}</p>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="text-muted small">{{ 'ACCOUNT.EMAIL' | translate }}</label>
-                                    <p class="mb-0 fw-medium">{{ user()?.email }}</p>
+                                    <p class="mb-0 fw-medium text-gray-900">{{ user()?.email }}</p>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="text-muted small">{{ 'ACCOUNT.PHONE' | translate }}</label>
-                                    <p class="mb-0 fw-medium">{{ user()?.phone || '-' }}</p>
+                                    <p class="mb-0 fw-medium text-gray-900">{{ user()?.phone || '-' }}</p>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="text-muted small">{{ 'ADDRESSES.CITY' | translate }}</label>
-                                    <p class="mb-0 fw-medium">{{ user()?.city || '-' }}</p>
+                                    <p class="mb-0 fw-medium text-gray-900">{{ user()?.city || '-' }}</p>
                                 </div>
                             </div>
                             }
@@ -136,7 +136,7 @@
                     @if (activeTab() === 'addresses') {
                     <div class="card border-0 shadow-sm rounded-4">
                         <div class="card-header bg-transparent border-0 p-4 d-flex justify-content-between align-items-center">
-                            <h4 class="fw-bold mb-0">{{ 'ADDRESSES.TITLE' | translate }}</h4>
+                            <h4 class="fw-bold mb-0 text-gray-900">{{ 'ADDRESSES.TITLE' | translate }}</h4>
                             <button class="btn btn-primary btn-sm rounded-3" (click)="openAddressModal()">
                                 <i class="bi bi-plus me-1"></i>
                                 {{ 'ADDRESSES.ADD_NEW' | translate }}
@@ -157,7 +157,7 @@
                                             @if (address.isDefault) {
                                             <span class="badge bg-primary mb-2">{{ 'ADDRESSES.DEFAULT_ADDRESS' | translate }}</span>
                                             }
-                                            <h6 class="fw-bold mb-2">{{ address.name }}</h6>
+                                            <h6 class="fw-bold mb-2 text-gray-900">{{ address.name }}</h6>
                                             <p class="text-muted small mb-1">
                                                 <i class="bi bi-telephone me-1"></i>{{ address.phone }}
                                             </p>
@@ -200,7 +200,7 @@
                     @if (activeTab() === 'orders') {
                     <div class="card border-0 shadow-sm rounded-4">
                         <div class="card-header bg-transparent border-0 p-4">
-                            <h4 class="fw-bold mb-0">{{ 'ORDERS.TITLE' | translate }}</h4>
+                            <h4 class="fw-bold mb-0 text-gray-900">{{ 'ORDERS.TITLE' | translate }}</h4>
                         </div>
                         <div class="card-body p-4 pt-0">
                             @if (isOrdersLoading()) {
@@ -218,11 +218,11 @@
                                         <div class="row align-items-center">
                                             <div class="col-md-3 mb-2 mb-md-0">
                                                 <label class="text-muted small">{{ 'ORDERS.ORDER_DATE' | translate }}</label>
-                                                <p class="mb-0 fw-medium">{{ order.date | date:'medium' }}</p>
+                                                <p class="mb-0 fw-medium text-gray-900">{{ order.date | date:'medium' }}</p>
                                             </div>
                                             <div class="col-md-3 mb-2 mb-md-0">
                                                 <label class="text-muted small">{{ 'ORDERS.TOTAL' | translate }}</label>
-                                                <p class="mb-0 fw-medium">{{ order.price | currency:'EGP':'symbol':'1.2-2' }}</p>
+                                                <p class="mb-0 fw-medium text-gray-900">{{ order.price | currency:'EGP':'symbol':'1.2-2' }}</p>
                                             </div>
                                             <div class="col-md-3 mb-2 mb-md-0">
                                                 <label class="text-muted small">{{ 'ORDERS.STATUS' | translate }}</label>
@@ -260,7 +260,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4">
             <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold">
+                <h5 class="modal-title fw-bold text-gray-900">
                     {{ (editingAddressId() ? 'ADDRESSES.EDIT_ADDRESS' : 'ADDRESSES.ADD_NEW') | translate }}
                 </h5>
                 <button type="button" class="btn-close" (click)="closeAddressModal()"></button>
@@ -351,7 +351,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
         <div class="modal-content rounded-4">
             <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold">{{ 'ORDERS.ORDER_DETAILS' | translate }}</h5>
+                <h5 class="modal-title fw-bold text-gray-900">{{ 'ORDERS.ORDER_DETAILS' | translate }}</h5>
                 <button type="button" class="btn-close" (click)="closeOrderDetailModal()"></button>
             </div>
             <div class="modal-body">
@@ -367,11 +367,11 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="text-muted small">{{ 'ORDERS.ORDER_NUMBER' | translate }}</label>
-                            <p class="mb-0 fw-bold">{{ selectedOrder()?.orderNumber }}</p>
+                            <p class="mb-0 fw-bold text-gray-900">{{ selectedOrder()?.orderNumber }}</p>
                         </div>
                         <div class="col-md-6">
                             <label class="text-muted small">{{ 'ORDERS.ORDER_DATE' | translate }}</label>
-                            <p class="mb-0 fw-medium">{{ selectedOrder()?.createdAt | date:'medium' }}</p>
+                            <p class="mb-0 fw-medium text-gray-900">{{ selectedOrder()?.createdAt | date:'medium' }}</p>
                         </div>
                         <div class="col-md-6">
                             <label class="text-muted small">{{ 'ORDERS.STATUS' | translate }}</label>
@@ -394,7 +394,7 @@
 
                 <!-- Order Items -->
                 <div class="mb-4 pb-3 border-bottom">
-                    <h6 class="fw-bold mb-3">{{ 'ORDERS.ITEMS' | translate }}</h6>
+                    <h6 class="fw-bold mb-3 text-gray-900">{{ 'ORDERS.ITEMS' | translate }}</h6>
                     <div class="order-items">
                         @for (item of selectedOrder()?.items; track item._id) {
                         <div class="mb-3 pb-3 border-bottom">
@@ -404,18 +404,18 @@
                                         class="img-fluid rounded-2" style="max-height: 80px; object-fit: cover;" width="80" height="80" loading="lazy">
                                 </div>
                                 <div class="col-md-5">
-                                    <h6 class="fw-bold mb-1">{{ item.productSnapshot.name }}</h6>
+                                    <h6 class="fw-bold mb-1 text-gray-900">{{ item.productSnapshot.name }}</h6>
                                     <p class="text-muted small mb-0">
                                         {{ 'PRODUCT.CURRENCY' | translate }}: {{ item.price | currency:'EGP':'symbol':'1.2-2' }}
                                     </p>
                                 </div>
                                 <div class="col-md-2 text-center">
                                     <label class="text-muted small d-block">{{ 'PRODUCT.QUANTITY' | translate }}</label>
-                                    <p class="mb-0 fw-medium">{{ item.quantity }}</p>
+                                    <p class="mb-0 fw-medium text-gray-900">{{ item.quantity }}</p>
                                 </div>
                                 <div class="col-md-3 text-end">
                                     <label class="text-muted small d-block">{{ 'ORDERS.TOTAL' | translate }}</label>
-                                    <p class="mb-0 fw-bold">{{ item.totalPrice | currency:'EGP':'symbol':'1.2-2' }}</p>
+                                    <p class="mb-0 fw-bold text-gray-900">{{ item.totalPrice | currency:'EGP':'symbol':'1.2-2' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -426,9 +426,9 @@
                 <!-- Shipping Address -->
                 @if (selectedOrder()?.shippingAddress) {
                 <div class="mb-4 pb-3 border-bottom">
-                    <h6 class="fw-bold mb-3">{{ 'ORDERS.SHIPPING_ADDRESS' | translate }}</h6>
+                    <h6 class="fw-bold mb-3 text-gray-900">{{ 'ORDERS.SHIPPING_ADDRESS' | translate }}</h6>
                     <div class="address-details">
-                        <p class="mb-2">
+                        <p class="mb-2 text-gray-900">
                             <strong>{{ selectedOrder()!.shippingAddress.name }}</strong><br>
                             <i class="bi bi-telephone me-1"></i>{{ selectedOrder()!.shippingAddress.phone }}
                         </p>
@@ -451,8 +451,8 @@
 
                 <!-- Payment Info -->
                 <div class="mb-4 pb-3 border-bottom">
-                    <h6 class="fw-bold mb-3">{{ 'ORDERS.PAYMENT_METHOD' | translate }}</h6>
-                    <p class="mb-0">
+                    <h6 class="fw-bold mb-3 text-gray-900">{{ 'ORDERS.PAYMENT_METHOD' | translate }}</h6>
+                    <p class="mb-0 text-gray-900">
                         {{ ('ORDERS.PAYMENT_' + selectedOrder()?.paymentMethod!.toUpperCase()) | translate }}
                     </p>
                 </div>
@@ -460,7 +460,7 @@
                 <!-- Order Notes -->
                 @if (selectedOrder()?.notes) {
                 <div class="mb-4 pb-3 border-bottom">
-                    <h6 class="fw-bold mb-2">{{ 'ORDERS.NOTES' | translate }}</h6>
+                    <h6 class="fw-bold mb-2 text-gray-900">{{ 'ORDERS.NOTES' | translate }}</h6>
                     <p class="text-muted mb-0">{{ selectedOrder()?.notes }}</p>
                 </div>
                 }
@@ -472,7 +472,7 @@
                             <p class="text-muted">{{ 'ORDERS.SUBTOTAL' | translate }}</p>
                         </div>
                         <div class="col-6 text-end">
-                            <p>{{ selectedOrder()?.subtotal | currency:'EGP':'symbol':'1.2-2' }}</p>
+                            <p class="text-gray-900">{{ selectedOrder()?.subtotal | currency:'EGP':'symbol':'1.2-2' }}</p>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -480,7 +480,7 @@
                             <p class="text-muted">{{ 'ORDERS.SHIPPING_COST' | translate }}</p>
                         </div>
                         <div class="col-6 text-end">
-                            <p>{{ selectedOrder()?.shippingCost | currency:'EGP':'symbol':'1.2-2' }}</p>
+                            <p class="text-gray-900">{{ selectedOrder()?.shippingCost | currency:'EGP':'symbol':'1.2-2' }}</p>
                         </div>
                     </div>
                     @if ((selectedOrder()?.discount ?? 0) > 0) {
@@ -495,10 +495,10 @@
                     }
                     <div class="row border-top pt-2">
                         <div class="col-6">
-                            <p class="fw-bold">{{ 'ORDERS.GRAND_TOTAL' | translate }}</p>
+                            <p class="fw-bold text-gray-900">{{ 'ORDERS.GRAND_TOTAL' | translate }}</p>
                         </div>
                         <div class="col-6 text-end">
-                            <p class="fw-bold fs-5">{{ selectedOrder()?.total | currency:'EGP':'symbol':'1.2-2' }}</p>
+                            <p class="fw-bold fs-5 text-gray-900">{{ selectedOrder()?.total | currency:'EGP':'symbol':'1.2-2' }}</p>
                         </div>
                     </div>
                 </div>

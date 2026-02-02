@@ -10,6 +10,7 @@ import { FavouritesStateService } from '../../../features/favourites/services/fa
 import { AuthService } from '../../../features/auth/services/auth.service';
 import { ToastService } from '../../services/toast.service';
 import { SearchComponent } from '../search/search';
+import { ThemeToggle } from '../theme-toggle/theme-toggle';
 
 /**
  * Header Component
@@ -22,7 +23,7 @@ import { SearchComponent } from '../search/search';
  */
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, FormsModule, TranslateModule, CommonModule, SearchComponent],
+  imports: [RouterLink, FormsModule, TranslateModule, CommonModule, SearchComponent, ThemeToggle],
   templateUrl: './header.html',
   styleUrl: './header.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -327,3 +327,93 @@
 [dir="ltr"] .product-card {
   font-family: 'Roboto', sans-serif;
 }
+
+/* ========================================
+   DARK MODE PRODUCT CARD STYLES
+   Using :host-context for Angular component scoping
+   ======================================== */
+
+:host-context([data-theme="dark"]) .product-card {
+  background-color: #161b22 !important;
+  border-color: #30363d !important;
+}
+
+:host-context([data-theme="dark"]) .product-card:hover {
+  background-color: #1c2128 !important;
+  border-color: #484f58 !important;
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.1) !important;
+}
+
+:host-context([data-theme="dark"]) .product-title {
+  color: #e6edf3 !important;
+}
+
+:host-context([data-theme="dark"]) .product-category,
+:host-context([data-theme="dark"]) .rating-count {
+  color: #8b949e !important;
+}
+
+:host-context([data-theme="dark"]) .product-price {
+  color: #e6edf3 !important;
+}
+
+:host-context([data-theme="dark"]) .product-compare-price {
+  color: #8b949e !important;
+}
+
+:host-context([data-theme="dark"]) .product-image-container {
+  background-color: #1c2128 !important;
+  border: 1px solid #30363d !important;
+}
+
+:host-context([data-theme="dark"]) .product-info {
+  background-color: transparent !important;
+}
+
+:host-context([data-theme="dark"]) .wishlist-btn {
+  background-color: rgba(22, 27, 34, 0.8) !important;
+  border-color: #30363d !important;
+  color: #8b949e !important;
+}
+
+:host-context([data-theme="dark"]) .wishlist-btn:hover {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+  border-color: var(--color-primary) !important;
+}
+
+:host-context([data-theme="dark"]) .wishlist-btn.active {
+  background-color: var(--error) !important;
+  color: white !important;
+  border-color: var(--error) !important;
+}
+
+:host-context([data-theme="dark"]) .badge {
+  background-color: #2d1810 !important;
+  color: #ff8c4b !important;
+  border-color: #ff8c4b !important;
+}
+
+:host-context([data-theme="dark"]) .quick-add-overlay {
+  background-color: rgba(13, 17, 23, 0.95) !important;
+  background: linear-gradient(to top, rgba(13, 17, 23, 0.9), transparent) !important;
+}
+
+:host-context([data-theme="dark"]) .quick-add-btn {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+}
+
+:host-context([data-theme="dark"]) .quick-add-btn:hover {
+  background-color: #e67635 !important;
+  color: white !important;
+}
+
+:host-context([data-theme="dark"]) .add-to-cart-btn {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+}
+
+:host-context([data-theme="dark"]) .add-to-cart-btn:hover {
+  background-color: #e67635 !important;
+}

@@ -139,3 +139,61 @@
     height: 40px;
   }
 }
+
+/* ========================================
+   DARK MODE SEARCH COMPONENT STYLES
+   ======================================== */
+
+[data-theme="dark"] .search-input {
+  background-color: #0d1117;
+  border-color: #30363d;
+  color: #e6edf3;
+}
+
+[data-theme="dark"] .search-input::placeholder {
+  color: #6e7681;
+}
+
+[data-theme="dark"] .search-input:focus {
+  border-color: #ff8c4b;
+  background-color: #161b22;
+  box-shadow: 0 0 0 3px rgba(255, 140, 75, 0.25);
+}
+
+[data-theme="dark"] .search-button {
+  background-color: var(--color-primary);
+}
+
+[data-theme="dark"] .search-button:hover {
+  background-color: #e67635;
+}
+
+[data-theme="dark"] .suggestions-dropdown {
+  background-color: #161b22;
+  border-color: #30363d;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .suggestion-item {
+  border-bottom: 1px solid #30363d;
+}
+
+[data-theme="dark"] .suggestion-item:hover {
+  background-color: #1c2128;
+}
+
+[data-theme="dark"] .suggestion-name {
+  color: #e6edf3;
+}
+
+[data-theme="dark"] .suggestion-category {
+  color: #8b949e;
+}
+
+[data-theme="dark"] .suggestion-price {
+  color: #ff8c4b;
+}
+
+[data-theme="dark"] .suggestion-loading {
+  color: #8b949e;
+}

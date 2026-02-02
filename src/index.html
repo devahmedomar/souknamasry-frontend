@@ -20,6 +20,35 @@
   <link rel="preload" as="image" href="/images/hero.webp" type="image/webp">
 
   <script src="https://www.google.com/recaptcha/api.js?render=6LeZ-1osAAAAAJvUwRotcofDMRZiB2XJMFxRtWxa"></script>
+
+  <!-- Prevent FOUC by applying theme before Angular loads -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
+  <style>
+    /* Critical CSS to prevent flash */
+    :root {
+      --bg-primary: #FFFFFF;
+      --text-primary: #111827;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #0d1117;
+      --text-primary: #e6edf3;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      transition: none;
+    }
+  </style>
 </head>
 
 <body>

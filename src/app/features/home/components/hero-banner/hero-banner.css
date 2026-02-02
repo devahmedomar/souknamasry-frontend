@@ -1,5 +1,13 @@
 h1 {
     font-size: 60px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
 
+/* ========================================
+   DARK MODE HERO BANNER STYLES
+   ======================================== */
+
+[data-theme="dark"] h1 {
+    color: #e6edf3;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }

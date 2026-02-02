@@ -1,0 +1,50 @@
+.theme-toggle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--gray-300);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  position: relative;
+  padding: 0;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--gray-100);
+  border-color: var(--gray-400);
+}
+
+.theme-toggle-btn:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.theme-toggle-btn i {
+  font-size: 18px;
+  color: var(--gray-700);
+  transition: transform 0.3s ease, opacity 0.2s ease;
+  position: absolute;
+}
+
+.theme-toggle-btn i.hidden {
+  opacity: 0;
+  transform: rotate(180deg);
+  pointer-events: none;
+}
+
+/* Dark Mode Styles */
+[data-theme="dark"] .theme-toggle-btn {
+  border-color: var(--gray-600);
+}
+
+[data-theme="dark"] .theme-toggle-btn:hover {
+  background: var(--gray-700);
+}
+
+[data-theme="dark"] .theme-toggle-btn i {
+  color: var(--gray-300);
+}

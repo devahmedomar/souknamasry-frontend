@@ -29,3 +29,18 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
+/* ========================================
+   DARK MODE CART PAGE STYLES
+   ======================================== */
+
+[data-theme="dark"] .btn-outline-secondary {
+    border-color: #30363d;
+    color: #8b949e;
+}
+
+[data-theme="dark"] .btn-outline-secondary:hover {
+    background-color: #1c2128;
+    border-color: #484f58;
+    color: #e6edf3;
+}
