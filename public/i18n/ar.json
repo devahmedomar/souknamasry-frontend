@@ -60,6 +60,8 @@
         "ADD_TO_WISHLIST": "أضف للمفضلة",
         "REMOVE_FROM_WISHLIST": "حذف من المفضلة",
         "SHARE": "مشاركة",
+        "NEW": "جديد",
+        "SALE": "تخفيض",
         "IN_STOCK": "متوفر",
         "OUT_OF_STOCK": "غير متوفر",
         "LIMITED_STOCK": "متبقي",
@@ -533,7 +535,23 @@
         "EASY_RETURNS": "إرجاع سهل",
         "EASY_RETURNS_DESC": "إرجاع مجاني خلال 14 يوم",
         "SUPPORT": "دعم 24/7",
-        "SUPPORT_DESC": "نحن هنا لمساعدتك"
+        "SUPPORT_DESC": "نحن هنا لمساعدتك",
+        "DEALS_OF_DAY": "عروض اليوم",
+        "RECENTLY_VIEWED": "شاهدتها مؤخراً",
+        "ENDS_IN": "ينتهي في"
+    },
+    "COUNTDOWN": {
+        "DAYS": "أيام",
+        "HOURS": "ساعات",
+        "MINUTES": "دقيقة",
+        "SECONDS": "ثانية",
+        "EXPIRED": "انتهى"
+    },
+    "STATISTICS": {
+        "HAPPY_CUSTOMERS": "عملاء سعداء",
+        "PRODUCTS_SOLD": "منتج مباع",
+        "CATEGORIES": "فئات",
+        "YEARS_EXPERIENCE": "سنوات من الخبرة"
     },
     "NOTIFICATIONS": {
         "TITLE": "الإشعارات",

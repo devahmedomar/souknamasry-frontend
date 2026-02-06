@@ -1,0 +1,205 @@
+/* ========================================
+   Countdown Timer Styles
+   ======================================== */
+
+:host {
+  display: inline-block;
+}
+
+.countdown-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.countdown-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--gray-600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.countdown-units {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.countdown-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  height: 56px;
+  background-color: var(--gray-900);
+  color: white;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  border-radius: var(--radius-md);
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-value.pulse {
+  animation: countdownPulse 1s ease-in-out infinite;
+}
+
+@keyframes countdownPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.countdown-unit-label {
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.countdown-separator {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--gray-400);
+  margin-top: -20px;
+}
+
+.expired-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--error);
+  margin-top: var(--space-2);
+}
+
+/* Expired state */
+.countdown-timer.expired .countdown-value {
+  background-color: var(--gray-400);
+}
+
+/* Size Variants */
+/* Small */
+[data-size="sm"] .countdown-value {
+  min-width: 40px;
+  height: 40px;
+  font-size: var(--text-lg);
+}
+
+[data-size="sm"] .countdown-separator {
+  font-size: var(--text-lg);
+  margin-top: -14px;
+}
+
+[data-size="sm"] .countdown-unit-label {
+  font-size: 10px;
+}
+
+/* Large */
+[data-size="lg"] .countdown-value {
+  min-width: 72px;
+  height: 72px;
+  font-size: var(--text-3xl);
+}
+
+[data-size="lg"] .countdown-separator {
+  font-size: var(--text-3xl);
+  margin-top: -28px;
+}
+
+[data-size="lg"] .countdown-unit-label {
+  font-size: var(--text-sm);
+}
+
+/* Compact mode */
+.countdown-timer.compact {
+  flex-direction: row;
+  gap: var(--space-3);
+}
+
+.countdown-timer.compact .countdown-label {
+  margin-right: var(--space-2);
+}
+
+.countdown-timer.compact .countdown-units {
+  gap: var(--space-1);
+}
+
+.countdown-timer.compact .countdown-value {
+  min-width: auto;
+  height: auto;
+  padding: var(--space-1) var(--space-2);
+  background-color: transparent;
+  color: var(--gray-900);
+  font-size: var(--text-lg);
+}
+
+.countdown-timer.compact .countdown-unit {
+  flex-direction: row;
+  gap: var(--space-1);
+}
+
+.countdown-timer.compact .countdown-separator {
+  margin-top: 0;
+  font-size: var(--text-lg);
+}
+
+/* Responsive */
+@media (max-width: 575px) {
+  .countdown-value {
+    min-width: 48px;
+    height: 48px;
+    font-size: var(--text-xl);
+  }
+
+  .countdown-separator {
+    font-size: var(--text-xl);
+    margin-top: -16px;
+  }
+
+  [data-size="lg"] .countdown-value {
+    min-width: 56px;
+    height: 56px;
+    font-size: var(--text-2xl);
+  }
+}
+
+/* ========================================
+   DARK MODE STYLES
+   ======================================== */
+
+:host-context([data-theme="dark"]) .countdown-label {
+  color: #8b949e;
+}
+
+:host-context([data-theme="dark"]) .countdown-value {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+:host-context([data-theme="dark"]) .countdown-timer.expired .countdown-value {
+  background-color: #30363d;
+}
+
+:host-context([data-theme="dark"]) .countdown-unit-label {
+  color: #8b949e;
+}
+
+:host-context([data-theme="dark"]) .countdown-separator {
+  color: #484f58;
+}
+
+:host-context([data-theme="dark"]) .countdown-timer.compact .countdown-value {
+  background-color: transparent;
+  color: #e6edf3;
+}

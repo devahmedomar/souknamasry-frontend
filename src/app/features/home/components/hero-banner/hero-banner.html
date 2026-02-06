@@ -1,15 +1,102 @@
-<div class="container px-4 py-5">
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-        <div class="col-10 col-sm-8 col-lg-6">
-            <img ngSrc="/images/hero.webp" class="d-block mx-lg-auto img-fluid rounded-5" [alt]="'HOMEPAGE.HERO_IMAGE_ALT' | translate"
-                width="700" height="500" priority>
+<section class="hero-section" aria-label="Hero Banner">
+  @if (loading()) {
+  <!-- Loading Skeleton -->
+  <div class="hero-skeleton">
+    <div class="container">
+      <div class="row align-items-center g-5 py-5">
+        <div class="col-lg-6">
+          <div class="skeleton skeleton-title"></div>
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text-sm"></div>
+          <div class="skeleton skeleton-button"></div>
         </div>
         <div class="col-lg-6">
-            <h1 class="fw-bold lh-1 mb-3">{{ 'HOMEPAGE.BRAND_NAME' | translate }}</h1>
-            <p class="lead">{{ 'HOMEPAGE.BRAND_SLOGAN' | translate }}</p>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                <a type="button" class="btn btn-primary btn-lg px-4 mt-4" routerLink="/categories">{{ 'HOMEPAGE.BROWSE_NOW' | translate }}</a>
-            </div>
+          <div class="skeleton skeleton-image"></div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
+  } @else if (slides().length > 1) {
+  <!-- Multi-Slide Carousel -->
+  <p-carousel [value]="slides()" [numVisible]="1" [numScroll]="1" [circular]="true"
+    [autoplayInterval]="isBrowser ? 5000 : 0" [showNavigators]="true" [showIndicators]="true"
+    [responsiveOptions]="responsiveOptions" styleClass="hero-carousel">
+    <ng-template let-slide pTemplate="item">
+      <div class="hero-slide" [class.text-light]="slide.textColor === 'light'">
+        <div class="container px-4 py-5">
+          <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+            <div class="col-10 col-sm-8 col-lg-6">
+              <div class="hero-image-wrapper">
+                <img [ngSrc]="slide.imageUrl" class="d-block mx-lg-auto img-fluid rounded-4" [alt]="getTitle(slide)"
+                  width="700" height="500" [priority]="slide.priority === 1">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              @if (getBadgeText(slide)) {
+              <span class="hero-badge">{{ getBadgeText(slide) }}</span>
+              }
+              <h1 class="fw-bold lh-1 mb-3">{{ getTitle(slide) }}</h1>
+              <p class="lead hero-subtitle">{{ getSubtitle(slide) }}</p>
+              <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <a type="button" class="btn btn-primary btn-lg px-4 mt-4" [routerLink]="slide.ctaLink">
+                  {{ getCtaText(slide) }}
+                  <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
+  } @else if (slides().length === 1) {
+  <!-- Single Slide (No Carousel) -->
+  <div class="hero-slide" [class.text-light]="slides()[0].textColor === 'light'">
+    <div class="container px-4 py-5">
+      <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+        <div class="col-10 col-sm-8 col-lg-6">
+          <div class="hero-image-wrapper">
+            <img [ngSrc]="slides()[0].imageUrl" class="d-block mx-lg-auto img-fluid rounded-4"
+              [alt]="getTitle(slides()[0])" width="700" height="500" priority>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          @if (getBadgeText(slides()[0])) {
+          <span class="hero-badge">{{ getBadgeText(slides()[0]) }}</span>
+          }
+          <h1 class="fw-bold lh-1 mb-3">{{ getTitle(slides()[0]) }}</h1>
+          <p class="lead hero-subtitle">{{ getSubtitle(slides()[0]) }}</p>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <a type="button" class="btn btn-primary btn-lg px-4 mt-4" [routerLink]="slides()[0].ctaLink">
+              {{ getCtaText(slides()[0]) }}
+              <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  } @else {
+  <!-- Fallback Static Hero -->
+  <div class="hero-slide">
+    <div class="container px-4 py-5">
+      <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+        <div class="col-10 col-sm-8 col-lg-6">
+          <img ngSrc="/images/hero.webp" class="d-block mx-lg-auto img-fluid rounded-4"
+            [alt]="'HOMEPAGE.HERO_IMAGE_ALT' | translate" width="700" height="500" priority>
+        </div>
+        <div class="col-lg-6">
+          <h1 class="fw-bold lh-1 mb-3">{{ 'HOMEPAGE.BRAND_NAME' | translate }}</h1>
+          <p class="lead hero-subtitle">{{ 'HOMEPAGE.BRAND_SLOGAN' | translate }}</p>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <a type="button" class="btn btn-primary btn-lg px-4 mt-4" routerLink="/categories">
+              {{ 'HOMEPAGE.BROWSE_NOW' | translate }}
+              <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</section>

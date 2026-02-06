@@ -1,4 +1,4 @@
-import { Component, input, output, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, output, inject, ChangeDetectionStrategy, computed } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -24,6 +24,42 @@ export class ProductCard {
 
   addToCart = output<IProductCard>();
   addToWishlist = output<IProductCard>();
+
+  // Computed: Check if product has a valid discount
+  hasDiscount = computed(() => {
+    const p = this.product();
+    return p.compareAtPrice && p.compareAtPrice > p.price;
+  });
+
+  // Computed: Calculate discount percentage
+  discountPercentage = computed(() => {
+    const p = this.product();
+    if (!p.compareAtPrice || p.compareAtPrice <= p.price) return 0;
+    return Math.round(((p.compareAtPrice - p.price) / p.compareAtPrice) * 100);
+  });
+
+  // Computed: Check if product is new (created within last 14 days)
+  isNewProduct = computed(() => {
+    const p = this.product();
+    if (p.isNew !== undefined) return p.isNew;
+    if (!p.createdAt) return false;
+    const createdDate = new Date(p.createdAt);
+    const fourteenDaysAgo = new Date();
+    fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+    return createdDate >= fourteenDaysAgo;
+  });
+
+  // Computed: Check if product is out of stock
+  isOutOfStock = computed(() => {
+    const p = this.product();
+    return p.inStock === false;
+  });
+
+  // Computed: Check if product has low stock (1-5 items)
+  isLowStock = computed(() => {
+    const p = this.product();
+    return p.stockQuantity !== undefined && p.stockQuantity > 0 && p.stockQuantity <= 5;
+  });
 
   onAddToCart(event: Event) {
     event.stopPropagation();

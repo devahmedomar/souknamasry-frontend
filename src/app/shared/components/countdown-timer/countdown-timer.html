@@ -1,0 +1,58 @@
+<div class="countdown-timer" [class.compact]="compact()" [class.expired]="isExpired()"
+  [attr.data-size]="size()">
+
+  @if (label()) {
+  <span class="countdown-label">{{ label() }}</span>
+  }
+
+  <div class="countdown-units">
+    <!-- Days -->
+    @if (days() > 0 || !compact()) {
+    <div class="countdown-unit">
+      <span class="countdown-value">{{ padNumber(days()) }}</span>
+      @if (showLabels()) {
+      <span class="countdown-unit-label">{{ 'COUNTDOWN.DAYS' | translate }}</span>
+      }
+    </div>
+    @if (!compact()) {
+    <span class="countdown-separator">:</span>
+    }
+    }
+
+    <!-- Hours -->
+    <div class="countdown-unit">
+      <span class="countdown-value">{{ padNumber(hours()) }}</span>
+      @if (showLabels()) {
+      <span class="countdown-unit-label">{{ 'COUNTDOWN.HOURS' | translate }}</span>
+      }
+    </div>
+
+    @if (!compact()) {
+    <span class="countdown-separator">:</span>
+    }
+
+    <!-- Minutes -->
+    <div class="countdown-unit">
+      <span class="countdown-value">{{ padNumber(minutes()) }}</span>
+      @if (showLabels()) {
+      <span class="countdown-unit-label">{{ 'COUNTDOWN.MINUTES' | translate }}</span>
+      }
+    </div>
+
+    @if (!compact()) {
+    <span class="countdown-separator">:</span>
+    }
+
+    <!-- Seconds -->
+    <div class="countdown-unit">
+      <span class="countdown-value" [class.pulse]="!isExpired()">{{ padNumber(seconds()) }}</span>
+      @if (showLabels()) {
+      <span class="countdown-unit-label">{{ 'COUNTDOWN.SECONDS' | translate }}</span>
+      }
+    </div>
+  </div>
+
+  @if (isExpired()) {
+  <span class="expired-label">{{ 'COUNTDOWN.EXPIRED' | translate }}</span>
+  }
+</div>

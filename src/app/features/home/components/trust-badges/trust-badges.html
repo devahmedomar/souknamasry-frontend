@@ -1,0 +1,19 @@
+<section class="trust-badges-section" aria-label="Why shop with us">
+  <div class="container">
+    <div class="row g-3 g-md-4">
+      @for (badge of badges; track badge.icon) {
+      <div class="col-6 col-lg-3">
+        <div class="trust-badge-card">
+          <div class="badge-icon">
+            <i [class]="badge.icon"></i>
+          </div>
+          <div class="badge-content">
+            <h4>{{ badge.titleKey | translate }}</h4>
+            <p>{{ badge.descKey | translate }}</p>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</section>

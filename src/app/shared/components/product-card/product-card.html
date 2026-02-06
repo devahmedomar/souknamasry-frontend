@@ -1,12 +1,32 @@
-<div class="product-card" [class.clickable]="product().slug" (click)="navigateToProduct()"
-  [attr.role]="product().slug ? 'button' : null" [attr.tabindex]="product().slug ? 0 : null"
-  (keydown.enter)="navigateToProduct()">
+<div class="product-card" [class.clickable]="product().slug" [class.out-of-stock]="isOutOfStock()"
+  (click)="navigateToProduct()" [attr.role]="product().slug ? 'button' : null"
+  [attr.tabindex]="product().slug ? 0 : null" (keydown.enter)="navigateToProduct()">
 
   <!-- Image Container -->
   <div class="product-image-wrapper">
     <div class="product-image-container">
       <img [ngSrc]="product().imageUrl || product().image || '/images/placeholder.svg'" [alt]="product().title"
         class="product-image" fill />
+
+      <!-- Out of Stock Overlay -->
+      @if (isOutOfStock()) {
+      <div class="out-of-stock-overlay">
+        <span>{{ 'PRODUCT.OUT_OF_STOCK' | translate }}</span>
+      </div>
+      }
+    </div>
+
+    <!-- Product Badges - Top Left -->
+    <div class="product-badges">
+      @if (hasDiscount()) {
+      <span class="badge badge-sale">-{{ discountPercentage() }}%</span>
+      }
+      @if (isNewProduct() && !hasDiscount()) {
+      <span class="badge badge-new">{{ 'PRODUCT.NEW' | translate }}</span>
+      }
+      @if (isLowStock() && !isOutOfStock()) {
+      <span class="badge badge-low-stock">{{ product().stockQuantity }} {{ 'PRODUCT.LIMITED_STOCK' | translate }}</span>
+      }
     </div>
 
     <!-- Wishlist Button - Top Right -->
@@ -16,12 +36,14 @@
     </button>
 
     <!-- Quick Add to Cart on Hover (Desktop) -->
+    @if (!isOutOfStock()) {
     <div class="quick-add-overlay">
       <button type="button" class="quick-add-btn" (click)="onAddToCart($event)">
         <i class="fas fa-shopping-cart me-2"></i>
         {{ 'PRODUCT.ADD_TO_CART' | translate }}
       </button>
     </div>
+    }
   </div>
 
   <!-- Product Info -->
@@ -43,13 +65,23 @@
 
     <!-- Price -->
     <div class="product-price-wrapper">
-      <span class="product-price">{{ product().price | price }}</span>
+      <span class="product-price" [class.sale-price]="hasDiscount()">{{ product().price | price }}</span>
+      @if (hasDiscount()) {
+      <span class="product-compare-price">{{ product().compareAtPrice | price }}</span>
+      }
     </div>
 
     <!-- Add to Cart Button (Mobile & Fallback) -->
+    @if (!isOutOfStock()) {
     <button type="button" class="add-to-cart-btn" (click)="onAddToCart($event)">
       <i class="fas fa-shopping-cart me-2"></i>
       {{ 'PRODUCT.ADD_TO_CART' | translate }}
     </button>
+    } @else {
+    <button type="button" class="add-to-cart-btn out-of-stock-btn" disabled>
+      <i class="fas fa-times-circle me-2"></i>
+      {{ 'PRODUCT.OUT_OF_STOCK' | translate }}
+    </button>
+    }
   </div>
 </div>

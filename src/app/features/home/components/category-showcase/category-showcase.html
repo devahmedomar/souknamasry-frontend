@@ -1,0 +1,57 @@
+<section class="category-showcase-section" aria-label="Shop by Category">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="section-header">
+      <h2>{{ 'HOMEPAGE.SHOP_BY_CATEGORY' | translate }}</h2>
+      <a routerLink="/categories" class="view-all-link">
+        {{ 'COMMON.VIEW_ALL' | translate }}
+        <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+
+    @if (loading()) {
+    <!-- Loading Skeleton -->
+    <div class="category-grid">
+      @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+      <div class="category-card skeleton-card">
+        <div class="skeleton skeleton-image"></div>
+        <div class="skeleton skeleton-text"></div>
+      </div>
+      }
+    </div>
+    } @else if (error()) {
+    <!-- Error State -->
+    <div class="error-state">
+      <i class="fas fa-exclamation-triangle"></i>
+      <p>{{ error() }}</p>
+      <button class="btn btn-primary btn-sm" (click)="loadCategories()">
+        {{ 'COMMON.TRY_AGAIN' | translate }}
+      </button>
+    </div>
+    } @else if (categories().length === 0) {
+    <!-- Empty State -->
+    <div class="empty-state">
+      <i class="fas fa-folder-open"></i>
+      <p>{{ 'CATEGORIES.NO_CATEGORIES' | translate }}</p>
+    </div>
+    } @else {
+    <!-- Category Grid -->
+    <div class="category-grid">
+      @for (category of categories(); track category._id) {
+      <a [routerLink]="getCategoryLink(category)" class="category-card">
+        <div class="category-image-wrapper">
+          @if (category.image) {
+          <img [ngSrc]="category.image" [alt]="getCategoryName(category)" fill class="category-image" />
+          } @else {
+          <div class="category-placeholder">
+            <i [class]="getPlaceholderIcon(category)"></i>
+          </div>
+          }
+        </div>
+        <span class="category-name">{{ getCategoryName(category) }}</span>
+      </a>
+      }
+    </div>
+    }
+  </div>
+</section>

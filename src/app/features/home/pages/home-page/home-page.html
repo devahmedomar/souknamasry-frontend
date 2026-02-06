@@ -1,5 +1,11 @@
 <app-hero-banner></app-hero-banner>
 
+<!-- Trust Badges Section -->
+<app-trust-badges></app-trust-badges>
+
+<!-- Category Showcase -->
+<app-category-showcase></app-category-showcase>
+
 <div class="container">
   <h3 class="mb-4">{{ 'HOMEPAGE.FEATURED_PRODUCTS' | translate }}</h3>
   @defer (on viewport) {
@@ -22,6 +28,21 @@
   </div>
   }
 </div>
+
+<!-- Deals of the Day -->
+<!-- @defer (on viewport) {
+<app-deals-of-day></app-deals-of-day>
+} @placeholder {
+<div class="container py-4">
+  <div class="row g-4">
+    @for (i of [1, 2, 3, 4]; track i) {
+    <div class="col-6 col-md-4 col-lg-3">
+      <app-product-card-skeleton></app-product-card-skeleton>
+    </div>
+    }
+  </div>
+</div>
+} -->
 
 <!-- Dynamic Category Sections -->
 <div class="container">
@@ -46,6 +67,8 @@
   }
 </div>
 
+<!-- Sponsored Products Section -->
+
 <div class="gradient-warmy">
   <div class="container">
     @defer (on viewport) {
@@ -69,3 +92,10 @@
     }
   </div>
 </div>
+
+<!-- Statistics Counter Section -->
+@defer (on viewport) {
+<app-statistics-counter></app-statistics-counter>
+} @placeholder {
+<div></div>
+}

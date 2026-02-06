@@ -1,0 +1,19 @@
+<section class="statistics-section" aria-label="Our Statistics">
+  <div class="container">
+    <div class="statistics-grid">
+      @for (stat of statistics; track stat.labelKey; let i = $index) {
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i [class]="stat.icon"></i>
+        </div>
+        <div class="stat-content">
+          <span class="stat-value">
+            {{ formatNumber(animatedValues()[i]) }}{{ stat.suffix || '' }}
+          </span>
+          <span class="stat-label">{{ stat.labelKey | translate }}</span>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</section>

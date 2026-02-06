@@ -99,6 +99,8 @@
     "ADD_TO_WISHLIST": "Add to Wishlist",
     "REMOVE_FROM_WISHLIST": "Remove from Wishlist",
     "SHARE": "Share",
+    "NEW": "New",
+    "SALE": "Sale",
     "IN_STOCK": "In Stock",
     "OUT_OF_STOCK": "Out of Stock",
     "LIMITED_STOCK": "left",
@@ -571,7 +573,23 @@
     "EASY_RETURNS": "Easy Returns",
     "EASY_RETURNS_DESC": "Free returns within 14 days",
     "SUPPORT": "24/7 Support",
-    "SUPPORT_DESC": "We're here to help you"
+    "SUPPORT_DESC": "We're here to help you",
+    "DEALS_OF_DAY": "Deals of the Day",
+    "RECENTLY_VIEWED": "Recently Viewed",
+    "ENDS_IN": "Ends in"
+  },
+  "COUNTDOWN": {
+    "DAYS": "Days",
+    "HOURS": "Hours",
+    "MINUTES": "Min",
+    "SECONDS": "Sec",
+    "EXPIRED": "Expired"
+  },
+  "STATISTICS": {
+    "HAPPY_CUSTOMERS": "Happy Customers",
+    "PRODUCTS_SOLD": "Products Sold",
+    "CATEGORIES": "Categories",
+    "YEARS_EXPERIENCE": "Years of Experience"
   },
   "NOTIFICATIONS": {
     "TITLE": "Notifications",
