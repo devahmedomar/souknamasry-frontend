@@ -10,6 +10,7 @@ import { OrderService } from '../../services/order.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { AddressService } from '../../../user/services/address.service';
 import { ToastService } from '../../../../shared/services/toast.service';
+import { ConfettiService } from '../../../../shared/services/confetti.service';
 import { CartItemComponent } from '../../components/cart-item/cart-item.component';
 import { OrderSummaryComponent } from '../../components/order-summary/order-summary.component';
 import { AddressSelectorComponent } from '../../components/address-selector/address-selector.component';
@@ -52,6 +53,7 @@ export class CartPage implements OnInit {
     private readonly addressService = inject(AddressService);
     private readonly authService = inject(AuthService);
     private readonly toast = inject(ToastService);
+    private readonly confetti = inject(ConfettiService);
     private readonly translateService = inject(TranslateService);
     readonly router = inject(Router);
     private readonly platformId = inject(PLATFORM_ID);
@@ -217,8 +219,9 @@ export class CartPage implements OnInit {
             next: (response) => {
                 this.creatingOrder.set(false);
 
-                // Show success message
+                // Show success message and confetti
                 this.showOrderSuccess(response.data);
+                this.confetti.launch();
 
                 // Clear cart (optimistic UI update)
                 this.cartService.clearCart().subscribe({
