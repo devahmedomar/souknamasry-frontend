@@ -1,5 +1,6 @@
-import { Component, inject, OnInit, computed, signal, ChangeDetectionStrategy, HostListener } from '@angular/core';
-import { Router, RouterLink } from "@angular/router";
+import { Component, inject, OnInit, OnDestroy, computed, signal, ChangeDetectionStrategy, HostListener, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -12,23 +13,14 @@ import { ToastService } from '../../services/toast.service';
 import { SearchComponent } from '../search/search';
 import { ThemeToggle } from '../theme-toggle/theme-toggle';
 
-/**
- * Header Component
- * Responsibilities:
- * - Display navigation menu
- * - Handle language switching
- * - Display cart item count
- * - Handle user logout
- * - Sticky header with scroll behavior
- */
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, FormsModule, TranslateModule, CommonModule, SearchComponent, ThemeToggle],
+  imports: [RouterLink, RouterLinkActive, FormsModule, TranslateModule, CommonModule, SearchComponent, ThemeToggle],
   templateUrl: './header.html',
   styleUrl: './header.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Header implements OnInit {
+export class Header implements OnInit, OnDestroy {
   private translateService = inject(TranslateService);
   private cartService = inject(CartService);
   private cartState = inject(CartStateService);
@@ -37,37 +29,26 @@ export class Header implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private toast = inject(ToastService);
+  private platformId = inject(PLATFORM_ID);
 
-  // Get cart item count from state
   cartItemCount = this.cartState.itemCount;
-
-  // Get favourites count from state
   favouritesCount = this.favouritesState.count;
-
-  // Check if user is logged in
   isLoggedIn = computed(() => !!this.authService.token());
-
-  // Check if user is admin
   isAdmin = computed(() => {
     const user = this.authService.currentUser();
     return user?.role === 'admin';
   });
-
-  // Profile link based on login status
   profileLink = computed(() => this.isLoggedIn() ? '/user/profile' : '/auth/login');
 
-  // Logout loading state
   loggingOut = signal(false);
-
-  // Scroll state for sticky header behavior
   isScrolled = signal(false);
+  drawerOpen = signal(false);
+  mobileSearchOpen = signal(false);
 
-  // Current language for template access
   get currentLang(): string {
     return this.translateService.currentLang;
   }
 
-  // Listen to window scroll events
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     const scrollPosition = window.scrollY || document.documentElement.scrollTop;
@@ -75,11 +56,40 @@ export class Header implements OnInit {
   }
 
   ngOnInit(): void {
-    // Load cart and favourites if user is authenticated
     if (this.authService.token()) {
       this.cartService.getCart().subscribe();
       this.favouritesService.getFavourites().subscribe();
     }
+  }
+
+  ngOnDestroy(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.style.overflow = '';
+    }
+  }
+
+  toggleDrawer(): void {
+    const open = !this.drawerOpen();
+    this.drawerOpen.set(open);
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+  }
+
+  closeDrawer(): void {
+    this.drawerOpen.set(false);
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.style.overflow = '';
+    }
+  }
+
+  toggleMobileSearch(): void {
+    this.mobileSearchOpen.set(!this.mobileSearchOpen());
+  }
+
+  navigateAndClose(path: string): void {
+    this.closeDrawer();
+    this.router.navigate([path]);
   }
 
   changeLang(event: Event): void {
@@ -97,10 +107,12 @@ export class Header implements OnInit {
         this.cartState.clearCart();
         this.favouritesState.clearFavourites();
         this.toast.successT('AUTH.MESSAGES.LOGOUT_SUCCESS');
+        this.closeDrawer();
         this.router.navigate(['/']);
       },
       error: () => {
         this.loggingOut.set(false);
+        this.closeDrawer();
         this.router.navigate(['/']);
       }
     });

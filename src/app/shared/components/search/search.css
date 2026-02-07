@@ -13,16 +13,22 @@
 .search-input {
   width: 100%;
   padding: 10px 45px 10px 15px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--gray-300);
   border-radius: 25px;
   font-size: 14px;
   outline: none;
   transition: all 0.3s ease;
+  background: var(--bg-primary);
+  color: var(--gray-900);
+}
+
+.search-input::placeholder {
+  color: var(--gray-400);
 }
 
 .search-input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-50, rgba(232, 106, 46, 0.1));
 }
 
 .search-button {
@@ -30,7 +36,7 @@
   right: 5px;
   top: 50%;
   transform: translateY(-50%);
-  background: #007bff;
+  background: var(--color-primary);
   border: none;
   border-radius: 50%;
   width: 35px;
@@ -44,7 +50,7 @@
 }
 
 .search-button:hover {
-  background: #0056b3;
+  background: var(--color-primary-600);
 }
 
 .suggestions-dropdown {
@@ -53,8 +59,8 @@
   left: 0;
   right: 0;
   margin-top: 5px;
-  background: white;
-  border: 1px solid #ddd;
+  background: var(--bg-primary);
+  border: 1px solid var(--gray-300);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   max-height: 400px;
@@ -65,7 +71,7 @@
 .suggestion-loading {
   padding: 20px;
   text-align: center;
-  color: #666;
+  color: var(--gray-500);
 }
 
 .suggestions-list {
@@ -81,7 +87,7 @@
 }
 
 .suggestion-item:hover {
-  background: #f8f9fa;
+  background: var(--gray-50);
 }
 
 .suggestion-image {
@@ -101,20 +107,20 @@
   margin: 0 0 4px 0;
   font-size: 14px;
   font-weight: 500;
-  color: #333;
+  color: var(--gray-900);
 }
 
 .suggestion-category {
   margin: 0 0 4px 0;
   font-size: 12px;
-  color: #666;
+  color: var(--gray-500);
 }
 
 .suggestion-price {
   margin: 0;
   font-size: 14px;
   font-weight: 600;
-  color: #007bff;
+  color: var(--color-primary);
 }
 
 @media (max-width: 768px) {
@@ -141,59 +147,69 @@
 }
 
 /* ========================================
-   DARK MODE SEARCH COMPONENT STYLES
+   DARK MODE SEARCH — Premium Glass Style
    ======================================== */
 
-[data-theme="dark"] .search-input {
-  background-color: #0d1117;
-  border-color: #30363d;
+[data-theme='dark'] .search-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #e6edf3;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-[data-theme="dark"] .search-input::placeholder {
-  color: #6e7681;
+[data-theme='dark'] .search-input::placeholder {
+  color: #e3e6eb;
 }
 
-[data-theme="dark"] .search-input:focus {
+[data-theme='dark'] .search-input:focus {
   border-color: #ff8c4b;
-  background-color: #161b22;
-  box-shadow: 0 0 0 3px rgba(255, 140, 75, 0.25);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 0 0 3px rgba(255, 140, 75, 0.15),
+    0 0 16px rgba(255, 140, 75, 0.08),
+    inset 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
-[data-theme="dark"] .search-button {
-  background-color: var(--color-primary);
+[data-theme='dark'] .search-button {
+  background: linear-gradient(135deg, #ff8c4b, #e8632e);
+  box-shadow: 0 2px 8px rgba(255, 140, 75, 0.3);
 }
 
-[data-theme="dark"] .search-button:hover {
-  background-color: #e67635;
+[data-theme='dark'] .search-button:hover {
+  background: linear-gradient(135deg, #ff9a5c, #ff8c4b);
+  box-shadow: 0 4px 12px rgba(255, 140, 75, 0.4);
 }
 
-[data-theme="dark"] .suggestions-dropdown {
-  background-color: #161b22;
-  border-color: #30363d;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+[data-theme='dark'] .suggestions-dropdown {
+  background: rgba(22, 27, 34, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.03);
 }
 
-[data-theme="dark"] .suggestion-item {
-  border-bottom: 1px solid #30363d;
+[data-theme='dark'] .suggestion-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-[data-theme="dark"] .suggestion-item:hover {
-  background-color: #1c2128;
+[data-theme='dark'] .suggestion-item:hover {
+  background: rgba(255, 140, 75, 0.06);
 }
 
-[data-theme="dark"] .suggestion-name {
+[data-theme='dark'] .suggestion-name {
   color: #e6edf3;
 }
 
-[data-theme="dark"] .suggestion-category {
+[data-theme='dark'] .suggestion-category {
   color: #8b949e;
 }
 
-[data-theme="dark"] .suggestion-price {
-  color: #ff8c4b;
+[data-theme='dark'] .suggestion-price {
+  color: #ff9a5c;
 }
 
-[data-theme="dark"] .suggestion-loading {
+[data-theme='dark'] .suggestion-loading {
   color: #8b949e;
 }

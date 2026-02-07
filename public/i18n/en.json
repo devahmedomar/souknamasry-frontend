@@ -45,7 +45,8 @@
     "ORDERS": "My Orders",
     "LOGOUT": "Logout",
     "LOGIN": "Login",
-    "ADMIN_DASHBOARD": "Admin Dashboard"
+    "ADMIN_DASHBOARD": "Admin Dashboard",
+    "FAVOURITES": "Favourites"
   },
   "ADMIN": {
     "DASHBOARD": {

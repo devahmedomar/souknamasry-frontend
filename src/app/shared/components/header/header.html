@@ -1,25 +1,36 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" [class.scrolled]="isScrolled()">
-  <div class="container header-container">
-    <a class="navbar-brand" href="#">
-      <img [src]="'HEADER.LOGO_URL' | translate" class="logo" [alt]="'HEADER.LOGO_ALT' | translate" width="120" height="40" />
-    </a>
-    <button class="navbar-toggler text-dark-brown p-2" type="button" data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-      aria-label="Toggle navigation">
-      <i class="fas fa-bars text-dark-brown"></i>
-    </button>
+<!-- ========== HEADER ========== -->
+<header class="header" [class.scrolled]="isScrolled()">
+  <!-- Top Bar -->
+  <div class="header-top">
+    <div class="container header-container">
+      <!-- Mobile Hamburger -->
+      <button class="hamburger mobile-only" (click)="toggleDrawer()" aria-label="Open menu">
+        <i class="fas fa-bars"></i>
+      </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="d-flex flex-1 search-form grow w-100">
+      <!-- Logo -->
+      <a class="header-logo" routerLink="/">
+        <img [src]="'HEADER.LOGO_URL' | translate" class="logo" [alt]="'HEADER.LOGO_ALT' | translate" width="120" height="40" />
+      </a>
+
+      <!-- Desktop Search -->
+      <div class="header-search desktop-only">
         <app-search></app-search>
       </div>
-      <ul class="navbar-nav mb-2 mb-lg-0 d-flex flex-row align-items-center ms-auto justify-self-end">
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <!-- Mobile Search Toggle -->
+        <button class="icon-btn mobile-only" (click)="toggleMobileSearch()" aria-label="Search">
+          <i class="fas fa-search"></i>
+        </button>
+
         <!-- User Menu -->
-        <li class="nav-item me-3 dropdown">
+        <div class="dropdown">
           @if (isLoggedIn()) {
-          <a class="nav-link icon-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="icon-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-solid fa-user"></i>
-          </a>
+          </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
               <a class="dropdown-item" routerLink="/user/profile">
@@ -48,41 +59,144 @@
             </li>
           </ul>
           } @else {
-          <a class="nav-link icon-link" routerLink="/auth/login" role="button">
+          <a class="icon-btn" routerLink="/auth/login" aria-label="Login">
             <i class="fa-solid fa-user"></i>
           </a>
           }
-        </li>
+        </div>
+
         <!-- Theme Toggle -->
-        <li class="nav-item me-3">
-          <app-theme-toggle />
-        </li>
-        <li class="nav-item me-3 position-relative">
-          <a class="nav-link icon-link" routerLink="/favourites">
-            <i class="fa-solid fa-heart"></i>
-            @if (favouritesCount() > 0) {
-            <span class="badge-counter animate-badge">
-              {{ favouritesCount() }}
-            </span>
-            }
-          </a>
-        </li>
-        <li class="nav-item me-3 position-relative">
-          <a class="nav-link icon-link" routerLink="/cart">
-            <i class="fa-solid fa-cart-arrow-down"></i>
-            @if (cartItemCount() > 0) {
-            <span class="badge-counter animate-badge">
-              {{ cartItemCount() }}
-            </span>
-            }
-          </a>
-        </li>
-      </ul>
-      <select class="form-select w-auto ms-3" aria-label="language" (change)="changeLang($event)"
-        [value]="currentLang">
+        <app-theme-toggle />
+
+        <!-- Favourites -->
+        <a class="icon-btn" routerLink="/favourites" aria-label="Favourites">
+          <i class="fa-solid fa-heart"></i>
+          @if (favouritesCount() > 0) {
+          <span class="badge-counter animate-badge">{{ favouritesCount() }}</span>
+          }
+        </a>
+
+        <!-- Cart -->
+        <a class="icon-btn" routerLink="/cart" aria-label="Cart">
+          <i class="fa-solid fa-cart-arrow-down"></i>
+          @if (cartItemCount() > 0) {
+          <span class="badge-counter animate-badge">{{ cartItemCount() }}</span>
+          }
+        </a>
+
+        <!-- Language (Desktop) -->
+        <select class="lang-select desktop-only" aria-label="language" (change)="changeLang($event)" [value]="currentLang">
+          <option value="en">EN</option>
+          <option value="ar">AR</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Desktop Navigation -->
+  <nav class="header-nav desktop-only">
+    <div class="container">
+      <div class="nav-links">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="fas fa-home"></i> {{ 'NAV.HOME' | translate }}
+        </a>
+        <a routerLink="/categories" routerLinkActive="active">
+          <i class="fas fa-th-large"></i> {{ 'NAV.CATEGORIES' | translate }}
+        </a>
+        <a routerLink="/favourites" routerLinkActive="active">
+          <i class="fas fa-heart"></i> {{ 'NAV.FAVOURITES' | translate }}
+        </a>
+        <a routerLink="/cart" routerLinkActive="active">
+          <i class="fas fa-shopping-cart"></i> {{ 'NAV.CART' | translate }}
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Search (Expandable) -->
+  <div class="mobile-search" [class.open]="mobileSearchOpen()">
+    <div class="container">
+      <app-search></app-search>
+    </div>
+  </div>
+</header>
+
+<!-- ========== MOBILE DRAWER ========== -->
+<div class="drawer-overlay" [class.open]="drawerOpen()" (click)="closeDrawer()"></div>
+
+<aside class="drawer" [class.open]="drawerOpen()">
+  <!-- Drawer Header -->
+  <div class="drawer-header">
+    <img [src]="'HEADER.LOGO_URL' | translate" class="drawer-logo" [alt]="'HEADER.LOGO_ALT' | translate" />
+    <button class="drawer-close" (click)="closeDrawer()" aria-label="Close menu">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Drawer Navigation -->
+  <nav class="drawer-nav">
+    <a class="drawer-link" (click)="navigateAndClose('/')">
+      <i class="fas fa-home"></i>
+      <span>{{ 'NAV.HOME' | translate }}</span>
+    </a>
+    <a class="drawer-link" (click)="navigateAndClose('/categories')">
+      <i class="fas fa-th-large"></i>
+      <span>{{ 'NAV.CATEGORIES' | translate }}</span>
+    </a>
+    <a class="drawer-link" (click)="navigateAndClose('/favourites')">
+      <i class="fas fa-heart"></i>
+      <span>{{ 'NAV.FAVOURITES' | translate }}</span>
+      @if (favouritesCount() > 0) {
+      <span class="drawer-badge">{{ favouritesCount() }}</span>
+      }
+    </a>
+    <a class="drawer-link" (click)="navigateAndClose('/cart')">
+      <i class="fas fa-shopping-cart"></i>
+      <span>{{ 'NAV.CART' | translate }}</span>
+      @if (cartItemCount() > 0) {
+      <span class="drawer-badge">{{ cartItemCount() }}</span>
+      }
+    </a>
+
+    <div class="drawer-divider"></div>
+
+    @if (isLoggedIn()) {
+    <a class="drawer-link" (click)="navigateAndClose('/user/profile')">
+      <i class="fas fa-user"></i>
+      <span>{{ 'ACCOUNT.PROFILE' | translate }}</span>
+    </a>
+    @if (isAdmin()) {
+    <a class="drawer-link" (click)="navigateAndClose('/admin/dashboard')">
+      <i class="fas fa-tachometer-alt"></i>
+      <span>{{ 'NAV.ADMIN_DASHBOARD' | translate }}</span>
+    </a>
+    }
+    } @else {
+    <a class="drawer-link" (click)="navigateAndClose('/auth/login')">
+      <i class="fas fa-sign-in-alt"></i>
+      <span>{{ 'NAV.LOGIN' | translate }}</span>
+    </a>
+    }
+  </nav>
+
+  <!-- Drawer Footer -->
+  <div class="drawer-footer">
+    <div class="drawer-footer-row">
+      <app-theme-toggle />
+      <select class="lang-select" aria-label="language" (change)="changeLang($event)" [value]="currentLang">
         <option value="en">English</option>
         <option value="ar">Arabic</option>
       </select>
     </div>
+    @if (isLoggedIn()) {
+    <button class="drawer-logout" (click)="logout()" [disabled]="loggingOut()">
+      @if (loggingOut()) {
+      <span class="spinner-border spinner-border-sm"></span>
+      } @else {
+      <i class="fas fa-sign-out-alt"></i>
+      }
+      <span>{{ 'NAV.LOGOUT' | translate }}</span>
+    </button>
+    }
   </div>
-</nav>
+</aside>
