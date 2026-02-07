@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { ScrollAnimateDirective } from '../../../../shared/directives/scroll-animate.directive';
 
 interface TrustBadge {
   icon: string;
@@ -11,7 +12,7 @@ interface TrustBadge {
 @Component({
   selector: 'app-trust-badges',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, ScrollAnimateDirective],
   templateUrl: './trust-badges.html',
   styleUrl: './trust-badges.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -15,7 +15,10 @@
       "Bash(git diff:*)",
       "Bash(npm start)",
       "Bash(npm install:*)",
-      "Bash(head:*)"
+      "Bash(head:*)",
+      "Bash(powershell -Command \"Get-Content ''C:\\\\Users\\\\Ahmed.Omar\\\\.claude\\\\projects\\\\c----------ecommerce-souknamasry-frontend-angular21\\\\c2edc929-1656-4bca-b806-6423e6b0eb56.jsonl'' | Select-Object -Last 50\")",
+      "Bash(powershell -Command:*)",
+      "Bash(npx ng build:*)"
     ]
   }
 }

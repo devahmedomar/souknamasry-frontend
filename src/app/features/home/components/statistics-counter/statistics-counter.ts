@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { ScrollAnimateDirective } from '../../../../shared/directives/scroll-animate.directive';
 
 interface Statistic {
   icon: string;
@@ -21,7 +22,7 @@ interface Statistic {
 @Component({
   selector: 'app-statistics-counter',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, ScrollAnimateDirective],
   templateUrl: './statistics-counter.html',
   styleUrl: './statistics-counter.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

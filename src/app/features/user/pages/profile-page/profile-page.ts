@@ -339,4 +339,9 @@ export class ProfilePage implements OnInit {
       },
     });
   }
+
+  getSnapshotName(snapshot: { name: string; nameAr?: string }): string {
+    const lang = this.translate.currentLang;
+    return lang === 'ar' ? (snapshot.nameAr || snapshot.name) : snapshot.name;
+  }
 }

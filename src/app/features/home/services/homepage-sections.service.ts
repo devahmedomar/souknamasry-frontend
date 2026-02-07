@@ -51,12 +51,13 @@ export class HomepageSectionsService {
     return {
       id: product._id,
       title: product.name,
+      titleAr: product.nameAr,
       slug: product.slug,
       category: categoryName,
       price: product.price,
       currency: 'EGP',
       imageUrl: product.images[0] || '/assets/images/placeholder.jpg',
-      rating: 0, // API doesn't provide rating, can be enhanced later
+      rating: 0,
       maxRating: 5
     };
   }

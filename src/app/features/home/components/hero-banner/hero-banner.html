@@ -19,7 +19,7 @@
   } @else if (slides().length > 1) {
   <!-- Multi-Slide Carousel -->
   <p-carousel [value]="slides()" [numVisible]="1" [numScroll]="1" [circular]="true"
-    [autoplayInterval]="isBrowser ? 5000 : 0" [showNavigators]="true" [showIndicators]="true"
+    [autoplayInterval]="isBrowser ? 5000 : 0" [showNavigators]="false" [showIndicators]="true"
     [responsiveOptions]="responsiveOptions" styleClass="hero-carousel">
     <ng-template let-slide pTemplate="item">
       <div class="hero-slide" [class.text-light]="slide.textColor === 'light'">

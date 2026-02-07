@@ -7,7 +7,9 @@ import { FeaturedProducts } from '../../components/featured-products/featured-pr
 import { SponsoredProducts } from '../../components/sponsored-products/sponsored-products';
 import { DynamicSectionsComponent } from '../../components/dynamic-sections/dynamic-sections.component';
 import { StatisticsCounter } from '../../components/statistics-counter/statistics-counter';
+import { Testimonials } from '../../components/testimonials/testimonials';
 import { ProductCardSkeleton } from '../../../../shared/components/skeletons';
+import { ScrollAnimateDirective } from '../../../../shared/directives/scroll-animate.directive';
 import { SeoService } from '../../../../core/services/seo.service';
 
 @Component({
@@ -21,7 +23,9 @@ import { SeoService } from '../../../../core/services/seo.service';
     SponsoredProducts,
     DynamicSectionsComponent,
     StatisticsCounter,
+    Testimonials,
     ProductCardSkeleton,
+    ScrollAnimateDirective,
   ],
   templateUrl: './home-page.html',
   styleUrl: './home-page.css',

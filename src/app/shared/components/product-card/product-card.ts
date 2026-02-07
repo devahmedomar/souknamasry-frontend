@@ -2,11 +2,14 @@ import { Component, input, output, inject, ChangeDetectionStrategy, computed } f
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 import { Rating } from 'primeng/rating';
 import { ButtonModule } from 'primeng/button';
 import { IProductCard } from '../../models/productCard';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PricePipe } from '../../pipes/price.pipe';
+import { QuickViewService } from '../../services/quick-view.service';
 
 @Component({
   selector: 'app-product-card',
@@ -18,12 +21,27 @@ import { PricePipe } from '../../pipes/price.pipe';
 })
 export class ProductCard {
   private router = inject(Router);
+  private quickViewService = inject(QuickViewService);
+  private translateService = inject(TranslateService);
+
+  // Reactive language signal — re-evaluates computed signals on language change
+  private currentLang = toSignal(
+    this.translateService.onLangChange.pipe(map(e => e.lang)),
+    { initialValue: this.translateService.currentLang }
+  );
 
   product = input.required<IProductCard>();
   isFavourite = input<boolean>(false);
 
   addToCart = output<IProductCard>();
   addToWishlist = output<IProductCard>();
+
+  // Computed: Localized product title
+  displayTitle = computed(() => {
+    const p = this.product();
+    const lang = this.currentLang();
+    return lang === 'ar' ? (p.titleAr || p.title) : p.title;
+  });
 
   // Computed: Check if product has a valid discount
   hasDiscount = computed(() => {
@@ -71,6 +89,15 @@ export class ProductCard {
     event.stopPropagation();
     event.preventDefault();
     this.addToWishlist.emit(this.product());
+  }
+
+  onQuickView(event: Event) {
+    event.stopPropagation();
+    event.preventDefault();
+    const prod = this.product();
+    if (prod.slug) {
+      this.quickViewService.open(prod.slug);
+    }
   }
 
   navigateToProduct() {

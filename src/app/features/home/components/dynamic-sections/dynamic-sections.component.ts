@@ -4,15 +4,17 @@ import {
   inject,
   signal,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   input
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { HomepageSectionsService } from '../../services/homepage-sections.service';
-import { HomepageSection } from '../../../../shared/models/homepage-section.interface';
+import { HomepageSection, HomepageSectionCategory } from '../../../../shared/models/homepage-section.interface';
 import { IProductCard } from '../../../../shared/models/productCard';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
 import { ProductCardSkeleton } from '../../../../shared/components/skeletons/product-card-skeleton/product-card-skeleton';
@@ -21,6 +23,7 @@ import { FavouritesService } from '../../../favourites/services/favourites.servi
 import { FavouritesStateService } from '../../../favourites/services/favourites-state.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { ToastService } from '../../../../shared/services/toast.service';
+import { ScrollAnimateDirective } from '../../../../shared/directives/scroll-animate.directive';
 
 /**
  * Component for displaying dynamic homepage sections organized by categories
@@ -36,7 +39,8 @@ import { ToastService } from '../../../../shared/services/toast.service';
     CarouselModule,
     ButtonModule,
     ProductCard,
-    ProductCardSkeleton
+    ProductCardSkeleton,
+    ScrollAnimateDirective
   ],
   templateUrl: './dynamic-sections.component.html',
   styleUrl: './dynamic-sections.component.css',
@@ -49,7 +53,16 @@ export class DynamicSectionsComponent implements OnInit {
   private readonly favouritesState = inject(FavouritesStateService);
   private readonly authService = inject(AuthService);
   private readonly toastService = inject(ToastService);
+  private readonly translateService = inject(TranslateService);
   private readonly router = inject(Router);
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  constructor() {
+    // Re-render on language change (OnPush doesn't detect translateService.currentLang changes)
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.cdr.markForCheck();
+    });
+  }
 
   // Input properties
   sortBy = input<'newest' | 'popular'>('newest');
@@ -195,6 +208,25 @@ export class DynamicSectionsComponent implements OnInit {
         }
       });
     }
+  }
+
+  /**
+   * Get localized category name for a section
+   */
+  getSectionName(category: HomepageSectionCategory): string {
+    const lang = this.translateService.currentLang;
+    return lang === 'ar' ? (category.nameAr || category.name) : category.name;
+  }
+
+  /**
+   * Get localized category description for a section
+   */
+  getSectionDescription(category: HomepageSectionCategory): string | undefined {
+    const lang = this.translateService.currentLang;
+    if (lang === 'ar') {
+      return category.descriptionAr || category.description;
+    }
+    return category.description;
   }
 
   /**

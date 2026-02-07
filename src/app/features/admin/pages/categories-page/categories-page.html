@@ -59,7 +59,12 @@
     <ng-template pTemplate="body" let-category>
       <tr>
         <td>
-          <strong>{{ category.name }}</strong>
+          <div>
+            <strong>{{ category.name }}</strong>
+            @if (category.nameAr) {
+              <br /><small class="text-muted">{{ category.nameAr }}</small>
+            }
+          </div>
         </td>
         <td>
           <span class="text-muted">
@@ -135,10 +140,10 @@
 
   <form [formGroup]="categoryForm" (ngSubmit)="saveCategory()">
     <div class="row g-3">
-      <!-- Name -->
-      <div class="col-12">
+      <!-- Name (English) -->
+      <div class="col-md-6">
         <label for="name" class="form-label">
-          {{ 'ADMIN.CATEGORIES.NAME_LABEL' | translate }} <span class="text-danger">{{ 'ADMIN.CATEGORIES.REQUIRED_FIELD' | translate }}</span>
+          {{ 'ADMIN.CATEGORIES.NAME_LABEL' | translate }} (English) <span class="text-danger">{{ 'ADMIN.CATEGORIES.REQUIRED_FIELD' | translate }}</span>
         </label>
         <input
           id="name"
@@ -154,9 +159,24 @@
         </small>
       </div>
 
-      <!-- Description -->
+      <!-- Name (Arabic) -->
+      <div class="col-md-6">
+        <label for="nameAr" class="form-label">
+          {{ 'ADMIN.CATEGORIES.NAME_LABEL' | translate }} (Arabic)
+        </label>
+        <input
+          id="nameAr"
+          type="text"
+          pInputText
+          formControlName="nameAr"
+          class="w-100"
+          placeholder="اسم الفئة بالعربية"
+          dir="rtl" />
+      </div>
+
+      <!-- Description (English) -->
       <div class="col-12">
-        <label for="description" class="form-label">{{ 'ADMIN.CATEGORIES.DESCRIPTION_LABEL' | translate }}</label>
+        <label for="description" class="form-label">{{ 'ADMIN.CATEGORIES.DESCRIPTION_LABEL' | translate }} (English)</label>
         <textarea
           id="description"
           p-textarea
@@ -170,6 +190,20 @@
           class="text-danger">
           {{ 'ADMIN.CATEGORIES.DESCRIPTION_ERROR' | translate }}
         </small>
+      </div>
+
+      <!-- Description (Arabic) -->
+      <div class="col-12">
+        <label for="descriptionAr" class="form-label">{{ 'ADMIN.CATEGORIES.DESCRIPTION_LABEL' | translate }} (Arabic)</label>
+        <textarea
+          id="descriptionAr"
+          p-textarea
+          formControlName="descriptionAr"
+          class="w-100"
+          rows="3"
+          placeholder="وصف الفئة بالعربية"
+          dir="rtl">
+        </textarea>
       </div>
 
       <!-- Image URL -->

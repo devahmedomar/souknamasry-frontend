@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { OrderAdminService } from '../../services/order-admin.service';
 import {
   Order,
@@ -52,6 +52,7 @@ export class OrdersPage implements OnInit {
   private readonly orderService = inject(OrderAdminService);
   private readonly messageService = inject(MessageService);
   private readonly confirmationService = inject(ConfirmationService);
+  private readonly translateService = inject(TranslateService);
 
   orders = signal<Order[]>([]);
   loading = signal(false);
@@ -319,5 +320,10 @@ export class OrdersPage implements OnInit {
   getFullAddress(order: Order): string {
     const addr = order.shippingAddress;
     return `${addr.street}, ${addr.area}, ${addr.city}${addr.landmark ? ', ' + addr.landmark : ''}${addr.apartmentNumber ? ', Apt ' + addr.apartmentNumber : ''}`;
+  }
+
+  getSnapshotName(snapshot: { name: string; nameAr?: string }): string {
+    const lang = this.translateService.currentLang;
+    return lang === 'ar' ? (snapshot.nameAr || snapshot.name) : snapshot.name;
   }
 }

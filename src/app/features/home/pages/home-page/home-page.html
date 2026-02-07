@@ -1,12 +1,16 @@
 <app-hero-banner></app-hero-banner>
 
 <!-- Trust Badges Section -->
-<app-trust-badges></app-trust-badges>
+<div appScrollAnimate [animation]="'fade-up'">
+  <app-trust-badges></app-trust-badges>
+</div>
 
 <!-- Category Showcase -->
-<app-category-showcase></app-category-showcase>
+<div appScrollAnimate [animation]="'fade-up'" [delay]="100">
+  <app-category-showcase></app-category-showcase>
+</div>
 
-<div class="container">
+<div class="container" appScrollAnimate [animation]="'fade-up'" [delay]="50">
   <h3 class="mb-4">{{ 'HOMEPAGE.FEATURED_PRODUCTS' | translate }}</h3>
   @defer (on viewport) {
   <app-featured-products></app-featured-products>
@@ -45,7 +49,7 @@
 } -->
 
 <!-- Dynamic Category Sections -->
-<div class="container">
+<div class="container" appScrollAnimate [animation]="'fade-up'">
   @defer (on viewport) {
   <app-dynamic-sections [sortBy]="'newest'" [limit]="10"></app-dynamic-sections>
   } @placeholder {
@@ -68,8 +72,7 @@
 </div>
 
 <!-- Sponsored Products Section -->
-
-<div class="gradient-warmy">
+<div class="gradient-warmy" appScrollAnimate [animation]="'slide-right'" [delay]="100">
   <div class="container">
     @defer (on viewport) {
     <app-sponsored-products></app-sponsored-products>
@@ -93,9 +96,18 @@
   </div>
 </div>
 
+<!-- Customer Testimonials -->
+@defer (on viewport) {
+<app-testimonials></app-testimonials>
+} @placeholder {
+<div></div>
+}
+
 <!-- Statistics Counter Section -->
 @defer (on viewport) {
-<app-statistics-counter></app-statistics-counter>
+<div appScrollAnimate [animation]="'zoom-in'">
+  <app-statistics-counter></app-statistics-counter>
+</div>
 } @placeholder {
 <div></div>
 }

@@ -2,7 +2,7 @@
   <div class="container">
     <div class="statistics-grid">
       @for (stat of statistics; track stat.labelKey; let i = $index) {
-      <div class="stat-card">
+      <div class="stat-card" appScrollAnimate [animation]="'fade-up'" [delay]="i * 120">
         <div class="stat-icon">
           <i [class]="stat.icon"></i>
         </div>

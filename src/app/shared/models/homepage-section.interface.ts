@@ -4,8 +4,10 @@
 export interface HomepageSectionCategory {
   _id: string;
   name: string;
+  nameAr?: string;
   slug: string;
   description?: string;
+  descriptionAr?: string;
   image?: string;
 }
 
@@ -15,6 +17,9 @@ export interface HomepageSectionCategory {
 export interface HomepageSectionProduct {
   _id: string;
   name: string;
+  nameAr?: string;
+  description?: string;
+  descriptionAr?: string;
   slug: string;
   price: number;
   compareAtPrice?: number;

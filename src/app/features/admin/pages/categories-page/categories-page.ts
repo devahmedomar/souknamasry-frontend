@@ -59,7 +59,9 @@ export class CategoriesPage implements OnInit {
 
   categoryForm: FormGroup = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+    nameAr: ['', [Validators.maxLength(100)]],
     description: ['', [Validators.maxLength(500)]],
+    descriptionAr: ['', [Validators.maxLength(500)]],
     image: [''],
     parent: [null],
     isActive: [true],
@@ -109,7 +111,9 @@ export class CategoriesPage implements OnInit {
     this.selectedCategory.set(category);
     this.categoryForm.patchValue({
       name: category.name,
+      nameAr: category.nameAr || '',
       description: category.description || '',
+      descriptionAr: category.descriptionAr || '',
       image: category.image || '',
       parent: typeof category.parent === 'object' ? category.parent?._id : category.parent,
       isActive: category.isActive,
@@ -135,7 +139,9 @@ export class CategoriesPage implements OnInit {
       // Update existing category
       const updateData: UpdateCategoryDto = {
         name: formValue.name,
+        nameAr: formValue.nameAr || undefined,
         description: formValue.description || undefined,
+        descriptionAr: formValue.descriptionAr || undefined,
         image: formValue.image || undefined,
         parent: formValue.parent || undefined,
         isActive: formValue.isActive,
@@ -165,7 +171,9 @@ export class CategoriesPage implements OnInit {
       // Create new category
       const createData: CreateCategoryDto = {
         name: formValue.name,
+        nameAr: formValue.nameAr || undefined,
         description: formValue.description || undefined,
+        descriptionAr: formValue.descriptionAr || undefined,
         image: formValue.image || undefined,
         parent: formValue.parent || undefined,
         isActive: formValue.isActive,

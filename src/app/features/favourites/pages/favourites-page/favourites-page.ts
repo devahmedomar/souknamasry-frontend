@@ -173,6 +173,7 @@ export class FavouritesPage implements OnInit {
         return {
             id: product._id,
             title: product.name,
+            titleAr: product.nameAr,
             category: product.category || '',
             price: product.price,
             currency: 'جنيها',

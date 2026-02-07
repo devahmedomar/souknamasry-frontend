@@ -5,10 +5,17 @@ import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Toast } from 'primeng/toast';
+import { Carousel } from 'primeng/carousel';
+import { QuickViewModal } from './shared/components/quick-view-modal/quick-view-modal';
+
+// Fix: PrimeNG Carousel blocks vertical page scrolling on mobile.
+// onTouchMove only calls preventDefault() — the swipe logic is in onTouchEnd,
+// so making this a no-op restores scrolling without breaking horizontal swipe.
+Carousel.prototype.onTouchMove = function () {};
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Toast],
+  imports: [RouterOutlet, Toast, QuickViewModal],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

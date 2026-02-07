@@ -10,7 +10,14 @@ import {
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
-export type AnimationType = 'fade-up' | 'fade-in' | 'slide-left' | 'slide-right' | 'zoom-in';
+export type AnimationType =
+  | 'fade-up'
+  | 'fade-down'
+  | 'fade-in'
+  | 'slide-left'
+  | 'slide-right'
+  | 'zoom-in'
+  | 'scale-up';
 
 @Directive({
   selector: '[appScrollAnimate]',
@@ -21,16 +28,16 @@ export class ScrollAnimateDirective implements AfterViewInit, OnDestroy {
   private renderer = inject(Renderer2);
   private platformId = inject(PLATFORM_ID);
 
-  // Animation type
+  /** Animation type */
   animation = input<AnimationType>('fade-up');
 
-  // Delay in milliseconds before animation starts
+  /** Delay in milliseconds before animation starts */
   delay = input<number>(0);
 
-  // Threshold for triggering (0-1)
-  threshold = input<number>(0.1);
+  /** Threshold for triggering (0-1) */
+  threshold = input<number>(0.15);
 
-  // Whether to animate only once
+  /** Whether to animate only once */
   once = input<boolean>(true);
 
   private observer?: IntersectionObserver;
@@ -41,8 +48,7 @@ export class ScrollAnimateDirective implements AfterViewInit, OnDestroy {
 
     // Check for reduced motion preference
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      // Skip animation, show element immediately
-      this.renderer.addClass(this.el.nativeElement, 'visible');
+      this.renderer.addClass(this.el.nativeElement, 'animate-visible');
       return;
     }
 
@@ -51,15 +57,17 @@ export class ScrollAnimateDirective implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.observer) {
-      this.observer.disconnect();
-    }
+    this.observer?.disconnect();
   }
 
   private setupElement(): void {
-    // Add initial hidden state
-    this.renderer.addClass(this.el.nativeElement, 'animate-hidden');
-    this.renderer.setStyle(this.el.nativeElement, 'transition-delay', `${this.delay()}ms`);
+    const el = this.el.nativeElement;
+    // Add base hidden state + type-specific hidden class for correct initial transform
+    this.renderer.addClass(el, 'animate-hidden');
+    this.renderer.addClass(el, `animate-hidden--${this.animation()}`);
+    if (this.delay()) {
+      this.renderer.setStyle(el, 'transition-delay', `${this.delay()}ms`);
+    }
   }
 
   private setupObserver(): void {
@@ -87,17 +95,17 @@ export class ScrollAnimateDirective implements AfterViewInit, OnDestroy {
   }
 
   private animateIn(): void {
-    // Remove hidden state
-    this.renderer.removeClass(this.el.nativeElement, 'animate-hidden');
-    // Add animation class
-    this.renderer.addClass(this.el.nativeElement, `animate-${this.animation()}`);
+    const el = this.el.nativeElement;
+    this.renderer.removeClass(el, 'animate-hidden');
+    this.renderer.removeClass(el, `animate-hidden--${this.animation()}`);
+    this.renderer.addClass(el, `animate-${this.animation()}`);
   }
 
   private animateOut(): void {
-    // Add hidden state back
-    this.renderer.addClass(this.el.nativeElement, 'animate-hidden');
-    // Remove animation class
-    this.renderer.removeClass(this.el.nativeElement, `animate-${this.animation()}`);
+    const el = this.el.nativeElement;
+    this.renderer.addClass(el, 'animate-hidden');
+    this.renderer.addClass(el, `animate-hidden--${this.animation()}`);
+    this.renderer.removeClass(el, `animate-${this.animation()}`);
     this.hasAnimated = false;
   }
 }

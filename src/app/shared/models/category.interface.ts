@@ -3,6 +3,7 @@ export interface Category {
     name: string;
     nameAr: string;
     description?: string;
+    descriptionAr?: string;
     slug: string;
     path: string; // e.g. "electronics/mobile-phones"
     image?: string;

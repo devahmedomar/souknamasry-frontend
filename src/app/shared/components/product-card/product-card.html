@@ -5,7 +5,7 @@
   <!-- Image Container -->
   <div class="product-image-wrapper">
     <div class="product-image-container">
-      <img [ngSrc]="product().imageUrl || product().image || '/images/placeholder.svg'" [alt]="product().title"
+      <img [ngSrc]="product().imageUrl || product().image || '/images/placeholder.svg'" [alt]="displayTitle()"
         class="product-image" fill />
 
       <!-- Out of Stock Overlay -->
@@ -35,6 +35,14 @@
       <i [class]="isFavourite() ? 'fas fa-heart' : 'far fa-heart'"></i>
     </button>
 
+    <!-- Quick View Button -->
+    @if (product().slug) {
+    <button type="button" class="quick-view-btn" (click)="onQuickView($event)"
+      [attr.aria-label]="'PRODUCT.QUICK_VIEW' | translate">
+      <i class="fas fa-eye"></i>
+    </button>
+    }
+
     <!-- Quick Add to Cart on Hover (Desktop) -->
     @if (!isOutOfStock()) {
     <div class="quick-add-overlay">
@@ -49,7 +57,7 @@
   <!-- Product Info -->
   <div class="product-info">
     <!-- Product Title -->
-    <h3 class="product-title">{{ product().title }}</h3>
+    <h3 class="product-title">{{ displayTitle() }}</h3>
 
     <!-- Rating -->
     @if (product().rating && product().rating > 0) {

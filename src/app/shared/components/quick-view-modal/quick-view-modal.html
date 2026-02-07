@@ -1,0 +1,203 @@
+<p-dialog
+  [visible]="visible()"
+  (visibleChange)="onHide()"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="true"
+  [showHeader]="false"
+  styleClass="quick-view-dialog"
+  [style]="{ width: '900px', maxWidth: '95vw' }"
+  [breakpoints]="{ '768px': '95vw' }">
+
+  <div class="quick-view-content">
+    <!-- Close Button -->
+    <button type="button" class="qv-close-btn" (click)="onHide()" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+
+    @if (loading()) {
+    <!-- Loading State -->
+    <div class="qv-loading">
+      <div class="qv-loading-grid">
+        <div class="qv-loading-image">
+          <div class="skeleton skeleton-image"></div>
+        </div>
+        <div class="qv-loading-info">
+          <div class="skeleton skeleton-title"></div>
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text short"></div>
+          <div class="skeleton skeleton-price"></div>
+          <div class="skeleton skeleton-btn"></div>
+        </div>
+      </div>
+    </div>
+    } @else if (error()) {
+    <!-- Error State -->
+    <div class="qv-error">
+      <i class="fas fa-exclamation-triangle"></i>
+      <p>{{ error() }}</p>
+    </div>
+    } @else if (product(); as p) {
+    <!-- Product Content -->
+    <div class="qv-grid">
+      <!-- Image Section -->
+      <div class="qv-image-section">
+        <div class="qv-main-image">
+          <img [ngSrc]="currentImage()" [alt]="getProductName()" fill class="qv-image" />
+
+          <!-- Discount Badge -->
+          @if (hasDiscount()) {
+          <span class="qv-badge qv-badge-sale">-{{ discountPercentage() }}%</span>
+          }
+
+          <!-- Stock Badge -->
+          @if (!p.inStock) {
+          <div class="qv-out-of-stock-overlay">
+            <span>{{ 'PRODUCT.OUT_OF_STOCK' | translate }}</span>
+          </div>
+          }
+        </div>
+
+        <!-- Image Thumbnails -->
+        @if (p.images.length > 1) {
+        <div class="qv-thumbnails">
+          @for (img of p.images; track img; let i = $index) {
+          @if (i < 5) {
+          <button
+            type="button"
+            class="qv-thumb"
+            [class.active]="selectedImageIndex() === i"
+            (click)="selectImage(i)">
+            <img [ngSrc]="img" [alt]="getProductName() + ' image ' + (i + 1)" fill />
+          </button>
+          }
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Info Section -->
+      <div class="qv-info-section">
+        <!-- Category -->
+        @if (p.category.name) {
+        <span class="qv-category">{{ getCategoryName() }}</span>
+        }
+
+        <!-- Title -->
+        <h2 class="qv-title">{{ getProductName() }}</h2>
+
+        <!-- Rating -->
+        @if (p.rating && p.rating > 0) {
+        <div class="qv-rating">
+          <p-rating [ngModel]="p.rating" [readonly]="true" class="custom-rating"></p-rating>
+          @if (p.reviewCount) {
+          <span class="qv-review-count">({{ p.reviewCount }})</span>
+          }
+        </div>
+        }
+
+        <!-- Price -->
+        <div class="qv-price-wrapper">
+          <span class="qv-price" [class.sale-price]="hasDiscount()">{{ p.price | price }}</span>
+          @if (hasDiscount()) {
+          <span class="qv-compare-price">{{ p.compareAtPrice | price }}</span>
+          <span class="qv-save-badge">
+            {{ 'PRODUCT.SAVE' | translate }} {{ (p.compareAtPrice! - p.price) | price }}
+          </span>
+          }
+        </div>
+
+        <!-- Description (truncated) -->
+        @if (p.description) {
+        <p class="qv-description">{{ getProductDescription() }}</p>
+        }
+
+        <!-- Sizes -->
+        @if (p.sizes?.length) {
+        <div class="qv-option-group">
+          <label class="qv-option-label">{{ 'PRODUCT.SIZE' | translate }}:</label>
+          <div class="qv-sizes">
+            @for (size of p.sizes; track size) {
+            <button
+              type="button"
+              class="qv-size-btn"
+              [class.active]="selectedSize() === size"
+              (click)="selectSize(size)">
+              {{ size }}
+            </button>
+            }
+          </div>
+        </div>
+        }
+
+        <!-- Colors -->
+        @if (p.colors?.length) {
+        <div class="qv-option-group">
+          <label class="qv-option-label">{{ 'PRODUCT.COLOR' | translate }}:</label>
+          <div class="qv-colors">
+            @for (color of p.colors; track color.name) {
+            <button
+              type="button"
+              class="qv-color-btn"
+              [class.active]="selectedColor() === color.name"
+              [style.background-color]="color.hex"
+              [attr.aria-label]="color.name"
+              (click)="selectColor(color.name)">
+              @if (selectedColor() === color.name) {
+              <i class="fas fa-check"></i>
+              }
+            </button>
+            }
+          </div>
+        </div>
+        }
+
+        <!-- Quantity & Add to Cart -->
+        @if (p.inStock) {
+        <div class="qv-actions">
+          <div class="qv-quantity">
+            <button type="button" class="qv-qty-btn" (click)="decrementQuantity()" [disabled]="quantity() <= 1">
+              <i class="fas fa-minus"></i>
+            </button>
+            <span class="qv-qty-value">{{ quantity() }}</span>
+            <button type="button" class="qv-qty-btn" (click)="incrementQuantity()">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+
+          <button type="button" class="qv-add-to-cart" (click)="addToCart()">
+            <i class="fas fa-shopping-cart me-2"></i>
+            {{ 'PRODUCT.ADD_TO_CART' | translate }}
+          </button>
+
+          <button
+            type="button"
+            class="qv-wishlist-btn"
+            [class.active]="isFavourite()"
+            (click)="toggleWishlist()"
+            [attr.aria-label]="(isFavourite() ? 'PRODUCT.REMOVE_FROM_WISHLIST' : 'PRODUCT.ADD_TO_WISHLIST') | translate">
+            <i [class]="isFavourite() ? 'fas fa-heart' : 'far fa-heart'"></i>
+          </button>
+        </div>
+
+        <!-- Stock Info -->
+        @if (p.stockQuantity && p.stockQuantity <= 5) {
+        <p class="qv-low-stock">
+          <i class="fas fa-exclamation-circle me-1"></i>
+          {{ 'PRODUCT.ONLY_LEFT' | translate: { count: p.stockQuantity } }}
+        </p>
+        }
+        }
+
+        <!-- View Full Details Link -->
+        <button type="button" class="qv-view-details" (click)="viewFullDetails()">
+          {{ 'PRODUCT.VIEW_FULL_DETAILS' | translate }}
+          <i class="fas fa-arrow-right ms-2"></i>
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+</p-dialog>

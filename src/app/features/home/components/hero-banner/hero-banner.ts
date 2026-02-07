@@ -1,6 +1,8 @@
-import { Component, ChangeDetectionStrategy, inject, computed, PLATFORM_ID } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, NgOptimizedImage, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CarouselModule } from 'primeng/carousel';
 import { HeroSlidesService } from '../../services/hero-slides.service';
@@ -18,6 +20,7 @@ export class HeroBanner {
   private heroSlidesService = inject(HeroSlidesService);
   private translateService = inject(TranslateService);
   private platformId = inject(PLATFORM_ID);
+  private cdr = inject(ChangeDetectorRef);
 
   slides = this.heroSlidesService.heroSlides;
   loading = this.heroSlidesService.isLoading;
@@ -25,8 +28,17 @@ export class HeroBanner {
   // Check if browser for autoplay
   isBrowser = isPlatformBrowser(this.platformId);
 
-  // Current language
-  currentLang = computed(() => this.translateService.currentLang || 'en');
+  // Reactive language signal
+  currentLang = toSignal(
+    this.translateService.onLangChange.pipe(map(e => e.lang)),
+    { initialValue: this.translateService.currentLang || 'en' }
+  );
+
+  constructor() {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.cdr.markForCheck();
+    });
+  }
 
   // Carousel responsive options
   responsiveOptions = [

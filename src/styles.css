@@ -7,6 +7,10 @@ padding: 0;
 *, *::before, *::after {
   box-sizing: border-box !important;
 }
+
+body {
+  overflow-x: hidden;
+}
 :root{
  /* ========================================
     MODERN DESIGN SYSTEM
@@ -956,40 +960,105 @@ a:focus-visible {
    SCROLL ANIMATION CLASSES
    ======================================== */
 
+/* Base hidden state */
 .animate-hidden {
   opacity: 0;
-  transform: translateY(20px);
+  will-change: opacity, transform;
 }
 
+/* Type-specific hidden states (initial transforms) */
+.animate-hidden--fade-up {
+  transform: translateY(40px);
+}
+
+.animate-hidden--fade-down {
+  transform: translateY(-40px);
+}
+
+.animate-hidden--fade-in {
+  transform: none;
+}
+
+.animate-hidden--slide-left {
+  transform: translateX(-50px);
+}
+
+.animate-hidden--slide-right {
+  transform: translateX(50px);
+}
+
+.animate-hidden--zoom-in {
+  transform: scale(0.85);
+}
+
+.animate-hidden--scale-up {
+  transform: scale(0.9) translateY(20px);
+}
+
+/* Visible / animated states */
 .animate-fade-up {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity var(--transition-slow), transform var(--transition-slow);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-fade-down {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .animate-fade-in {
   opacity: 1;
-  transition: opacity var(--transition-slow);
+  transition: opacity 0.7s ease;
 }
 
 .animate-slide-left {
   opacity: 1;
   transform: translateX(0);
-  transition: opacity var(--transition-slow), transform var(--transition-slow);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .animate-slide-right {
   opacity: 1;
   transform: translateX(0);
-  transition: opacity var(--transition-slow), transform var(--transition-slow);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-zoom-in {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-scale-up {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Immediate visibility for reduced-motion or SSR */
+.animate-visible {
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-hidden,
+  [class*="animate-hidden--"],
   .animate-fade-up,
+  .animate-fade-down,
   .animate-fade-in,
   .animate-slide-left,
-  .animate-slide-right {
+  .animate-slide-right,
+  .animate-zoom-in,
+  .animate-scale-up {
     opacity: 1;
     transform: none;
     transition: none;
@@ -1523,4 +1592,28 @@ a:focus-visible {
   background-color: #161b22;
   border-color: #30363d;
   color: #e6edf3;
+}
+
+/* ========================================
+   QUICK VIEW DIALOG GLOBAL STYLES
+   ======================================== */
+.quick-view-dialog .p-dialog-content {
+  padding: 0 !important;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.quick-view-dialog {
+  border-radius: 16px !important;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+[data-theme="dark"] .quick-view-dialog {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+[data-theme="dark"] .quick-view-dialog .p-dialog-content {
+  background-color: #1e293b !important;
 }

@@ -30,16 +30,15 @@
                 @for (item of cat.breadcrumb; track item._id; let i = $index, last = $last) {
                 <li class="breadcrumb-item" [class.active]="last" [attr.aria-current]="last ? 'page' : null">
                     @if (last) {
-                    <span>{{ item.name }}</span>
+                    <span>{{ getBreadcrumbName(item) }}</span>
                     } @else {
-                    <a [routerLink]="['/categories', getBreadcrumbPath(i)]" class="text-decoration-none">{{ item.name
-                        }}</a>
+                    <a [routerLink]="['/categories', getBreadcrumbPath(i)]" class="text-decoration-none">{{ getBreadcrumbName(item) }}</a>
                     }
                 </li>
                 }
             </ol>
         </nav>
-        <h1 class="h2 fw-bold mb-3">{{ cat.name }}</h1>
+        <h1 class="h2 fw-bold mb-3">{{ getCategoryName(cat) }}</h1>
     </div>
 
     @if (!cat.isLeaf && cat.children?.length) {
@@ -51,11 +50,11 @@
                 class="card h-100 text-decoration-none border shadow-sm hover-shadow transition">
                 @if (child.image) {
                 <div class="card-img-top-wrapper bg-light overflow-hidden" style="height: 200px;">
-                    <img [src]="child.image" [alt]="child.name" class="w-100 h-100 object-fit-cover" width="400" height="200" loading="lazy">
+                    <img [src]="child.image" [alt]="getChildName(child)" class="w-100 h-100 object-fit-cover" width="400" height="200" loading="lazy">
                 </div>
                 }
                 <div class="card-body text-center">
-                    <h5 class="card-title mb-0 fw-semibold text-dark">{{ child.name }}</h5>
+                    <h5 class="card-title mb-0 fw-semibold text-dark">{{ getChildName(child) }}</h5>
                 </div>
             </a>
         </div>

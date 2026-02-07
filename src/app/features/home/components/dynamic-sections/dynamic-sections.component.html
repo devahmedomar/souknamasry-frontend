@@ -47,14 +47,14 @@
 
 <!-- Sections Content -->
 @else if (sections().length > 0) {
-  @for (section of sections(); track trackBySection($index, section)) {
-    <section class="section-wrapper">
+  @for (section of sections(); track trackBySection($index, section); let i = $index) {
+    <section class="section-wrapper" appScrollAnimate [animation]="'fade-up'" [delay]="i * 150">
       <!-- Section Header -->
       <div class="section-header">
         <div class="section-title-wrapper">
-          <h2 class="section-title">{{ section.category.name }}</h2>
-          @if (section.category.description) {
-            <p class="section-description">{{ section.category.description }}</p>
+          <h2 class="section-title">{{ getSectionName(section.category) }}</h2>
+          @if (getSectionDescription(section.category)) {
+            <p class="section-description">{{ getSectionDescription(section.category) }}</p>
           }
         </div>
         <a

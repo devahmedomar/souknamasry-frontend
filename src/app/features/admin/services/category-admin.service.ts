@@ -6,7 +6,9 @@ import { environment } from '../../../../environments/environment';
 export interface Category {
   _id: string;
   name: string;
+  nameAr?: string;
   description?: string;
+  descriptionAr?: string;
   image?: string;
   parent?: string | Category;
   isActive: boolean;
@@ -16,7 +18,9 @@ export interface Category {
 
 export interface CreateCategoryDto {
   name: string;
+  nameAr?: string;
   description?: string;
+  descriptionAr?: string;
   image?: string;
   parent?: string;
   isActive?: boolean;
@@ -24,7 +28,9 @@ export interface CreateCategoryDto {
 
 export interface UpdateCategoryDto {
   name?: string;
+  nameAr?: string;
   description?: string;
+  descriptionAr?: string;
   image?: string;
   parent?: string;
   isActive?: boolean;

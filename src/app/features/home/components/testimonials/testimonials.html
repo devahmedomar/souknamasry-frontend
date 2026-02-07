@@ -1,0 +1,45 @@
+<section class="testimonials-section" aria-label="Customer Testimonials">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="testimonials-header" appScrollAnimate [animation]="'fade-up'">
+      <h2>{{ 'TESTIMONIALS.TITLE' | translate }}</h2>
+      <p>{{ 'TESTIMONIALS.SUBTITLE' | translate }}</p>
+    </div>
+
+    <!-- Testimonials Grid -->
+    <div class="testimonials-grid">
+      @for (testimonial of testimonials; track testimonial.name; let i = $index) {
+      <div class="testimonial-card" appScrollAnimate [animation]="'fade-up'" [delay]="i * 120">
+        <!-- Quote Icon -->
+        <div class="quote-icon">
+          <i class="fas fa-quote-left"></i>
+        </div>
+
+        <!-- Stars -->
+        <div class="testimonial-stars">
+          @for (star of getStars(testimonial.ratingStars); track star) {
+          <i class="fas fa-star"></i>
+          }
+          @for (star of getEmptyStars(testimonial.ratingStars); track star) {
+          <i class="far fa-star"></i>
+          }
+        </div>
+
+        <!-- Review Text -->
+        <p class="testimonial-text">{{ testimonial.textKey | translate }}</p>
+
+        <!-- Author -->
+        <div class="testimonial-author">
+          <div class="author-avatar">
+            <span>{{ testimonial.avatar }}</span>
+          </div>
+          <div class="author-info">
+            <strong class="author-name">{{ testimonial.name }}</strong>
+            <span class="author-role">{{ testimonial.roleKey | translate }}</span>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</section>

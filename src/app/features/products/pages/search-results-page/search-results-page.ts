@@ -108,6 +108,7 @@ export class SearchResultsPage implements OnInit {
     return {
       id: product._id,
       title: product.name,
+      titleAr: product.nameAr,
       slug: product.slug,
       category: product.category?.name || '',
       price: product.price,

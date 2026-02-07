@@ -37,8 +37,9 @@
     } @else {
     <!-- Category Grid -->
     <div class="category-grid">
-      @for (category of categories(); track category._id) {
-      <a [routerLink]="getCategoryLink(category)" class="category-card">
+      @for (category of categories(); track category._id; let i = $index) {
+      <a [routerLink]="getCategoryLink(category)" class="category-card"
+         appScrollAnimate [animation]="'scale-up'" [delay]="i * 80">
         <div class="category-image-wrapper">
           @if (category.image) {
           <img [ngSrc]="category.image" [alt]="getCategoryName(category)" fill class="category-image" />

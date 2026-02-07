@@ -400,11 +400,11 @@
                         <div class="mb-3 pb-3 border-bottom">
                             <div class="row align-items-center">
                                 <div class="col-md-2">
-                                    <img [src]="item.productSnapshot.image" [alt]="item.productSnapshot.name"
+                                    <img [src]="item.productSnapshot.image" [alt]="getSnapshotName(item.productSnapshot)"
                                         class="img-fluid rounded-2" style="max-height: 80px; object-fit: cover;" width="80" height="80" loading="lazy">
                                 </div>
                                 <div class="col-md-5">
-                                    <h6 class="fw-bold mb-1 text-gray-900">{{ item.productSnapshot.name }}</h6>
+                                    <h6 class="fw-bold mb-1 text-gray-900">{{ getSnapshotName(item.productSnapshot) }}</h6>
                                     <p class="text-muted small mb-0">
                                         {{ 'PRODUCT.CURRENCY' | translate }}: {{ item.price | currency:'EGP':'symbol':'1.2-2' }}
                                     </p>

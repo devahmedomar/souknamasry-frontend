@@ -114,10 +114,11 @@ export class ProductsService {
         return {
             id: p._id,
             title: p.name,
+            titleAr: p.nameAr,
             slug: p.slug,
             category: p.category?.name || '',
             price: p.price,
-            currency: 'جنيها', // Assuming EGP for now
+            currency: 'جنيها',
             imageUrl: imageUrl,
             rating: p.ratingsAverage || 0,
             maxRating: 5

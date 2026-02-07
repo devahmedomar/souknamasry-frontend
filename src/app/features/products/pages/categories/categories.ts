@@ -1,7 +1,7 @@
-import { Component, computed, inject, signal, ChangeDetectionStrategy, effect } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy, ChangeDetectorRef, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { toSignal, toObservable } from '@angular/core/rxjs-interop';
+import { toSignal, toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, switchMap, shareReplay, catchError, tap, startWith } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
@@ -37,8 +37,14 @@ export class Categories {
   private messageService = inject(MessageService);
   private translateService = inject(TranslateService);
   private seoService = inject(SeoService);
+  private cdr = inject(ChangeDetectorRef);
 
   constructor() {
+    // Re-render on language change (OnPush doesn't detect translateService.currentLang changes)
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.cdr.markForCheck();
+    });
+
     effect(() => {
       const cat = this.category();
       if (cat) {
@@ -122,6 +128,21 @@ export class Categories {
   );
 
   products = toSignal(this.products$, { initialValue: [] as IProductCard[] });
+
+  getCategoryName(cat: Category): string {
+    const lang = this.translateService.currentLang;
+    return lang === 'ar' && cat.nameAr ? cat.nameAr : cat.name;
+  }
+
+  getBreadcrumbName(item: { name: string; nameAr?: string }): string {
+    const lang = this.translateService.currentLang;
+    return lang === 'ar' && item.nameAr ? item.nameAr : item.name;
+  }
+
+  getChildName(child: Category): string {
+    const lang = this.translateService.currentLang;
+    return lang === 'ar' && child.nameAr ? child.nameAr : child.name;
+  }
 
   getBreadcrumbPath(index: number): string {
     const cat = this.category();

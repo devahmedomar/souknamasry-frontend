@@ -1,14 +1,17 @@
-import { Component, ChangeDetectionStrategy, inject, signal, OnInit, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, inject, signal, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CategoriesService } from '../../../products/services/categories.service';
 import { Category } from '../../../../shared/models/category.interface';
+import { ScrollAnimateDirective } from '../../../../shared/directives/scroll-animate.directive';
 
 @Component({
   selector: 'app-category-showcase',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NgOptimizedImage],
+  imports: [CommonModule, RouterLink, TranslateModule, NgOptimizedImage, ScrollAnimateDirective],
   templateUrl: './category-showcase.html',
   styleUrl: './category-showcase.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,13 +19,23 @@ import { Category } from '../../../../shared/models/category.interface';
 export class CategoryShowcase implements OnInit {
   private categoriesService = inject(CategoriesService);
   private translateService = inject(TranslateService);
+  private cdr = inject(ChangeDetectorRef);
 
   categories = signal<Category[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
 
-  // Current language
-  currentLang = computed(() => this.translateService.currentLang || 'en');
+  // Reactive language signal
+  currentLang = toSignal(
+    this.translateService.onLangChange.pipe(map(e => e.lang)),
+    { initialValue: this.translateService.currentLang || 'en' }
+  );
+
+  constructor() {
+    this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.cdr.markForCheck();
+    });
+  }
 
   // Maximum categories to display
   readonly maxCategories = 8;

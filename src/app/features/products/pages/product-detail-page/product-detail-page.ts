@@ -1,7 +1,7 @@
-import { Component, computed, inject, signal, ChangeDetectionStrategy, effect } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy, ChangeDetectorRef, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { toSignal, toObservable } from '@angular/core/rxjs-interop';
+import { toSignal, toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, switchMap, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { FormsModule } from '@angular/forms';
@@ -50,6 +50,7 @@ export class ProductDetailPage {
     private messageService = inject(MessageService);
     private translateService = inject(TranslateService);
     private seoService = inject(SeoService);
+    private cdr = inject(ChangeDetectorRef);
 
     // Expose favourites state for template
     favouriteIds = this.favouritesState.productIds;
@@ -162,6 +163,11 @@ export class ProductDetailPage {
     });
 
     constructor() {
+        // Re-render on language change (OnPush doesn't detect translateService.currentLang changes)
+        this.translateService.onLangChange.pipe(takeUntilDestroyed()).subscribe(() => {
+            this.cdr.markForCheck();
+        });
+
         // SEO effect
         effect(() => {
             const prod = this.product();
@@ -489,6 +495,7 @@ export class ProductDetailPage {
         return {
             id: rp._id,
             title: rp.name,
+            titleAr: rp.nameAr,
             slug: rp.slug,
             category: '',
             price: rp.price,
@@ -497,6 +504,14 @@ export class ProductDetailPage {
             rating: 0,
             maxRating: 5
         };
+    }
+
+    // Get localized category name
+    getCategoryName(): string {
+        const prod = this.product();
+        if (!prod?.category) return '';
+        const lang = this.translateService.currentLang;
+        return lang === 'ar' ? (prod.category.nameAr || prod.category.name) : prod.category.name;
     }
 
     // Get localized product name

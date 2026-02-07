@@ -131,7 +131,10 @@
     "COLOR": "Color",
     "SIZE": "Size",
     "NOT_FOUND": "Product not found",
-    "NO_PRODUCTS": "No products available"
+    "NO_PRODUCTS": "No products available",
+    "QUICK_VIEW": "Quick View",
+    "VIEW_FULL_DETAILS": "View Full Details",
+    "ONLY_LEFT": "Only {{count}} left in stock"
   },
   "CART": {
     "ADD_SUCCESS": "Product added to cart successfully",
@@ -590,6 +593,18 @@
     "PRODUCTS_SOLD": "Products Sold",
     "CATEGORIES": "Categories",
     "YEARS_EXPERIENCE": "Years of Experience"
+  },
+  "TESTIMONIALS": {
+    "TITLE": "What Our Customers Say",
+    "SUBTITLE": "Trusted by thousands of happy shoppers across Egypt",
+    "REVIEW_1": "Amazing shopping experience! The delivery was super fast and the product quality exceeded my expectations. Highly recommended!",
+    "REVIEW_2": "I love the variety of products available. Customer service was very helpful when I needed to exchange a size. Will definitely shop again!",
+    "REVIEW_3": "Great prices and authentic products. The app is easy to use and the checkout process is smooth. My go-to online store now.",
+    "REVIEW_4": "Best online shopping experience in Egypt! Fast delivery, secure payment, and the return policy is very customer-friendly.",
+    "ROLE_1": "Verified Buyer",
+    "ROLE_2": "Loyal Customer",
+    "ROLE_3": "Regular Shopper",
+    "ROLE_4": "Verified Buyer"
   },
   "NOTIFICATIONS": {
     "TITLE": "Notifications",

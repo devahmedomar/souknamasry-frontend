@@ -1,6 +1,7 @@
 export interface IProductCard {
   id: string | number;
   title: string;
+  titleAr?: string;
   slug?: string;
   category: string;
   price: number;
