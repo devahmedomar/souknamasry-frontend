@@ -1,5 +1,5 @@
-import { Component, inject, signal, OnInit, computed, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, signal, OnInit, computed, ChangeDetectionStrategy, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { StepperModule } from 'primeng/stepper';
@@ -54,6 +54,7 @@ export class CartPage implements OnInit {
     private readonly toast = inject(ToastService);
     private readonly translateService = inject(TranslateService);
     readonly router = inject(Router);
+    private readonly platformId = inject(PLATFORM_ID);
 
     // State from CartStateService
     cart = this.cartState.cart;
@@ -77,6 +78,7 @@ export class CartPage implements OnInit {
     creatingOrder = signal(false);
 
     ngOnInit(): void {
+        if (!isPlatformBrowser(this.platformId)) return;
         this.loadCart();
         this.loadAddresses();
     }

@@ -472,6 +472,42 @@ a:hover {
   margin-top: 0.25rem !important;
 }
 
+/* Tap anywhere on toast to dismiss */
+.p-toast-message {
+  cursor: pointer !important;
+  position: relative !important;
+}
+
+.p-toast-icon-close {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0 !important;
+  z-index: 1 !important;
+}
+
+/* Toast Mobile Responsive */
+@media (max-width: 576px) {
+  .p-toast {
+    width: calc(100vw - 2rem) !important;
+    left: 1rem !important;
+    right: 1rem !important;
+  }
+
+  .p-toast-message {
+    border-radius: 6px !important;
+  }
+
+  .p-toast-summary {
+    font-size: 0.85rem !important;
+  }
+
+  .p-toast-detail {
+    font-size: 0.8rem !important;
+  }
+}
+
 /* ========================================
    Skeleton Shimmer Styles
    ======================================== */

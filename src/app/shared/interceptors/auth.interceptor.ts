@@ -1,5 +1,6 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from '../../features/auth/services/auth.service';
 import { catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -7,6 +8,7 @@ import { Router } from '@angular/router';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const authService = inject(AuthService);
     const router = inject(Router);
+    const platformId = inject(PLATFORM_ID);
     const token = authService.token();
 
     if (token) {
@@ -18,8 +20,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
         return next(cloned).pipe(
             catchError((error: HttpErrorResponse) => {
-                if (error.status === 401) {
-                    // Token is invalid or expired
+                if (error.status === 401 && isPlatformBrowser(platformId)) {
                     console.error('Authentication failed - token expired or invalid');
                     authService.clearAuthData();
                     router.navigate(['/auth/login']);
