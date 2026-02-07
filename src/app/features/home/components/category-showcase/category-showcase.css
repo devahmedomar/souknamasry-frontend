@@ -208,6 +208,11 @@
     font-size: var(--text-xl);
   }
 
+  /* Contain negative margin overflow */
+  .category-showcase-section .container {
+    overflow: hidden;
+  }
+
   /* Horizontal scroll on mobile */
   .category-grid {
     display: flex;
