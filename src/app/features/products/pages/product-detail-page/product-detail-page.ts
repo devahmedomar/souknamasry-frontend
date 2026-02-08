@@ -19,6 +19,7 @@ import { FavouritesStateService } from '../../../favourites/services/favourites-
 import { AuthService } from '../../../auth/services/auth.service';
 import { SeoService } from '../../../../core/services/seo.service';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
+import { SocialShare } from '../../../../shared/components/social-share/social-share';
 import { ProductDetailSkeleton } from '../../../../shared/components/skeletons';
 import { PricePipe } from '../../../../shared/pipes/price.pipe';
 
@@ -31,6 +32,7 @@ import { PricePipe } from '../../../../shared/pipes/price.pipe';
         Rating,
         TranslateModule,
         ProductCard,
+        SocialShare,
         ProductDetailSkeleton,
         PricePipe
     ],

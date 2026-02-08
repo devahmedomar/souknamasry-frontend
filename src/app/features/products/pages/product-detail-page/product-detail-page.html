@@ -242,6 +242,16 @@
                         }
                     </div>
 
+                    <!-- Share Section -->
+                    <div class="mb-4">
+                        <app-social-share
+                            [productName]="getProductName()"
+                            [productSlug]="prod.slug"
+                            [productImage]="prod.images?.[0] || ''"
+                            mode="inline">
+                        </app-social-share>
+                    </div>
+
                     <!-- Product Details Section -->
                     <div class="product-details-section">
                         <!-- Rating -->

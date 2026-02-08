@@ -98,7 +98,14 @@
     "NO_PRODUCTS": "لا توجد منتجات متاحة",
     "QUICK_VIEW": "نظرة سريعة",
     "VIEW_FULL_DETAILS": "عرض التفاصيل الكاملة",
-    "ONLY_LEFT": "متبقي {{count}} فقط في المخزون"
+    "ONLY_LEFT": "متبقي {{count}} فقط في المخزون",
+    "SHARE_WHATSAPP": "مشاركة عبر واتساب",
+    "SHARE_FACEBOOK": "مشاركة عبر فيسبوك",
+    "SHARE_TWITTER": "مشاركة عبر إكس",
+    "SHARE_TELEGRAM": "مشاركة عبر تيليجرام",
+    "SHARE_COPY_LINK": "نسخ الرابط",
+    "SHARE_MORE": "خيارات مشاركة أخرى",
+    "SHARE_LINK_COPIED": "تم نسخ الرابط"
   },
   "CART": {
     "ADD_SUCCESS": "تم إضافة المنتج إلى السلة بنجاح",

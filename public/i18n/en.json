@@ -135,7 +135,14 @@
     "NO_PRODUCTS": "No products available",
     "QUICK_VIEW": "Quick View",
     "VIEW_FULL_DETAILS": "View Full Details",
-    "ONLY_LEFT": "Only {{count}} left in stock"
+    "ONLY_LEFT": "Only {{count}} left in stock",
+    "SHARE_WHATSAPP": "Share on WhatsApp",
+    "SHARE_FACEBOOK": "Share on Facebook",
+    "SHARE_TWITTER": "Share on X",
+    "SHARE_TELEGRAM": "Share on Telegram",
+    "SHARE_COPY_LINK": "Copy Link",
+    "SHARE_MORE": "More sharing options",
+    "SHARE_LINK_COPIED": "Link copied to clipboard"
   },
   "CART": {
     "ADD_SUCCESS": "Product added to cart successfully",
