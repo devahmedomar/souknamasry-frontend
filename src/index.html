@@ -13,6 +13,7 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
   <meta property="og:locale:alternate" content="ar_EG">
+  <meta property="fb:app_id" content="1234567890">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@souknamasry">
 
@@ -31,7 +32,7 @@
 
   <!-- Prevent FOUC by applying theme before Angular loads -->
   <script>
-    (function() {
+    (function () {
       const savedTheme = localStorage.getItem('theme');
       const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');

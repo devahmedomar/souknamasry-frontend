@@ -71,10 +71,13 @@ export class SeoService {
       this.metaService.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     }
 
-    if (config.url) {
-      const absoluteUrl = this.ensureAbsoluteUrl(config.url);
+    // Always set og:url (required by Facebook)
+    const urlToUse = config.url || (typeof window !== 'undefined' ? window.location.href : '');
+    if (urlToUse) {
+      const absoluteUrl = this.ensureAbsoluteUrl(urlToUse);
       this.metaService.updateTag({ property: 'og:url', content: absoluteUrl });
     }
+
 
     if (config.type) {
       this.metaService.updateTag({ property: 'og:type', content: config.type });
