@@ -10,6 +10,8 @@ export interface SeoConfig {
   url?: string;
   type?: string;
   locale?: string;
+  siteName?: string;
+  imageAlt?: string;
 }
 
 @Injectable({
@@ -20,7 +22,7 @@ export class SeoService {
     private titleService: Title,
     private metaService: Meta,
     @Inject(DOCUMENT) private doc: Document,
-  ) {}
+  ) { }
 
   public setSeoData(config: SeoConfig): void {
     this.setTitle(config.title);
@@ -35,6 +37,10 @@ export class SeoService {
   }
 
   public setMetaTags(config: SeoConfig): void {
+    // Site name
+    const siteName = config.siteName || 'Soukna Masry';
+    this.metaService.updateTag({ property: 'og:site_name', content: siteName });
+
     if (config.description) {
       this.metaService.updateTag({ name: 'description', content: config.description });
       this.metaService.updateTag({ property: 'og:description', content: config.description });
@@ -49,13 +55,25 @@ export class SeoService {
     this.metaService.updateTag({ name: 'twitter:title', content: config.title });
 
     if (config.image) {
-      this.metaService.updateTag({ property: 'og:image', content: config.image });
-      this.metaService.updateTag({ name: 'twitter:image', content: config.image });
+      // Ensure absolute URL for images (social media requires absolute URLs)
+      const absoluteImageUrl = this.ensureAbsoluteUrl(config.image);
+
+      this.metaService.updateTag({ property: 'og:image', content: absoluteImageUrl });
+      this.metaService.updateTag({ property: 'og:image:secure_url', content: absoluteImageUrl });
+      this.metaService.updateTag({ property: 'og:image:width', content: '1200' });
+      this.metaService.updateTag({ property: 'og:image:height', content: '630' });
+
+      if (config.imageAlt) {
+        this.metaService.updateTag({ property: 'og:image:alt', content: config.imageAlt });
+      }
+
+      this.metaService.updateTag({ name: 'twitter:image', content: absoluteImageUrl });
       this.metaService.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     }
 
     if (config.url) {
-      this.metaService.updateTag({ property: 'og:url', content: config.url });
+      const absoluteUrl = this.ensureAbsoluteUrl(config.url);
+      this.metaService.updateTag({ property: 'og:url', content: absoluteUrl });
     }
 
     if (config.type) {
@@ -85,6 +103,27 @@ export class SeoService {
       // Since I don't know the exact prod domain, I'll just set what is passed.
     }
     link.setAttribute('href', url);
+  }
+
+  /**
+   * Ensures a URL is absolute. If it's relative, prepends the production domain.
+   * Social media platforms require absolute URLs for images and links.
+   */
+  private ensureAbsoluteUrl(url: string): string {
+    if (!url) return '';
+
+    // Already absolute URL
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+
+    // Use production domain for absolute URLs
+    const baseUrl = 'https://souknamasry.vercel.app';
+
+    // Remove leading slash if present to avoid double slashes
+    const cleanUrl = url.startsWith('/') ? url.substring(1) : url;
+
+    return `${baseUrl}/${cleanUrl}`;
   }
 
   public setJsonLd(data: any): void {

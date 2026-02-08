@@ -182,7 +182,10 @@ export class ProductDetailPage {
                     title: name,
                     description: desc?.substring(0, 160) || `Shop ${name} at souknamasry`,
                     image: prod.images?.[0],
-                    type: 'product'
+                    imageAlt: name,
+                    url: `https://souknamasry.vercel.app/product/${prod.slug}`,
+                    type: 'product',
+                    siteName: 'Soukna Masry'
                 });
 
                 // JSON-LD Product Schema
