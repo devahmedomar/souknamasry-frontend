@@ -86,7 +86,7 @@ export class UsersPage implements OnInit {
   });
 
   ngOnInit(): void {
-    this.loadUsers();
+    // loadUsers is triggered by the table's (onLazyLoad) event initially
   }
 
   loadUsers(): void {
@@ -125,7 +125,9 @@ export class UsersPage implements OnInit {
   }
 
   onPageChange(event: any): void {
-    this.currentPage.set(event.page + 1);
+    // PrimeNG Table LazyLoadEvent event.first is the index of the first record
+    const page = (event.first / event.rows) + 1;
+    this.currentPage.set(page);
     this.rowsPerPage.set(event.rows);
     this.loadUsers();
   }

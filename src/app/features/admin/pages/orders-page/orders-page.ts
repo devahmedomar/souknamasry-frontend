@@ -110,7 +110,7 @@ export class OrdersPage implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.loadOrders();
+    // loadOrders is triggered by the table's (onLazyLoad) event initially
   }
 
   loadOrders(): void {
@@ -162,7 +162,9 @@ export class OrdersPage implements OnInit {
   }
 
   onPageChange(event: any): void {
-    this.currentPage.set(event.page + 1);
+    // PrimeNG Table LazyLoadEvent event.first is the index of the first record
+    const page = (event.first / event.rows) + 1;
+    this.currentPage.set(page);
     this.rowsPerPage.set(event.rows);
     this.loadOrders();
   }

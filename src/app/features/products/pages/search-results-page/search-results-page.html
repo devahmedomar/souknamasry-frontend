@@ -4,128 +4,124 @@
     <div class="search-header mb-4">
       <h1 class="search-title">
         @if (searchQuery()) {
-          <span>{{ 'SEARCH.RESULTS_FOR' | translate }}: "{{ searchQuery() }}"</span>
+        <span>{{ 'SEARCH.RESULTS_FOR' | translate }}: "{{ searchQuery() }}"</span>
         } @else {
-          <span>{{ 'SEARCH.TITLE' | translate }}</span>
+        <span>{{ 'SEARCH.TITLE' | translate }}</span>
         }
       </h1>
       @if (hasResults()) {
-        <p class="search-count">
-          {{ totalResults() }} {{ 'SEARCH.PRODUCTS_FOUND' | translate }}
-        </p>
+      <p class="search-count">
+        {{ totalResults() }} {{ 'SEARCH.PRODUCTS_FOUND' | translate }}
+      </p>
       }
     </div>
 
     <!-- Sort and Filters -->
     @if (hasResults()) {
-      <div class="filters-bar mb-4">
-        <div class="row align-items-center">
-          <div class="col-md-6">
-            <label class="me-2">{{ 'SEARCH.SORT_BY' | translate }}:</label>
-            <select class="form-select d-inline-block w-auto" [ngModel]="selectedSort()" (change)="onSortChange($event)">
-              @for (option of sortOptions; track option.value) {
-                <option [value]="option.value">{{ option.label }}</option>
-              }
-            </select>
-          </div>
+    <div class="filters-bar mb-4">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <label class="me-2">{{ 'SEARCH.SORT_BY' | translate }}:</label>
+          <select class="form-select d-inline-block w-auto" [ngModel]="selectedSort()" (change)="onSortChange($event)">
+            @for (option of sortOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
         </div>
       </div>
+    </div>
     }
 
     <!-- Loading State -->
     @if (loading()) {
-      <div class="loading-container">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">{{ 'SEARCH.LOADING' | translate }}</span>
-        </div>
-        <p class="mt-3">{{ 'SEARCH.SEARCHING' | translate }}</p>
+    <div class="loading-container">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">{{ 'SEARCH.LOADING' | translate }}</span>
       </div>
+      <p class="mt-3">{{ 'SEARCH.SEARCHING' | translate }}</p>
+    </div>
     }
 
     <!-- No Results -->
     @if (showNoResults()) {
-      <div class="no-results">
-        <div class="text-center py-5">
-          <i class="fas fa-search fa-4x text-muted mb-3"></i>
-          <h3>{{ 'SEARCH.NO_RESULTS' | translate }}</h3>
-          <p class="text-muted">{{ 'SEARCH.NO_RESULTS_MESSAGE' | translate }}: "{{ searchQuery() }}"</p>
-          <p class="text-muted">{{ 'SEARCH.TRY_DIFFERENT' | translate }}</p>
-        </div>
+    <div class="no-results">
+      <div class="text-center py-5">
+        <i class="fas fa-search fa-4x text-muted mb-3"></i>
+        <h3>{{ 'SEARCH.NO_RESULTS' | translate }}</h3>
+        <p class="text-muted">{{ 'SEARCH.NO_RESULTS_MESSAGE' | translate }}: "{{ searchQuery() }}"</p>
+        <p class="text-muted">{{ 'SEARCH.TRY_DIFFERENT' | translate }}</p>
       </div>
+    </div>
     }
 
     <!-- Results Grid using ProductCard Component -->
     @if (hasResults() && !loading()) {
-      <div class="products-grid">
-        <div class="row g-4">
-          @for (product of products(); track product.id) {
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-              <app-product-card
-                [product]="product"
-                [isFavourite]="isFavourite(product.id.toString())"
-                (addToCart)="onAddToCart($event)"
-                (addToWishlist)="onAddToWishlist($event)"
-              />
-            </div>
-          }
+    <div class="products-grid">
+      <div class="row g-4">
+        @for (product of products(); track product.id) {
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <app-product-card [product]="product" [isFavourite]="isFavourite(product.id.toString())"
+            (addToCart)="onAddToCart($event)" (addToWishlist)="onAddToWishlist($event)" />
         </div>
+        }
       </div>
+    </div>
     }
 
     <!-- Pagination -->
     @if (hasResults() && totalPages() > 1 && !loading()) {
-      <div class="pagination-container mt-5">
-        <nav aria-label="Search results pagination">
-          <ul class="pagination justify-content-center">
-            <li class="page-item" [class.disabled]="currentPage() === 1">
-              <a class="page-link" (click)="goToPage(currentPage() - 1)" tabindex="-1">
-                {{ 'PAGINATION.PREVIOUS' | translate }}
-              </a>
-            </li>
+    <div class="pagination-container mt-5">
+      <nav aria-label="Search results pagination">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="currentPage() === 1">
+            <a class="page-link pagination-prev" (click)="goToPage(currentPage() - 1)" tabindex="-1">
+              <i class="fas fa-chevron-left"></i>
+              <span class="ms-2 d-none d-sm-inline">{{ 'PAGINATION.PREVIOUS' | translate }}</span>
+            </a>
+          </li>
 
-            <!-- First page -->
-            <li class="page-item" [class.active]="currentPage() === 1">
-              <a class="page-link" (click)="goToPage(1)">1</a>
-            </li>
+          <!-- First page -->
+          <li class="page-item" [class.active]="currentPage() === 1">
+            <a class="page-link" (click)="goToPage(1)">1</a>
+          </li>
 
-            <!-- Ellipsis before current page -->
-            @if (currentPage() > 3) {
-              <li class="page-item disabled">
-                <span class="page-link">...</span>
-              </li>
+          <!-- Ellipsis before current page -->
+          @if (currentPage() > 3) {
+          <li class="page-item disabled">
+            <span class="page-link">...</span>
+          </li>
+          }
+
+          <!-- Pages around current -->
+          @for (page of [currentPage() - 1, currentPage(), currentPage() + 1]; track page) {
+          @if (page > 1 && page < totalPages()) { <li class="page-item" [class.active]="page === currentPage()">
+            <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+            </li>
             }
-
-            <!-- Pages around current -->
-            @for (page of [currentPage() - 1, currentPage(), currentPage() + 1]; track page) {
-              @if (page > 1 && page < totalPages()) {
-                <li class="page-item" [class.active]="page === currentPage()">
-                  <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
-                </li>
-              }
             }
 
             <!-- Ellipsis after current page -->
-            @if (currentPage() < totalPages() - 2) {
-              <li class="page-item disabled">
-                <span class="page-link">...</span>
+            @if (currentPage() < totalPages() - 2) { <li class="page-item disabled">
+              <span class="page-link">...</span>
               </li>
-            }
+              }
 
-            <!-- Last page -->
-            @if (totalPages() > 1) {
+              <!-- Last page -->
+              @if (totalPages() > 1) {
               <li class="page-item" [class.active]="currentPage() === totalPages()">
                 <a class="page-link" (click)="goToPage(totalPages())">{{ totalPages() }}</a>
               </li>
-            }
+              }
 
-            <li class="page-item" [class.disabled]="currentPage() === totalPages()">
-              <a class="page-link" (click)="goToPage(currentPage() + 1)">
-                {{ 'PAGINATION.NEXT' | translate }}
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+              <li class="page-item" [class.disabled]="currentPage() === totalPages()">
+                <a class="page-link pagination-next" (click)="goToPage(currentPage() + 1)">
+                  <span class="me-2 d-none d-sm-inline">{{ 'PAGINATION.NEXT' | translate }}</span>
+                  <i class="fas fa-chevron-right"></i>
+                </a>
+              </li>
+        </ul>
+      </nav>
+    </div>
     }
   </div>
 </div>

@@ -114,7 +114,7 @@ export class ProductsPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadProducts();
+    // loadProducts is triggered by the table's (onLazyLoad) event initially
     this.loadCategories();
   }
 
@@ -168,7 +168,10 @@ export class ProductsPage implements OnInit {
   }
 
   onPageChange(event: any): void {
-    this.currentPage.set(event.page + 1);
+    // PrimeNG Table LazyLoadEvent event.first is the index of the first record
+    // Calculate page: (first / rows) + 1
+    const page = (event.first / event.rows) + 1;
+    this.currentPage.set(page);
     this.rowsPerPage.set(event.rows);
     this.loadProducts();
   }

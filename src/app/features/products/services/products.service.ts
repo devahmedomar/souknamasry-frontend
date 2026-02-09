@@ -15,10 +15,12 @@ import {
 export class ProductsService {
     private http = inject(HttpClient);
 
-    getProductsByCategory(path: string): Observable<IProductCard[]> {
-        return this.http.get<{ status: string; data: { products: any[] } }>(`${environment.apiUrl}products/category/${path}`).pipe(
-            map((res) => res.data.products.map(p => this.mapToProductCard(p)))
-        );
+    getProductsByCategory(path: string, page: number = 1, limit: number = 20): Observable<ProductListResponse> {
+        let params = new HttpParams()
+            .set('page', page.toString())
+            .set('limit', limit.toString());
+
+        return this.http.get<ProductListResponse>(`${environment.apiUrl}products/category/${path}`, { params });
     }
 
     searchProducts(params: ProductSearchParams): Observable<ProductListResponse> {
@@ -105,7 +107,7 @@ export class ProductsService {
         );
     }
 
-    private mapToProductCard(p: any): IProductCard {
+    public mapToProductCard(p: any): IProductCard {
         const firstImage = p.images?.[0];
         const imageUrl = typeof firstImage === 'string'
             ? firstImage

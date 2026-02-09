@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal, toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, switchMap, shareReplay, catchError, tap, startWith } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, combineLatest } from 'rxjs';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
 import { CategoriesService } from '../../services/categories.service';
 import { ProductsService } from '../../services/products.service';
@@ -14,13 +14,13 @@ import { FavouritesService } from '../../../favourites/services/favourites.servi
 import { FavouritesStateService } from '../../../favourites/services/favourites-state.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { MessageService } from 'primeng/api';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { ProductCardSkeleton, CategoryCardSkeleton } from '../../../../shared/components/skeletons';
 import { SeoService } from '../../../../core/services/seo.service';
 
 @Component({
   selector: 'app-categories',
-  imports: [CommonModule, RouterLink, ProductCard, ProductCardSkeleton, CategoryCardSkeleton],
+  imports: [CommonModule, RouterLink, TranslateModule, ProductCard, ProductCardSkeleton, CategoryCardSkeleton],
   templateUrl: './categories.html',
   styleUrl: './categories.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -80,9 +80,18 @@ export class Categories {
   // Expose favourites state for template
   favouriteIds = this.favouritesState.productIds;
 
+  // Pagination signals
+  currentPage = signal(1);
+  pageSize = signal(20);
+  totalResults = signal(0);
+  totalPages = signal(0);
+
   // Path as a signal derived from URL
   path = toSignal(
-    this.route.url.pipe(map((segments) => segments.map((s) => s.path).join('/'))),
+    this.route.url.pipe(
+      map((segments) => segments.map((s) => s.path).join('/')),
+      tap(() => this.currentPage.set(1))
+    ),
     { initialValue: '' }
   );
 
@@ -107,13 +116,22 @@ export class Categories {
   private _productsLoading = signal(false);
   productsLoading = this._productsLoading.asReadonly();
 
+
   // Products data fetched whenever category changes and is a leaf
-  products$ = toObservable(this.category).pipe(
-    switchMap((cat) => {
+  products$ = combineLatest([
+    toObservable(this.category),
+    toObservable(this.currentPage)
+  ]).pipe(
+    switchMap(([cat, page]) => {
       if (cat?.isLeaf) {
         this._productsLoading.set(true);
-        return this.productsService.getProductsByCategory(cat.path).pipe(
-          tap(() => this._productsLoading.set(false)),
+        return this.productsService.getProductsByCategory(cat.path, page, this.pageSize()).pipe(
+          tap((res) => {
+            this.totalResults.set(res.data.pagination.total);
+            this.totalPages.set(res.data.pagination.pages);
+            this._productsLoading.set(false);
+          }),
+          map(res => res.data.products.map(p => this.productsService.mapToProductCard(p))),
           catchError((err) => {
             console.error('Error loading products:', err);
             this._productsLoading.set(false);
@@ -128,6 +146,13 @@ export class Categories {
   );
 
   products = toSignal(this.products$, { initialValue: [] as IProductCard[] });
+
+  handlePageChange(page: number): void {
+    if (page >= 1 && page <= this.totalPages()) {
+      this.currentPage.set(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
 
   getCategoryName(cat: Category): string {
     const lang = this.translateService.currentLang;

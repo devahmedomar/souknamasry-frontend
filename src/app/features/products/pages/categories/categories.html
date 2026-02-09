@@ -32,7 +32,8 @@
                     @if (last) {
                     <span>{{ getBreadcrumbName(item) }}</span>
                     } @else {
-                    <a [routerLink]="['/categories', getBreadcrumbPath(i)]" class="text-decoration-none">{{ getBreadcrumbName(item) }}</a>
+                    <a [routerLink]="['/categories', getBreadcrumbPath(i)]" class="text-decoration-none">{{
+                        getBreadcrumbName(item) }}</a>
                     }
                 </li>
                 }
@@ -50,7 +51,8 @@
                 class="card h-100 text-decoration-none border shadow-sm hover-shadow transition">
                 @if (child.image) {
                 <div class="card-img-top-wrapper bg-light overflow-hidden" style="height: 200px;">
-                    <img [src]="child.image" [alt]="getChildName(child)" class="w-100 h-100 object-fit-cover" width="400" height="200" loading="lazy">
+                    <img [src]="child.image" [alt]="getChildName(child)" class="w-100 h-100 object-fit-cover"
+                        width="400" height="200" loading="lazy">
                 </div>
                 }
                 <div class="card-body text-center">
@@ -86,11 +88,8 @@
         <div class="row g-4">
             @for (product of products(); track product.id) {
             <div class="col-12 col-md-6 col-lg-4">
-                <app-product-card
-                    [product]="product"
-                    [isFavourite]="favouriteIds().has(product.id.toString())"
-                    (addToCart)="handleAddToCart($event)"
-                    (addToWishlist)="handleToggleFavourite($event)">
+                <app-product-card [product]="product" [isFavourite]="favouriteIds().has(product.id.toString())"
+                    (addToCart)="handleAddToCart($event)" (addToWishlist)="handleToggleFavourite($event)">
                 </app-product-card>
             </div>
             } @empty {
@@ -99,6 +98,64 @@
             </div>
             }
         </div>
+
+        <!-- Pagination -->
+        @if (products().length > 0 && totalPages() > 1 && !productsLoading()) {
+        <div class="pagination-container mt-5">
+            <nav aria-label="Products pagination">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" [class.disabled]="currentPage() === 1">
+                        <a class="page-link pagination-prev" (click)="handlePageChange(currentPage() - 1)"
+                            tabindex="-1">
+                            <i class="fas fa-chevron-left"></i>
+                            <span class="ms-2 d-none d-sm-inline">{{ 'PAGINATION.PREVIOUS' | translate }}</span>
+                        </a>
+                    </li>
+
+                    <!-- First page -->
+                    <li class="page-item" [class.active]="currentPage() === 1">
+                        <a class="page-link" (click)="handlePageChange(1)">1</a>
+                    </li>
+
+                    <!-- Ellipsis before current page -->
+                    @if (currentPage() > 3) {
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                    }
+
+                    <!-- Pages around current -->
+                    @for (page of [currentPage() - 1, currentPage(), currentPage() + 1]; track page) {
+                    @if (page > 1 && page < totalPages()) { <li class="page-item"
+                        [class.active]="page === currentPage()">
+                        <a class="page-link" (click)="handlePageChange(page)">{{ page }}</a>
+                        </li>
+                        }
+                        }
+
+                        <!-- Ellipsis after current page -->
+                        @if (currentPage() < totalPages() - 2) { <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                            </li>
+                            }
+
+                            <!-- Last page -->
+                            @if (totalPages() > 1) {
+                            <li class="page-item" [class.active]="currentPage() === totalPages()">
+                                <a class="page-link" (click)="handlePageChange(totalPages())">{{ totalPages() }}</a>
+                            </li>
+                            }
+
+                            <li class="page-item" [class.disabled]="currentPage() === totalPages()">
+                                <a class="page-link pagination-next" (click)="handlePageChange(currentPage() + 1)">
+                                    <span class="me-2 d-none d-sm-inline">{{ 'PAGINATION.NEXT' | translate }}</span>
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </li>
+                </ul>
+            </nav>
+        </div>
+        }
         }
     </div>
     }
