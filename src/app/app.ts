@@ -7,6 +7,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Toast } from 'primeng/toast';
 import { Carousel } from 'primeng/carousel';
 import { QuickViewModal } from './shared/components/quick-view-modal/quick-view-modal';
+import { Analytics } from './shared/services/analytics';
 
 // Fix: PrimeNG Carousel blocks vertical page scrolling on mobile.
 // onTouchMove only calls preventDefault() — the swipe logic is in onTouchEnd,
@@ -17,7 +18,7 @@ Carousel.prototype.onTouchMove = function () {};
   selector: 'app-root',
   imports: [RouterOutlet, Toast, QuickViewModal],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App implements OnInit {
   protected readonly title = signal('ecommerce-souknamasry-frontend-angular21');
@@ -25,6 +26,7 @@ export class App implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private seoService = inject(SeoService);
   private themeService = inject(ThemeService);
+  private analyticsService = inject(Analytics);
 
   constructor() {
     // Initialize theme before language setup to prevent FOUC
@@ -51,10 +53,12 @@ export class App implements OnInit {
   ngOnInit() {
     this.seoService.setSeoData({
       title: 'Home',
-      description: 'souknamasry - Your one-stop shop for the best deals in Egypt. Shop electronics, fashion, home essentials, and more.',
+      description:
+        'souknamasry - Your one-stop shop for the best deals in Egypt. Shop electronics, fashion, home essentials, and more.',
       keywords: 'ecommerce, shopping, egypt, online store, electronics, fashion',
       type: 'website',
-      image: '/images/hero.webp'
+      image: '/images/hero.webp',
     });
+    this.analyticsService.init();
   }
 }
