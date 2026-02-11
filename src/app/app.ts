@@ -52,13 +52,57 @@ export class App implements OnInit {
 
   ngOnInit() {
     this.seoService.setSeoData({
-      title: 'Home',
+      title: 'الرئيسية',
       description:
-        'souknamasry - Your one-stop shop for the best deals in Egypt. Shop electronics, fashion, home essentials, and more.',
-      keywords: 'ecommerce, shopping, egypt, online store, electronics, fashion',
+        'سوقنا مصري - أفضل موقع تسوق أونلاين في مصر. تسوق الإلكترونيات والموضة ومستلزمات المنزل وأكثر بأفضل الأسعار. شحن سريع لجميع أنحاء مصر.',
+      keywords: 'سوقنا مصري, تسوق اونلاين مصر, متجر الكتروني مصر, إلكترونيات, موضة, شحن مصر',
       type: 'website',
       image: '/images/hero.webp',
+      lang: 'ar',
     });
+
+    // Global WebSite schema — enables Google Sitelinks Search Box
+    this.seoService.setJsonLd({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'سوقنا مصري',
+      alternateName: 'Soukna Masry',
+      url: 'https://souknamasry.vercel.app',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: 'https://souknamasry.vercel.app/search?q={search_term_string}',
+        },
+        'query-input': 'required name=search_term_string',
+      },
+    }, 'website');
+
+    // Organization schema — builds brand trust with Google
+    this.seoService.setJsonLd({
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'سوقنا مصري',
+      alternateName: 'Soukna Masry',
+      url: 'https://souknamasry.vercel.app',
+      logo: 'https://souknamasry.vercel.app/images/logo.png',
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'customer service',
+        availableLanguage: ['Arabic', 'English'],
+        areaServed: 'EG',
+      },
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'EG',
+      },
+      sameAs: [
+        'https://www.facebook.com/souknamasry',
+        'https://www.instagram.com/souknamasry',
+        'https://twitter.com/souknamasry',
+      ],
+    }, 'organization');
+
     this.analyticsService.init();
   }
 }
