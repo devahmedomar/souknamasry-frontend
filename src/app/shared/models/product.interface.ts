@@ -77,6 +77,7 @@ export interface ProductDetails {
     createdAt: Date;
     updatedAt: Date;
     relatedProducts: RelatedProduct[];
+    attributes?: Record<string, any>;
 }
 
 export interface ProductColor {
@@ -131,6 +132,7 @@ export interface ProductSearchParams {
     limit?: number;
     sort?: 'newest' | 'price-low' | 'price-high' | 'featured' | 'relevance';
     inStock?: boolean;
+    attrs?: Record<string, string | { min?: number; max?: number }>;
 }
 
 export interface AutocompleteSuggestion {

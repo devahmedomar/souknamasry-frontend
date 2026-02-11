@@ -15,12 +15,19 @@ import {
 export class ProductsService {
     private http = inject(HttpClient);
 
-    getProductsByCategory(path: string, page: number = 1, limit: number = 20): Observable<ProductListResponse> {
-        let params = new HttpParams()
+    getProductsByCategory(
+        path: string,
+        page: number = 1,
+        limit: number = 20,
+        attrs?: Record<string, string | { min?: number; max?: number }>
+    ): Observable<ProductListResponse> {
+        let baseParams = new HttpParams()
             .set('page', page.toString())
             .set('limit', limit.toString());
 
-        return this.http.get<ProductListResponse>(`${environment.apiUrl}products/category/${path}`, { params });
+        const baseUrl = `${environment.apiUrl}products/category/${path}`;
+        const url = this.buildUrlWithAttrs(baseUrl, baseParams, attrs);
+        return this.http.get<ProductListResponse>(url);
     }
 
     searchProducts(params: ProductSearchParams): Observable<ProductListResponse> {
@@ -58,7 +65,49 @@ export class ProductsService {
             httpParams = httpParams.set('inStock', params.inStock.toString());
         }
 
-        return this.http.get<ProductListResponse>(`${environment.apiUrl}products`, { params: httpParams });
+        const baseUrl = `${environment.apiUrl}products`;
+        const url = this.buildUrlWithAttrs(baseUrl, httpParams, params.attrs);
+        return this.http.get<ProductListResponse>(url);
+    }
+
+    /**
+     * Builds the final request URL. Regular params go through HttpParams (safe encoding),
+     * then attrs are appended as a raw query string with literal brackets so the backend
+     * receives `attrs[brand]=apple` instead of `attrs%5Bbrand%5D=apple`.
+     */
+    private buildUrlWithAttrs(
+        baseUrl: string,
+        httpParams: HttpParams,
+        attrs?: Record<string, string | { min?: number; max?: number }>
+    ): string {
+        const baseQuery = httpParams.toString();
+        const attrsQuery = attrs && Object.keys(attrs).length > 0
+            ? this.buildAttrsQueryString(attrs)
+            : '';
+
+        if (!baseQuery && !attrsQuery) return baseUrl;
+        if (!baseQuery) return `${baseUrl}?${attrsQuery}`;
+        if (!attrsQuery) return `${baseUrl}?${baseQuery}`;
+        return `${baseUrl}?${baseQuery}&${attrsQuery}`;
+    }
+
+    private buildAttrsQueryString(
+        attrs: Record<string, string | { min?: number; max?: number }>
+    ): string {
+        const parts: string[] = [];
+        for (const [key, value] of Object.entries(attrs)) {
+            if (typeof value === 'string' && value.trim() !== '') {
+                parts.push(`attrs[${key}]=${encodeURIComponent(value)}`);
+            } else if (typeof value === 'object' && value !== null) {
+                if (value.min !== undefined) {
+                    parts.push(`attrs[${key}][min]=${value.min}`);
+                }
+                if (value.max !== undefined) {
+                    parts.push(`attrs[${key}][max]=${value.max}`);
+                }
+            }
+        }
+        return parts.join('&');
     }
 
     getAutocompleteSuggestions(

@@ -11,10 +11,13 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { ProductAdminService } from '../../services/product-admin.service';
 import { CategoryAdminService } from '../../services/category-admin.service';
+import { CategoryAttributesAdminService } from '../../services/category-attributes-admin.service';
 import { Product, ProductQueryParams } from '../../models/product.model';
 import { Category } from '../../services/category-admin.service';
+import { CategoryAttribute } from '../../../../shared/models/category-attribute.interface';
 
 // PrimeNG imports
+import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -49,6 +52,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
     TagModule,
     TooltipModule,
     CheckboxModule,
+    MultiSelectModule,
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './products-page.html',
@@ -57,6 +61,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 export class ProductsPage implements OnInit {
   private readonly productService = inject(ProductAdminService);
   private readonly categoryService = inject(CategoryAdminService);
+  private readonly categoryAttributesAdminService = inject(CategoryAttributesAdminService);
   private readonly messageService = inject(MessageService);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly fb = inject(FormBuilder);
@@ -79,6 +84,10 @@ export class ProductsPage implements OnInit {
   selectedCategory = signal<string | null>(null);
   selectedActiveStatus = signal<boolean | null>(null);
   selectedStockStatus = signal<boolean | null>(null);
+
+  // Dynamic attributes for the selected category
+  productAttributes = signal<CategoryAttribute[]>([]);
+  attrValues = signal<Record<string, unknown>>({});
 
   activeStatusOptions = [
     { label: 'All Status', value: null },
@@ -189,6 +198,8 @@ export class ProductsPage implements OnInit {
   openCreateDialog(): void {
     this.isEditMode.set(false);
     this.selectedProduct.set(null);
+    this.productAttributes.set([]);
+    this.attrValues.set({});
     this.productForm.reset({
       inStock: true,
       isActive: true,
@@ -203,6 +214,7 @@ export class ProductsPage implements OnInit {
   openEditDialog(product: Product): void {
     this.isEditMode.set(true);
     this.selectedProduct.set(product);
+    this.attrValues.set(product.attributes ? { ...product.attributes } : {});
     this.productForm.patchValue({
       name: product.name,
       nameAr: product.nameAr,
@@ -221,6 +233,8 @@ export class ProductsPage implements OnInit {
     if (this.images.length === 0) {
       this.addImageField();
     }
+    // Load attribute definitions for this category
+    this.onCategoryChange(product.category._id);
     this.showDialog.set(true);
   }
 
@@ -236,6 +250,8 @@ export class ProductsPage implements OnInit {
     this.showDialog.set(false);
     this.productForm.reset();
     this.images.clear();
+    this.productAttributes.set([]);
+    this.attrValues.set({});
   }
 
   closeStockDialog(): void {
@@ -263,6 +279,7 @@ export class ProductsPage implements OnInit {
     const productData = {
       ...formValue,
       images: formValue.images.filter((url: string) => url.trim() !== ''),
+      attributes: { ...this.attrValues() },
     };
 
     if (this.isEditMode()) {
@@ -473,5 +490,29 @@ export class ProductsPage implements OnInit {
 
   getCategorySelectOptions() {
     return this.categories().map((c) => ({ label: c.name, value: c._id }));
+  }
+
+  onCategoryChange(categoryId: string): void {
+    if (!categoryId) {
+      this.productAttributes.set([]);
+      this.attrValues.set({});
+      return;
+    }
+    this.categoryAttributesAdminService
+      .getAttributesForCategory(categoryId)
+      .subscribe({
+        next: (res) => {
+          const sorted = [...(res.data.categoryAttributes?.attributes ?? [])].sort((a, b) => a.order - b.order);
+          this.productAttributes.set(sorted);
+        },
+        error: () => {
+          // Non-fatal — category may not have attribute definitions
+          this.productAttributes.set([]);
+        },
+      });
+  }
+
+  updateAttrValue(key: string, value: unknown): void {
+    this.attrValues.update((vals) => ({ ...vals, [key]: value }));
   }
 }

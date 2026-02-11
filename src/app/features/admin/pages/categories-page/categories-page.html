@@ -98,6 +98,13 @@
               [pTooltip]="'ADMIN.CATEGORIES.EDIT_TOOLTIP' | translate">
             </p-button>
             <p-button
+              icon="pi pi-sliders-h"
+              severity="secondary"
+              styleClass="p-button-sm p-button-text"
+              (onClick)="openAttributesDialog(category)"
+              pTooltip="Manage Attributes">
+            </p-button>
+            <p-button
               [icon]="category.isActive ? 'pi pi-eye-slash' : 'pi pi-eye'"
               [severity]="category.isActive ? 'warn' : 'success'"
               styleClass="p-button-sm p-button-text"
@@ -266,6 +273,239 @@
       severity="primary"
       (onClick)="saveCategory()"
       [disabled]="categoryForm.invalid">
+    </p-button>
+  </ng-template>
+</p-dialog>
+
+<!-- Attribute Definitions Dialog -->
+<p-dialog
+  [(visible)]="attrsDialogVisible"
+  [header]="'Attributes: ' + (editingCategoryForAttrs()?.name ?? '')"
+  [modal]="true"
+  [style]="{ width: '900px', maxWidth: '95vw' }"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="closeAttributesDialog()">
+
+  @if (attrsLoading()) {
+    <div class="text-center py-5">
+      <i class="pi pi-spin pi-spinner" style="font-size: 2.5rem; color: #667eea;"></i>
+      <p class="text-muted mt-3">Loading attributes...</p>
+    </div>
+  } @else {
+    <div class="d-flex justify-content-between align-items-start mb-3">
+      <p class="text-muted mb-0 small" style="max-width: 500px;">
+        Define dynamic attributes for products in this category.
+        Filterable attributes appear as filters on the public category page.
+      </p>
+      <p-button
+        label="Add Attribute"
+        icon="pi pi-plus"
+        severity="secondary"
+        styleClass="p-button-sm"
+        (onClick)="addAttribute()">
+      </p-button>
+    </div>
+
+    @for (attr of categoryAttributes(); track $index; let i = $index) {
+      <div class="border rounded p-3 mb-3 bg-light">
+        <div class="row g-2 align-items-end">
+          <!-- key -->
+          <div class="col-md-2">
+            <label class="form-label small text-muted fw-semibold">Key <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              pInputText
+              class="w-100 p-inputtext-sm"
+              placeholder="e.g. ram_gb"
+              [value]="attr.key"
+              (input)="updateAttribute(i, 'key', $any($event.target).value)" />
+            <small class="text-muted" style="font-size: 0.7rem;">snake_case only</small>
+          </div>
+          <!-- label EN -->
+          <div class="col-md-3">
+            <label class="form-label small text-muted fw-semibold">Label (EN) <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              pInputText
+              class="w-100 p-inputtext-sm"
+              placeholder="RAM"
+              [value]="attr.label"
+              (input)="updateAttribute(i, 'label', $any($event.target).value)" />
+          </div>
+          <!-- label AR -->
+          <div class="col-md-3">
+            <label class="form-label small text-muted fw-semibold">Label (AR)</label>
+            <input
+              type="text"
+              pInputText
+              class="w-100 p-inputtext-sm"
+              placeholder="الرام"
+              dir="rtl"
+              [value]="attr.labelAr ?? ''"
+              (input)="updateAttribute(i, 'labelAr', $any($event.target).value)" />
+          </div>
+          <!-- type -->
+          <div class="col-md-3">
+            <label class="form-label small text-muted fw-semibold">Type <span class="text-danger">*</span></label>
+            <p-select
+              [options]="attributeTypeOptions"
+              optionLabel="label"
+              optionValue="value"
+              [ngModel]="attr.type"
+              (ngModelChange)="updateAttribute(i, 'type', $event)"
+              styleClass="w-100 p-select-sm"
+              appendTo="body">
+            </p-select>
+          </div>
+          <!-- remove -->
+          <div class="col-md-1 d-flex align-items-end pb-1">
+            <p-button
+              icon="pi pi-trash"
+              severity="danger"
+              styleClass="p-button-sm p-button-text"
+              (onClick)="removeAttribute(i)">
+            </p-button>
+          </div>
+
+          <!-- number-range: unit / min / max -->
+          @if (attr.type === 'number-range') {
+            <div class="col-md-4">
+              <label class="form-label small text-muted">Unit (e.g. GB, inch)</label>
+              <input
+                type="text"
+                pInputText
+                class="w-100 p-inputtext-sm"
+                placeholder="GB"
+                [value]="attr.unit ?? ''"
+                (input)="updateAttribute(i, 'unit', $any($event.target).value)" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small text-muted">Min Value</label>
+              <p-inputNumber
+                [ngModel]="attr.min ?? null"
+                (ngModelChange)="updateAttribute(i, 'min', $event)"
+                styleClass="w-100"
+                inputStyleClass="p-inputtext-sm w-100">
+              </p-inputNumber>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small text-muted">Max Value</label>
+              <p-inputNumber
+                [ngModel]="attr.max ?? null"
+                (ngModelChange)="updateAttribute(i, 'max', $event)"
+                styleClass="w-100"
+                inputStyleClass="p-inputtext-sm w-100">
+              </p-inputNumber>
+            </div>
+          }
+
+          <!-- select / multi-select: options -->
+          @if (attr.type === 'select' || attr.type === 'multi-select') {
+            <div class="col-12">
+              <label class="form-label small text-muted fw-semibold">Options</label>
+              @for (opt of attr.options; track $index; let oi = $index) {
+                <div class="row g-1 mb-1 align-items-center">
+                  <div class="col">
+                    <input
+                      type="text"
+                      pInputText
+                      class="w-100 p-inputtext-sm"
+                      placeholder="Value (e.g. red)"
+                      [value]="opt.value"
+                      (input)="updateOption(i, oi, 'value', $any($event.target).value)" />
+                  </div>
+                  <div class="col">
+                    <input
+                      type="text"
+                      pInputText
+                      class="w-100 p-inputtext-sm"
+                      placeholder="Label EN (e.g. Red)"
+                      [value]="opt.label"
+                      (input)="updateOption(i, oi, 'label', $any($event.target).value)" />
+                  </div>
+                  <div class="col">
+                    <input
+                      type="text"
+                      pInputText
+                      class="w-100 p-inputtext-sm"
+                      placeholder="Label AR"
+                      dir="rtl"
+                      [value]="opt.labelAr ?? ''"
+                      (input)="updateOption(i, oi, 'labelAr', $any($event.target).value)" />
+                  </div>
+                  <div class="col-auto">
+                    <p-button
+                      icon="pi pi-times"
+                      severity="danger"
+                      styleClass="p-button-sm p-button-text"
+                      (onClick)="removeOption(i, oi)">
+                    </p-button>
+                  </div>
+                </div>
+              }
+              <p-button
+                label="Add Option"
+                icon="pi pi-plus"
+                severity="secondary"
+                styleClass="p-button-sm p-button-text mt-1"
+                (onClick)="addOption(i)">
+              </p-button>
+            </div>
+          }
+
+          <!-- flags -->
+          <div class="col-md-6">
+            <div class="d-flex align-items-center gap-2">
+              <p-checkbox
+                [binary]="true"
+                [ngModel]="attr.filterable"
+                (ngModelChange)="updateAttribute(i, 'filterable', $event)"
+                [inputId]="'filterable_' + i">
+              </p-checkbox>
+              <label [for]="'filterable_' + i" class="mb-0 small">
+                Filterable (show in sidebar)
+              </label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="d-flex align-items-center gap-2">
+              <p-checkbox
+                [binary]="true"
+                [ngModel]="attr.required"
+                (ngModelChange)="updateAttribute(i, 'required', $event)"
+                [inputId]="'required_' + i">
+              </p-checkbox>
+              <label [for]="'required_' + i" class="mb-0 small">
+                Required on product form
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (categoryAttributes().length === 0) {
+      <div class="text-center py-5 text-muted">
+        <i class="pi pi-inbox" style="font-size: 3rem; color: #cbd5e1;"></i>
+        <p class="mt-3 mb-0">No attributes defined yet. Click "Add Attribute" to start.</p>
+      </div>
+    }
+  }
+
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      severity="secondary"
+      styleClass="p-button-text"
+      (onClick)="closeAttributesDialog()">
+    </p-button>
+    <p-button
+      label="Save Attributes"
+      icon="pi pi-check"
+      [loading]="attrsSaving()"
+      (onClick)="saveAttributes()">
     </p-button>
   </ng-template>
 </p-dialog>

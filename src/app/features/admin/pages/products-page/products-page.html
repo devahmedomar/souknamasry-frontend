@@ -5,10 +5,7 @@
       <h1>🛍️ {{ 'ADMIN.PRODUCTS.TITLE' | translate }}</h1>
       <p>{{ 'ADMIN.PRODUCTS.SUBTITLE' | translate }}</p>
     </div>
-    <p-button
-      [label]="'ADMIN.PRODUCTS.ADD_PRODUCT' | translate"
-      icon="pi pi-plus"
-      styleClass="add-button"
+    <p-button [label]="'ADMIN.PRODUCTS.ADD_PRODUCT' | translate" icon="pi pi-plus" styleClass="add-button"
       (click)="openCreateDialog()">
     </p-button>
   </div>
@@ -21,61 +18,31 @@
           <label class="form-label small text-muted">{{ 'ADMIN.PRODUCTS.SEARCH_LABEL' | translate }}</label>
           <span class="p-input-icon-left w-100">
             <i class="pi pi-search"></i>
-            <input
-              type="text"
-              pInputText
-              [placeholder]="'ADMIN.PRODUCTS.SEARCH_PLACEHOLDER' | translate"
-              class="w-100"
-              [(ngModel)]="searchTerm"
-              (keyup.enter)="onSearch()"
-            />
+            <input type="text" pInputText [placeholder]="'ADMIN.PRODUCTS.SEARCH_PLACEHOLDER' | translate" class="w-100"
+              [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" />
           </span>
         </div>
         <div class="col-md-2">
           <label class="form-label small text-muted">{{ 'ADMIN.PRODUCTS.CATEGORY_LABEL' | translate }}</label>
-          <p-select
-            [options]="getCategoryOptions()"
-            [(ngModel)]="selectedCategory"
-            optionLabel="label"
-            optionValue="value"
-            [placeholder]="'ADMIN.PRODUCTS.SELECT_CATEGORY_PLACEHOLDER' | translate"
-            class="w-100"
-            (onChange)="onFilterChange()"
-          ></p-select>
+          <p-select [options]="getCategoryOptions()" [(ngModel)]="selectedCategory" optionLabel="label"
+            optionValue="value" [placeholder]="'ADMIN.PRODUCTS.SELECT_CATEGORY_PLACEHOLDER' | translate" class="w-100"
+            (onChange)="onFilterChange()"></p-select>
         </div>
         <div class="col-md-2">
           <label class="form-label small text-muted">{{ 'ADMIN.PRODUCTS.STATUS_LABEL' | translate }}</label>
-          <p-select
-            [options]="activeStatusOptions"
-            [(ngModel)]="selectedActiveStatus"
-            optionLabel="label"
-            optionValue="value"
-            [placeholder]="'ADMIN.PRODUCTS.SELECT_STATUS_PLACEHOLDER' | translate"
-            class="w-100"
-            (onChange)="onFilterChange()"
-          ></p-select>
+          <p-select [options]="activeStatusOptions" [(ngModel)]="selectedActiveStatus" optionLabel="label"
+            optionValue="value" [placeholder]="'ADMIN.PRODUCTS.SELECT_STATUS_PLACEHOLDER' | translate" class="w-100"
+            (onChange)="onFilterChange()"></p-select>
         </div>
         <div class="col-md-2">
           <label class="form-label small text-muted">{{ 'ADMIN.PRODUCTS.STOCK_LABEL' | translate }}</label>
-          <p-select
-            [options]="stockStatusOptions"
-            [(ngModel)]="selectedStockStatus"
-            optionLabel="label"
-            optionValue="value"
-            [placeholder]="'ADMIN.PRODUCTS.SELECT_STOCK_PLACEHOLDER' | translate"
-            class="w-100"
-            (onChange)="onFilterChange()"
-          ></p-select>
+          <p-select [options]="stockStatusOptions" [(ngModel)]="selectedStockStatus" optionLabel="label"
+            optionValue="value" [placeholder]="'ADMIN.PRODUCTS.SELECT_STOCK_PLACEHOLDER' | translate" class="w-100"
+            (onChange)="onFilterChange()"></p-select>
         </div>
         <div class="col-md-3 d-flex align-items-end">
-          <button
-            pButton
-            type="button"
-            [label]="'ADMIN.PRODUCTS.SEARCH_BUTTON' | translate"
-            icon="pi pi-search"
-            class="w-100"
-            (click)="onSearch()"
-          ></button>
+          <button pButton type="button" [label]="'ADMIN.PRODUCTS.SEARCH_BUTTON' | translate" icon="pi pi-search"
+            class="w-100" (click)="onSearch()"></button>
         </div>
       </div>
     </div>
@@ -83,366 +50,264 @@
 
   <!-- Products Table -->
   <div class="table-card">
-    <p-table
-        [value]="products()"
-        [loading]="loading()"
-        [paginator]="true"
-        [rows]="rowsPerPage()"
-        [totalRecords]="totalRecords()"
-        [lazy]="true"
-        (onLazyLoad)="onPageChange($event)"
-        [rowsPerPageOptions]="[10, 20, 50, 100]"
-        [showCurrentPageReport]="true"
-        [currentPageReportTemplate]="'ADMIN.PRODUCTS.PAGINATION_TEXT' | translate"
-        styleClass="p-datatable-striped"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th style="width: 80px;">{{ 'ADMIN.PRODUCTS.TABLE_IMAGE' | translate }}</th>
-            <th>{{ 'ADMIN.PRODUCTS.TABLE_NAME' | translate }}</th>
-            <th>{{ 'ADMIN.PRODUCTS.TABLE_CATEGORY' | translate }}</th>
-            <th>{{ 'ADMIN.PRODUCTS.TABLE_PRICE' | translate }}</th>
-            <th>{{ 'ADMIN.PRODUCTS.TABLE_STOCK' | translate }}</th>
-            <th>{{ 'ADMIN.PRODUCTS.TABLE_STATUS' | translate }}</th>
-            <th style="width: 100px;">Featured</th>
-            <th style="width: 100px;">Sponsored</th>
-            <th style="width: 300px;">{{ 'ADMIN.PRODUCTS.TABLE_ACTIONS' | translate }}</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-product>
-          <tr>
-            <td>
-              @if (product.images && product.images.length > 0) {
-                <img
-                  [src]="product.images[0]"
-                  [alt]="product.name"
-                  class="product-thumbnail"
-                />
-              } @else {
-                <div class="product-placeholder">
-                  <i class="pi pi-image"></i>
-                </div>
+    <p-table [value]="products()" [loading]="loading()" [paginator]="true" [rows]="rowsPerPage()"
+      [totalRecords]="totalRecords()" [lazy]="true" (onLazyLoad)="onPageChange($event)"
+      [rowsPerPageOptions]="[10, 20, 50, 100]" [showCurrentPageReport]="true"
+      [currentPageReportTemplate]="'ADMIN.PRODUCTS.PAGINATION_TEXT' | translate" styleClass="p-datatable-striped">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 80px;">{{ 'ADMIN.PRODUCTS.TABLE_IMAGE' | translate }}</th>
+          <th>{{ 'ADMIN.PRODUCTS.TABLE_NAME' | translate }}</th>
+          <th>{{ 'ADMIN.PRODUCTS.TABLE_CATEGORY' | translate }}</th>
+          <th>{{ 'ADMIN.PRODUCTS.TABLE_PRICE' | translate }}</th>
+          <th>{{ 'ADMIN.PRODUCTS.TABLE_STOCK' | translate }}</th>
+          <th>{{ 'ADMIN.PRODUCTS.TABLE_STATUS' | translate }}</th>
+          <th style="width: 100px;">Featured</th>
+          <th style="width: 100px;">Sponsored</th>
+          <th style="width: 300px;">{{ 'ADMIN.PRODUCTS.TABLE_ACTIONS' | translate }}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product>
+        <tr>
+          <td>
+            @if (product.images && product.images.length > 0) {
+            <img [src]="product.images[0]" [alt]="product.name" class="product-thumbnail" />
+            } @else {
+            <div class="product-placeholder">
+              <i class="pi pi-image"></i>
+            </div>
+            }
+          </td>
+          <td>
+            <div>
+              <strong>{{ product.name }}</strong>
+              @if (product.nameAr) {
+              <br /><small class="text-muted">{{ product.nameAr }}</small>
               }
-            </td>
-            <td>
-              <div>
-                <strong>{{ product.name }}</strong>
-                @if (product.nameAr) {
-                  <br /><small class="text-muted">{{ product.nameAr }}</small>
-                }
-              </div>
-            </td>
-            <td>{{ product.category.name }}</td>
-            <td>{{ formatCurrency(product.price) }}</td>
-            <td>
-              <div class="d-flex align-items-center gap-2">
-                <span>{{ product.stockQuantity }}</span>
-                <p-tag
-                  [value]="(product.inStock ? 'ADMIN.PRODUCTS.STOCK_IN_STOCK' : 'ADMIN.PRODUCTS.STOCK_OUT_OF_STOCK') | translate"
-                  [severity]="getStockSeverity(product.inStock)"
-                ></p-tag>
-              </div>
-            </td>
-            <td>
+            </div>
+          </td>
+          <td>{{ product.category.name }}</td>
+          <td>{{ formatCurrency(product.price) }}</td>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <span>{{ product.stockQuantity }}</span>
               <p-tag
-                [value]="(product.isActive ? 'ADMIN.PRODUCTS.STATUS_ACTIVE' : 'ADMIN.PRODUCTS.STATUS_INACTIVE') | translate"
-                [severity]="getActiveSeverity(product.isActive)"
-              ></p-tag>
-            </td>
-            <td class="text-center">
-              <i
-                class="pi"
-                [ngClass]="product.isFeatured ? 'pi-star-fill text-warning' : 'pi-star text-muted'"
-                style="font-size: 1.25rem; cursor: pointer;"
-                (click)="toggleFeatured(product)"
-                [pTooltip]="product.isFeatured ? 'Remove from Featured' : 'Mark as Featured'"
-              ></i>
-            </td>
-            <td class="text-center">
-              <i
-                class="pi"
-                [ngClass]="product.isSponsored ? 'pi-megaphone text-success' : 'pi-megaphone text-muted'"
-                style="font-size: 1.25rem; cursor: pointer;"
-                (click)="toggleSponsored(product)"
-                [pTooltip]="product.isSponsored ? 'Remove from Sponsored' : 'Mark as Sponsored'"
-              ></i>
-            </td>
-            <td>
-              <div class="d-flex gap-2">
-                <button
-                  pButton
-                  type="button"
-                  icon="pi pi-pencil"
-                  class="p-button-rounded p-button-text p-button-sm"
-                  [pTooltip]="'ADMIN.PRODUCTS.EDIT_TOOLTIP' | translate"
-                  (click)="openEditDialog(product)"
-                ></button>
-                <button
-                  pButton
-                  type="button"
-                  icon="pi pi-box"
-                  class="p-button-rounded p-button-text p-button-sm"
-                  [pTooltip]="'ADMIN.PRODUCTS.UPDATE_STOCK_TOOLTIP' | translate"
-                  (click)="openStockDialog(product)"
-                ></button>
-                <button
-                  pButton
-                  type="button"
-                  [icon]="product.isActive ? 'pi pi-eye-slash' : 'pi pi-eye'"
-                  class="p-button-rounded p-button-text p-button-sm"
-                  [pTooltip]="(product.isActive ? 'ADMIN.PRODUCTS.DEACTIVATE_TOOLTIP' : 'ADMIN.PRODUCTS.ACTIVATE_TOOLTIP') | translate"
-                  (click)="toggleProductActive(product)"
-                ></button>
-                <button
-                  pButton
-                  type="button"
-                  icon="pi pi-trash"
-                  class="p-button-rounded p-button-text p-button-danger p-button-sm"
-                  [pTooltip]="'ADMIN.PRODUCTS.DELETE_TOOLTIP' | translate"
-                  (click)="deleteProduct(product)"
-                ></button>
-              </div>
-            </td>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-          <tr>
-            <td colspan="9" class="text-center py-5">
-              <i class="pi pi-box" style="font-size: 4rem; color: #cbd5e1;"></i>
-              <p class="text-muted mt-3 mb-0" style="font-size: 1.125rem; font-weight: 500;">{{ 'ADMIN.PRODUCTS.NO_PRODUCTS_FOUND' | translate }}</p>
-              <p class="text-muted" style="font-size: 0.875rem;">{{ 'ADMIN.PRODUCTS.NO_PRODUCTS_MESSAGE' | translate }}</p>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+                [value]="(product.inStock ? 'ADMIN.PRODUCTS.STOCK_IN_STOCK' : 'ADMIN.PRODUCTS.STOCK_OUT_OF_STOCK') | translate"
+                [severity]="getStockSeverity(product.inStock)"></p-tag>
+            </div>
+          </td>
+          <td>
+            <p-tag
+              [value]="(product.isActive ? 'ADMIN.PRODUCTS.STATUS_ACTIVE' : 'ADMIN.PRODUCTS.STATUS_INACTIVE') | translate"
+              [severity]="getActiveSeverity(product.isActive)"></p-tag>
+          </td>
+          <td class="text-center">
+            <i class="pi" [ngClass]="product.isFeatured ? 'pi-star-fill text-warning' : 'pi-star text-muted'"
+              style="font-size: 1.25rem; cursor: pointer;" (click)="toggleFeatured(product)"
+              [pTooltip]="product.isFeatured ? 'Remove from Featured' : 'Mark as Featured'"></i>
+          </td>
+          <td class="text-center">
+            <i class="pi" [ngClass]="product.isSponsored ? 'pi-megaphone text-success' : 'pi-megaphone text-muted'"
+              style="font-size: 1.25rem; cursor: pointer;" (click)="toggleSponsored(product)"
+              [pTooltip]="product.isSponsored ? 'Remove from Sponsored' : 'Mark as Sponsored'"></i>
+          </td>
+          <td>
+            <div class="d-flex gap-2">
+              <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-sm"
+                [pTooltip]="'ADMIN.PRODUCTS.EDIT_TOOLTIP' | translate" (click)="openEditDialog(product)"></button>
+              <button pButton type="button" icon="pi pi-box" class="p-button-rounded p-button-text p-button-sm"
+                [pTooltip]="'ADMIN.PRODUCTS.UPDATE_STOCK_TOOLTIP' | translate"
+                (click)="openStockDialog(product)"></button>
+              <button pButton type="button" [icon]="product.isActive ? 'pi pi-eye-slash' : 'pi pi-eye'"
+                class="p-button-rounded p-button-text p-button-sm"
+                [pTooltip]="(product.isActive ? 'ADMIN.PRODUCTS.DEACTIVATE_TOOLTIP' : 'ADMIN.PRODUCTS.ACTIVATE_TOOLTIP') | translate"
+                (click)="toggleProductActive(product)"></button>
+              <button pButton type="button" icon="pi pi-trash"
+                class="p-button-rounded p-button-text p-button-danger p-button-sm"
+                [pTooltip]="'ADMIN.PRODUCTS.DELETE_TOOLTIP' | translate" (click)="deleteProduct(product)"></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="9" class="text-center py-5">
+            <i class="pi pi-box" style="font-size: 4rem; color: #cbd5e1;"></i>
+            <p class="text-muted mt-3 mb-0" style="font-size: 1.125rem; font-weight: 500;">{{
+              'ADMIN.PRODUCTS.NO_PRODUCTS_FOUND' | translate }}</p>
+            <p class="text-muted" style="font-size: 0.875rem;">{{ 'ADMIN.PRODUCTS.NO_PRODUCTS_MESSAGE' | translate }}
+            </p>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
 </div>
 
 <!-- Product Form Dialog -->
-<p-dialog
-  [(visible)]="showDialog"
-  [header]="isEditMode() ? '✏️ Edit Product' : '➕ Create New Product'"
-  [modal]="true"
-  [style]="{ width: '800px' }"
-  [closable]="true"
-  [draggable]="false"
-  [resizable]="false"
-  (onHide)="closeDialog()"
->
+<p-dialog [(visible)]="showDialog" [header]="isEditMode() ? '✏️ Edit Product' : '➕ Create New Product'" [modal]="true"
+  [style]="{ width: '800px' }" [closable]="true" [draggable]="false" [resizable]="false" (onHide)="closeDialog()">
   <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
     <div class="row g-3">
       <div class="col-md-6">
         <label class="form-label">Name (English) <span class="text-danger">*</span></label>
-        <input
-          type="text"
-          pInputText
-          class="w-100"
-          formControlName="name"
-          placeholder="Enter product name"
-        />
+        <input type="text" pInputText class="w-100" formControlName="name" placeholder="Enter product name" />
         @if (productForm.get('name')?.invalid && productForm.get('name')?.touched) {
-          <small class="text-danger">Name is required (min 2 characters)</small>
+        <small class="text-danger">Name is required (min 2 characters)</small>
         }
       </div>
 
       <div class="col-md-6">
         <label class="form-label">Name (Arabic)</label>
-        <input
-          type="text"
-          pInputText
-          class="w-100"
-          formControlName="nameAr"
-          placeholder="اسم المنتج بالعربية"
-        />
+        <input type="text" pInputText class="w-100" formControlName="nameAr" placeholder="اسم المنتج بالعربية" />
       </div>
 
       <div class="col-md-12">
         <label class="form-label">Description (English) <span class="text-danger">*</span></label>
-        <textarea
-          pInputTextarea
-          class="w-100"
-          formControlName="description"
-          placeholder="Enter product description"
-          rows="3"
-        ></textarea>
+        <textarea pInputTextarea class="w-100" formControlName="description" placeholder="Enter product description"
+          rows="3"></textarea>
         @if (productForm.get('description')?.invalid && productForm.get('description')?.touched) {
-          <small class="text-danger">Description is required</small>
+        <small class="text-danger">Description is required</small>
         }
       </div>
 
       <div class="col-md-12">
         <label class="form-label">Description (Arabic)</label>
-        <textarea
-          pInputTextarea
-          class="w-100"
-          formControlName="descriptionAr"
-          placeholder="وصف المنتج بالعربية"
-          rows="3"
-        ></textarea>
+        <textarea pInputTextarea class="w-100" formControlName="descriptionAr" placeholder="وصف المنتج بالعربية"
+          rows="3"></textarea>
       </div>
 
       <div class="col-md-4">
         <label class="form-label">Price (EGP) <span class="text-danger">*</span></label>
-        <p-inputNumber
-          formControlName="price"
-          mode="currency"
-          currency="EGP"
-          locale="en-US"
-          class="w-100"
-          [min]="0"
-        ></p-inputNumber>
+        <p-inputNumber formControlName="price" mode="currency" currency="EGP" locale="en-US" class="w-100"
+          [min]="0"></p-inputNumber>
         @if (productForm.get('price')?.invalid && productForm.get('price')?.touched) {
-          <small class="text-danger">Price is required</small>
+        <small class="text-danger">Price is required</small>
         }
       </div>
 
       <div class="col-md-4">
         <label class="form-label">Stock Quantity <span class="text-danger">*</span></label>
-        <p-inputNumber
-          formControlName="stockQuantity"
-          class="w-100"
-          [min]="0"
-          [showButtons]="true"
-        ></p-inputNumber>
+        <p-inputNumber formControlName="stockQuantity" class="w-100" [min]="0" [showButtons]="true"></p-inputNumber>
         @if (productForm.get('stockQuantity')?.invalid && productForm.get('stockQuantity')?.touched) {
-          <small class="text-danger">Stock quantity is required</small>
+        <small class="text-danger">Stock quantity is required</small>
         }
       </div>
 
       <div class="col-md-4">
         <label class="form-label">Category <span class="text-danger">*</span></label>
-        <p-select
-          [options]="getCategorySelectOptions()"
-          formControlName="category"
-          optionLabel="label"
-          optionValue="value"
-          placeholder="Select Category"
-          [appendTo]="'body'"
-          class="w-100"
-        ></p-select>
+        <p-select [options]="getCategorySelectOptions()" formControlName="category" optionLabel="label"
+          optionValue="value" placeholder="Select Category" [appendTo]="'body'" class="w-100"
+          (onChange)="onCategoryChange($event.value)"></p-select>
         @if (productForm.get('category')?.invalid && productForm.get('category')?.touched) {
-          <small class="text-danger">Category is required</small>
+        <small class="text-danger">Category is required</small>
         }
       </div>
+
+      <!-- Dynamic Attributes (loaded when a category with attribute definitions is selected) -->
+      @if (productAttributes().length > 0) {
+      <div class="col-12">
+        <hr class="my-2" />
+        <label class="form-label fw-semibold">Product Attributes</label>
+        <div class="row g-2">
+          @for (attr of productAttributes(); track attr.key) {
+          <div class="col-md-4">
+            <label class="form-label small text-muted">
+              {{ attr.label }}
+              @if (attr.required) { <span class="text-danger">*</span> }
+            </label>
+
+            @if (attr.type === 'select') {
+            <p-select [options]="attr.options ?? []" optionLabel="label" optionValue="value"
+              [ngModel]="attrValues()[attr.key]" [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="updateAttrValue(attr.key, $event)" (onChange)="updateAttrValue(attr.key, $event.value)"
+              [placeholder]="'Select ' + attr.label" [showClear]="!attr.required" [appendTo]="'body'" class="w-100">
+            </p-select>
+            }
+
+            @if (attr.type === 'multi-select') {
+            <p-multiSelect [options]="attr.options ?? []" optionLabel="label" optionValue="value"
+              [ngModel]="attrValues()[attr.key] ?? []" [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="updateAttrValue(attr.key, $event)" (onChange)="updateAttrValue(attr.key, $event.value)"
+              [placeholder]="'Select ' + attr.label" [appendTo]="'body'" class="w-100">
+            </p-multiSelect>
+            }
+
+            @if (attr.type === 'number-range') {
+            <p-inputNumber [ngModel]="$any(attrValues()[attr.key]) ?? null" [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="updateAttrValue(attr.key, $event)" (onInput)="updateAttrValue(attr.key, $event.value)"
+              [placeholder]="attr.unit ? attr.label + ' (' + attr.unit + ')' : attr.label" [min]="attr.min"
+              [max]="attr.max" class="w-100">
+            </p-inputNumber>
+            }
+
+            @if (attr.type === 'text') {
+            <input type="text" pInputText class="w-100" [value]="$any(attrValues()[attr.key]) ?? ''"
+              (input)="updateAttrValue(attr.key, $any($event.target).value)" [placeholder]="attr.label" />
+            }
+          </div>
+          }
+        </div>
+        <hr class="my-2" />
+      </div>
+      }
 
       <div class="col-md-12">
         <label class="form-label">Product Images <span class="text-danger">*</span></label>
         <div formArrayName="images">
           @for (control of images.controls; track $index) {
-            <div class="d-flex gap-2 mb-2">
-              <input
-                type="url"
-                pInputText
-                class="flex-grow-1"
-                [formControlName]="$index"
-                placeholder="Enter image URL"
-              />
-              @if (images.length > 1) {
-                <button
-                  pButton
-                  type="button"
-                  icon="pi pi-times"
-                  class="p-button-danger p-button-sm"
-                  (click)="removeImageField($index)"
-                ></button>
-              }
-            </div>
+          <div class="d-flex gap-2 mb-2">
+            <input type="url" pInputText class="flex-grow-1" [formControlName]="$index" placeholder="Enter image URL" />
+            @if (images.length > 1) {
+            <button pButton type="button" icon="pi pi-times" class="p-button-danger p-button-sm"
+              (click)="removeImageField($index)"></button>
+            }
+          </div>
           }
         </div>
-        <button
-          pButton
-          type="button"
-          label="Add Image"
-          icon="pi pi-plus"
-          class="p-button-sm p-button-outlined mt-2"
-          (click)="addImageField()"
-        ></button>
+        <button pButton type="button" label="Add Image" icon="pi pi-plus" class="p-button-sm p-button-outlined mt-2"
+          (click)="addImageField()"></button>
       </div>
 
       <div class="col-md-6">
         <div class="form-check">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="inStock"
-            formControlName="inStock"
-          />
+          <input type="checkbox" class="form-check-input" id="inStock" formControlName="inStock" />
           <label class="form-check-label" for="inStock">In Stock</label>
         </div>
       </div>
 
       <div class="col-md-6">
         <div class="form-check">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="isActive"
-            formControlName="isActive"
-          />
+          <input type="checkbox" class="form-check-input" id="isActive" formControlName="isActive" />
           <label class="form-check-label" for="isActive">Active</label>
         </div>
       </div>
     </div>
 
     <div class="d-flex justify-content-end gap-2 mt-4">
-      <button
-        pButton
-        type="button"
-        label="Cancel"
-        class="p-button-secondary"
-        (click)="closeDialog()"
-      ></button>
-      <button
-        pButton
-        type="submit"
-        [label]="isEditMode() ? 'Update Product' : 'Create Product'"
-        class="p-button-primary"
-        [disabled]="productForm.invalid"
-      ></button>
+      <button pButton type="button" label="Cancel" class="p-button-secondary" (click)="closeDialog()"></button>
+      <button pButton type="submit" [label]="isEditMode() ? 'Update Product' : 'Create Product'"
+        class="p-button-primary" [disabled]="productForm.invalid"></button>
     </div>
   </form>
 </p-dialog>
 
 <!-- Stock Update Dialog -->
-<p-dialog
-  [(visible)]="showStockDialog"
-  header="📦 Update Stock"
-  [modal]="true"
-  [style]="{ width: '400px' }"
-  [closable]="true"
-  [draggable]="false"
-  [resizable]="false"
-  (onHide)="closeStockDialog()"
->
+<p-dialog [(visible)]="showStockDialog" header="📦 Update Stock" [modal]="true" [style]="{ width: '400px' }"
+  [closable]="true" [draggable]="false" [resizable]="false" (onHide)="closeStockDialog()">
   <form [formGroup]="stockForm" (ngSubmit)="updateStock()">
     <div class="mb-3">
       <label class="form-label">Stock Quantity <span class="text-danger">*</span></label>
-      <p-inputNumber
-        formControlName="stockQuantity"
-        class="w-100"
-        [min]="0"
-        [showButtons]="true"
-      ></p-inputNumber>
+      <p-inputNumber formControlName="stockQuantity" class="w-100" [min]="0" [showButtons]="true"></p-inputNumber>
       @if (stockForm.get('stockQuantity')?.invalid && stockForm.get('stockQuantity')?.touched) {
-        <small class="text-danger">Stock quantity is required</small>
+      <small class="text-danger">Stock quantity is required</small>
       }
     </div>
 
     <div class="d-flex justify-content-end gap-2 mt-4">
-      <button
-        pButton
-        type="button"
-        label="Cancel"
-        class="p-button-secondary"
-        (click)="closeStockDialog()"
-      ></button>
-      <button
-        pButton
-        type="submit"
-        label="Update Stock"
-        class="p-button-primary"
-        [disabled]="stockForm.invalid"
-      ></button>
+      <button pButton type="button" label="Cancel" class="p-button-secondary" (click)="closeStockDialog()"></button>
+      <button pButton type="submit" label="Update Stock" class="p-button-primary"
+        [disabled]="stockForm.invalid"></button>
     </div>
   </form>
 </p-dialog>

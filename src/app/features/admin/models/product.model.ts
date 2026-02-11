@@ -18,6 +18,7 @@ export interface Product {
   slug: string;
   createdAt: string;
   updatedAt: string;
+  attributes?: Record<string, any>;
 }
 
 export interface CreateProductDto {
@@ -31,6 +32,7 @@ export interface CreateProductDto {
   stockQuantity: number;
   inStock?: boolean;
   isActive?: boolean;
+  attributes?: Record<string, any>;
 }
 
 export interface UpdateProductDto {
@@ -44,6 +46,7 @@ export interface UpdateProductDto {
   stockQuantity?: number;
   inStock?: boolean;
   isActive?: boolean;
+  attributes?: Record<string, any>;
 }
 
 export interface UpdateProductStockDto {

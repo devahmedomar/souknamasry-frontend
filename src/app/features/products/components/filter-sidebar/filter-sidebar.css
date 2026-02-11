@@ -1,0 +1,320 @@
+/* ══════════════════════════════════════════
+   Filter Sidebar — Modern 2026 Design
+   Uses project CSS vars from styles.css
+   ══════════════════════════════════════════ */
+
+/* ── Shell ── */
+.fsb {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    0 4px 16px rgba(0, 0, 0, 0.07);
+  position: sticky;
+  top: 1rem;
+  border: 1px solid var(--gray-200);
+}
+
+/* ── Header ── */
+.fsb__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 16px 18px 14px;
+}
+
+.fsb__title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fsb__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--color-primary-50);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.fsb__title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  letter-spacing: -0.01em;
+}
+
+.fsb__total-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 99px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.fsb__clear-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border: 1.5px solid var(--gray-300);
+  border-radius: 99px;
+  background: transparent;
+  color: var(--gray-600);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.fsb__clear-all:hover {
+  border-color: var(--error);
+  color: var(--error);
+  background: #fef2f2;
+}
+
+.fsb__divider {
+  height: 1px;
+  background: var(--gray-100);
+  margin: 0;
+}
+
+.fsb__empty {
+  padding: 20px 18px;
+  color: var(--gray-400);
+  font-size: 0.8125rem;
+  text-align: center;
+  margin: 0;
+}
+
+/* ── Filter Group ── */
+.fsb-group {
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.fsb-group:last-child {
+  border-bottom: none;
+}
+
+/* Toggle button */
+.fsb-group__toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 13px 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: start;
+  transition: background 0.12s;
+}
+
+.fsb-group__toggle:hover {
+  background: var(--gray-50);
+}
+
+.fsb-group__label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex: 1;
+  text-align: start;
+}
+
+.fsb-group__end {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.fsb-group__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 99px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.fsb-group__chevron {
+  display: flex;
+  align-items: center;
+  color: var(--gray-400);
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fsb-group--collapsed .fsb-group__chevron {
+  transform: rotate(-90deg);
+}
+
+/* ── Group Body (collapsible) ── */
+.fsb-group__body {
+  padding: 0 18px 14px;
+  /* Collapse via max-height + opacity */
+  max-height: 600px;
+  overflow: hidden;
+  opacity: 1;
+  transition:
+    max-height 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.22s ease,
+    padding 0.22s ease;
+}
+
+.fsb-group--collapsed .fsb-group__body {
+  max-height: 0;
+  opacity: 0;
+  padding-bottom: 0;
+}
+
+/* ── Chip List ── */
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+/* ── Individual Chip ── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 99px;
+  border: 1.5px solid var(--gray-300);
+  background: var(--bg-primary);
+  color: var(--gray-700);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    color 0.15s,
+    box-shadow 0.15s,
+    transform 0.1s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chip:hover {
+  border-color: var(--color-primary-400);
+  color: var(--color-primary);
+  background: var(--color-primary-50);
+}
+
+.chip:active {
+  transform: scale(0.96);
+}
+
+.chip--active {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(253, 126, 53, 0.35);
+}
+
+.chip--active:hover {
+  background: var(--color-primary-600);
+  border-color: var(--color-primary-600);
+  color: #fff;
+}
+
+.chip__check {
+  flex-shrink: 0;
+}
+
+/* ── Number Range ── */
+.range-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.range-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 72px;
+}
+
+.range-field__label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.range-field__input {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1.5px solid var(--gray-300);
+  border-radius: 10px;
+  background: var(--bg-primary);
+  color: var(--gray-800);
+  font-size: 0.875rem;
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  -moz-appearance: textfield;
+}
+
+.range-field__input::-webkit-outer-spin-button,
+.range-field__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.range-field__input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(253, 126, 53, 0.15);
+}
+
+.range-field__input::placeholder {
+  color: var(--gray-400);
+}
+
+.range-sep {
+  color: var(--gray-400);
+  font-size: 1rem;
+  line-height: 1;
+  padding-bottom: 10px;
+  flex-shrink: 0;
+}
+
+.range-unit {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-500);
+  padding-bottom: 9px;
+  flex-shrink: 0;
+}

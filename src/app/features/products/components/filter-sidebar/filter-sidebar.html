@@ -1,0 +1,147 @@
+<aside class="fsb">
+
+  <!-- ── Header ── -->
+  <div class="fsb__header">
+    <div class="fsb__title-row">
+      <span class="fsb__icon" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+        </svg>
+      </span>
+      <h6 class="fsb__title">{{ 'FILTERS.TITLE' | translate }}</h6>
+      @if (totalActiveCount() > 0) {
+        <span class="fsb__total-badge">{{ totalActiveCount() }}</span>
+      }
+    </div>
+
+    @if (hasActiveFilters()) {
+      <button type="button" class="fsb__clear-all" (click)="clearAll()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+        {{ 'FILTERS.CLEAR_ALL' | translate }}
+      </button>
+    }
+  </div>
+
+  <div class="fsb__divider"></div>
+
+  <!-- ── Filter groups ── -->
+  @for (attr of attributes(); track attr.key) {
+    <div class="fsb-group" [class.fsb-group--collapsed]="isGroupCollapsed(attr.key)">
+
+      <!-- Group header (toggle) -->
+      <button
+        type="button"
+        class="fsb-group__toggle"
+        [attr.aria-expanded]="!isGroupCollapsed(attr.key)"
+        (click)="toggleGroup(attr.key)">
+
+        <span class="fsb-group__label">{{ getAttributeLabel(attr) }}</span>
+
+        <span class="fsb-group__end">
+          @if (getActiveCount(attr) > 0) {
+            <span class="fsb-group__count">{{ getActiveCount(attr) }}</span>
+          }
+          <span class="fsb-group__chevron" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </span>
+        </span>
+      </button>
+
+      <!-- Group body -->
+      <div class="fsb-group__body">
+
+        <!-- Select (radio chips) -->
+        @if (attr.type === 'select') {
+          <div class="chip-list">
+            @for (option of attr.options; track option.value) {
+              <button
+                type="button"
+                class="chip"
+                [class.chip--active]="isSelectActive(attr, option.value)"
+                (click)="onSelectChange(attr, option.value)">
+                @if (isSelectActive(attr, option.value)) {
+                  <svg class="chip__check" width="11" height="11" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                }
+                {{ getOptionLabel(attr, option.value) }}
+              </button>
+            }
+          </div>
+        }
+
+        <!-- Multi-select (checkbox chips) -->
+        @if (attr.type === 'multi-select') {
+          <div class="chip-list">
+            @for (option of attr.options; track option.value) {
+              <button
+                type="button"
+                class="chip"
+                [class.chip--active]="isMultiSelectActive(attr, option.value)"
+                (click)="onMultiSelectChange(attr, option.value, !isMultiSelectActive(attr, option.value))">
+                @if (isMultiSelectActive(attr, option.value)) {
+                  <svg class="chip__check" width="11" height="11" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                }
+                {{ getOptionLabel(attr, option.value) }}
+              </button>
+            }
+          </div>
+        }
+
+        <!-- Number range -->
+        @if (attr.type === 'number-range') {
+          <div class="range-row">
+            <div class="range-field">
+              <label class="range-field__label">{{ 'FILTERS.MIN' | translate }}</label>
+              <input
+                type="number"
+                class="range-field__input"
+                [placeholder]="attr.min ?? ''"
+                [min]="attr.min"
+                [max]="attr.max"
+                [value]="getRangeMin(attr) ?? ''"
+                (change)="onRangeChange(attr, 'min', $any($event.target).value)" />
+            </div>
+
+            <span class="range-sep" aria-hidden="true">—</span>
+
+            <div class="range-field">
+              <label class="range-field__label">{{ 'FILTERS.MAX' | translate }}</label>
+              <input
+                type="number"
+                class="range-field__input"
+                [placeholder]="attr.max ?? ''"
+                [min]="attr.min"
+                [max]="attr.max"
+                [value]="getRangeMax(attr) ?? ''"
+                (change)="onRangeChange(attr, 'max', $any($event.target).value)" />
+            </div>
+
+            @if (attr.unit) {
+              <span class="range-unit">{{ attr.unit }}</span>
+            }
+          </div>
+        }
+
+      </div><!-- /fsb-group__body -->
+    </div><!-- /fsb-group -->
+  }
+
+  @if (!attributes().length) {
+    <p class="fsb__empty">{{ 'FILTERS.NO_FILTERS' | translate }}</p>
+  }
+
+</aside>

@@ -1,12 +1,14 @@
-import { Component, computed, inject, signal, ChangeDetectionStrategy, ChangeDetectorRef, effect } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy, ChangeDetectorRef, effect, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal, toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { map, switchMap, shareReplay, catchError, tap, startWith } from 'rxjs/operators';
+import { map, switchMap, shareReplay, catchError, tap } from 'rxjs/operators';
 import { of, combineLatest } from 'rxjs';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
 import { CategoriesService } from '../../services/categories.service';
 import { ProductsService } from '../../services/products.service';
+import { CategoryAttributesService } from '../../services/category-attributes.service';
 import { Category } from '../../../../shared/models/category.interface';
 import { IProductCard } from '../../../../shared/models/productCard';
 import { CartService } from '../../../cart/services/cart.service';
@@ -17,10 +19,16 @@ import { MessageService } from 'primeng/api';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { ProductCardSkeleton, CategoryCardSkeleton } from '../../../../shared/components/skeletons';
 import { SeoService } from '../../../../core/services/seo.service';
+import { FilterSidebar } from '../../components/filter-sidebar/filter-sidebar';
+import {
+  CategoryAttribute,
+  ActiveFilters,
+  AttrFilterValue,
+} from '../../../../shared/models/category-attribute.interface';
 
 @Component({
   selector: 'app-categories',
-  imports: [CommonModule, RouterLink, TranslateModule, ProductCard, ProductCardSkeleton, CategoryCardSkeleton],
+  imports: [CommonModule, RouterLink, TranslateModule, ProductCard, ProductCardSkeleton, CategoryCardSkeleton, FilterSidebar],
   templateUrl: './categories.html',
   styleUrl: './categories.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,6 +38,7 @@ export class Categories {
   private router = inject(Router);
   private categoriesService = inject(CategoriesService);
   private productsService = inject(ProductsService);
+  private categoryAttributesService = inject(CategoryAttributesService);
   private cartService = inject(CartService);
   private favouritesService = inject(FavouritesService);
   private favouritesState = inject(FavouritesStateService);
@@ -38,6 +47,7 @@ export class Categories {
   private translateService = inject(TranslateService);
   private seoService = inject(SeoService);
   private cdr = inject(ChangeDetectorRef);
+  private platformId = inject(PLATFORM_ID);
 
   constructor() {
     // Re-render on language change (OnPush doesn't detect translateService.currentLang changes)
@@ -75,6 +85,34 @@ export class Categories {
         }
       }
     });
+
+    // Load filter definitions when a leaf category is active
+    toObservable(this.category).pipe(
+      takeUntilDestroyed(),
+      switchMap((cat) => {
+        this._filterAttributes.set([]);
+        // Only reset filters if they're non-empty — avoids a spurious combineLatest
+        // emission that would cancel and duplicate the products request on initial load
+        if (Object.keys(this.activeFilters()).length > 0) {
+          this.activeFilters.set({});
+        }
+        if (!cat?.isLeaf || !cat._id) return of(null);
+        this._filtersLoading.set(true);
+        return this.categoryAttributesService.getFiltersForCategory(cat._id).pipe(
+          tap((res) => {
+            const filterable = (res.data.filters ?? []).filter((a) => a.filterable);
+            this._filterAttributes.set(filterable);
+            this._filtersLoading.set(false);
+            this.cdr.markForCheck();
+          }),
+          catchError(() => {
+            this._filterAttributes.set([]);
+            this._filtersLoading.set(false);
+            return of(null);
+          })
+        );
+      })
+    ).subscribe();
   }
 
   // Expose favourites state for template
@@ -85,6 +123,15 @@ export class Categories {
   pageSize = signal(20);
   totalResults = signal(0);
   totalPages = signal(0);
+
+  // Filter state
+  activeFilters = signal<ActiveFilters>({});
+
+  // Attribute definitions for current leaf category
+  private _filterAttributes = signal<CategoryAttribute[]>([]);
+  filterAttributes = this._filterAttributes.asReadonly();
+  private _filtersLoading = signal(false);
+  filtersLoading = this._filtersLoading.asReadonly();
 
   // Path as a signal derived from URL
   path = toSignal(
@@ -109,29 +156,52 @@ export class Categories {
   );
 
   category = toSignal(this.category$);
-  loading = computed(() => this.category() === undefined); // toSignal starts with undefined if not provided
+  loading = computed(() => this.category() === undefined);
   error = computed(() => this.category() === null ? 'Category not found or error loading.' : null);
 
   // Loading state for products
   private _productsLoading = signal(false);
   productsLoading = this._productsLoading.asReadonly();
 
-
-  // Products data fetched whenever category changes and is a leaf
+  // Products data fetched whenever category, page, or filters change
   products$ = combineLatest([
     toObservable(this.category),
-    toObservable(this.currentPage)
+    toObservable(this.currentPage),
+    toObservable(this.activeFilters),
   ]).pipe(
-    switchMap(([cat, page]) => {
+    switchMap(([cat, page, filters]) => {
       if (cat?.isLeaf) {
         this._productsLoading.set(true);
+        const hasFilters = Object.keys(filters).length > 0;
+
+        if (hasFilters) {
+          return this.productsService.searchProducts({
+            category: cat._id,
+            page,
+            limit: this.pageSize(),
+            attrs: this.serializeFiltersForApi(filters),
+          }).pipe(
+            tap((res) => {
+              this.totalResults.set(res.data.pagination.total);
+              this.totalPages.set(res.data.pagination.pages);
+              this._productsLoading.set(false);
+            }),
+            map((res) => res.data.products.map((p) => this.productsService.mapToProductCard(p))),
+            catchError((err) => {
+              console.error('Error loading filtered products:', err);
+              this._productsLoading.set(false);
+              return of([]);
+            })
+          );
+        }
+
         return this.productsService.getProductsByCategory(cat.path, page, this.pageSize()).pipe(
           tap((res) => {
             this.totalResults.set(res.data.pagination.total);
             this.totalPages.set(res.data.pagination.pages);
             this._productsLoading.set(false);
           }),
-          map(res => res.data.products.map(p => this.productsService.mapToProductCard(p))),
+          map((res) => res.data.products.map((p) => this.productsService.mapToProductCard(p))),
           catchError((err) => {
             console.error('Error loading products:', err);
             this._productsLoading.set(false);
@@ -147,11 +217,34 @@ export class Categories {
 
   products = toSignal(this.products$, { initialValue: [] as IProductCard[] });
 
+  handleFiltersChanged(filters: ActiveFilters): void {
+    this.currentPage.set(1);
+    this.activeFilters.set(filters);
+  }
+
   handlePageChange(page: number): void {
     if (page >= 1 && page <= this.totalPages()) {
       this.currentPage.set(page);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (isPlatformBrowser(this.platformId)) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
+  }
+
+  private serializeFiltersForApi(
+    filters: ActiveFilters
+  ): Record<string, string | { min?: number; max?: number }> {
+    const result: Record<string, string | { min?: number; max?: number }> = {};
+    for (const [key, value] of Object.entries(filters)) {
+      if (Array.isArray(value)) {
+        result[key] = value.join(',');
+      } else if (typeof value === 'string') {
+        result[key] = value;
+      } else {
+        result[key] = value as { min?: number; max?: number };
+      }
+    }
+    return result;
   }
 
   getCategoryName(cat: Category): string {
@@ -180,9 +273,7 @@ export class Categories {
   }
 
   handleAddToCart(product: IProductCard): void {
-    // Check if user is authenticated
     if (!this.authService.token()) {
-      // Show warning toast
       this.translateService.get('CART.LOGIN_REQUIRED').subscribe((message: string) => {
         this.messageService.add({
           severity: 'warn',
@@ -191,12 +282,10 @@ export class Categories {
           life: 3000
         });
       });
-      // Redirect to login page
       this.router.navigate(['/auth/login']);
       return;
     }
 
-    // User is authenticated, add to cart
     this.cartService.addToCart({ productId: product.id.toString(), quantity: 1 }).subscribe({
       next: () => {
         this.translateService.get('CART.ADD_SUCCESS').subscribe((message: string) => {
@@ -221,7 +310,6 @@ export class Categories {
   }
 
   handleToggleFavourite(product: IProductCard): void {
-    // Check if user is authenticated
     if (!this.authService.token()) {
       this.translateService.get('WISHLIST.LOGIN_REQUIRED').subscribe((message: string) => {
         this.messageService.add({
@@ -235,7 +323,6 @@ export class Categories {
       return;
     }
 
-    // Toggle favourite status
     this.favouritesService.toggleFavourite(product.id.toString()).subscribe({
       next: (isNowFavourite) => {
         const messageKey = isNowFavourite

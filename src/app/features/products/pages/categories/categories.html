@@ -72,70 +72,101 @@
 
     <!-- Products List (Leaf Category) -->
     @if (cat.isLeaf) {
-    <div class="mt-5">
-        <h2 class="h4 fw-semibold mb-4 text-secondary">Products</h2>
-
-        <!-- Note: productsLoading() is derived from the signal state -->
-        @if (productsLoading()) {
+    <div class="mt-4">
         <div class="row g-4">
-            @for (i of [1, 2, 3, 4, 5, 6]; track i) {
-            <div class="col-12 col-md-6 col-lg-4">
-                <app-product-card-skeleton></app-product-card-skeleton>
-            </div>
-            }
-        </div>
-        } @else {
-        <div class="row g-4">
-            @for (product of products(); track product.id) {
-            <div class="col-12 col-md-6 col-lg-4">
-                <app-product-card [product]="product" [isFavourite]="favouriteIds().has(product.id.toString())"
-                    (addToCart)="handleAddToCart($event)" (addToWishlist)="handleToggleFavourite($event)">
-                </app-product-card>
-            </div>
-            } @empty {
-            <div class="text-center py-5 text-muted w-100">
-                <p class="mb-0">No products found in this category.</p>
-            </div>
-            }
-        </div>
 
-        <!-- Pagination -->
-        @if (products().length > 0 && totalPages() > 1 && !productsLoading()) {
-        <div class="pagination-container mt-5">
-            <nav aria-label="Products pagination">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item" [class.disabled]="currentPage() === 1">
-                        <a class="page-link pagination-prev" (click)="handlePageChange(currentPage() - 1)"
-                            tabindex="-1">
-                            <i class="fas fa-chevron-left"></i>
-                            <span class="ms-2 d-none d-sm-inline">{{ 'PAGINATION.PREVIOUS' | translate }}</span>
-                        </a>
-                    </li>
-
-                    <!-- First page -->
-                    <li class="page-item" [class.active]="currentPage() === 1">
-                        <a class="page-link" (click)="handlePageChange(1)">1</a>
-                    </li>
-
-                    <!-- Ellipsis before current page -->
-                    @if (currentPage() > 3) {
-                    <li class="page-item disabled">
-                        <span class="page-link">...</span>
-                    </li>
+            <!-- Filter Sidebar — only shown when filterable attributes exist -->
+            @if (filterAttributes().length > 0) {
+            <div class="col-12 col-lg-3">
+                @if (filtersLoading()) {
+                <div class="p-3 border rounded">
+                    <div class="skeleton skeleton-text-sm mb-3" style="width: 80px; height: 1rem;"></div>
+                    @for (i of [1, 2, 3]; track i) {
+                    <div class="skeleton mb-2" style="width: 100%; height: 1rem;"></div>
                     }
+                </div>
+                } @else {
+                <app-filter-sidebar
+                    [attributes]="filterAttributes()"
+                    [activeFilters]="activeFilters()"
+                    (filtersChanged)="handleFiltersChanged($event)">
+                </app-filter-sidebar>
+                }
+            </div>
+            }
 
-                    <!-- Pages around current -->
-                    @for (page of [currentPage() - 1, currentPage(), currentPage() + 1]; track page) {
-                    @if (page > 1 && page < totalPages()) { <li class="page-item"
-                        [class.active]="page === currentPage()">
-                        <a class="page-link" (click)="handlePageChange(page)">{{ page }}</a>
-                        </li>
+            <!-- Products Grid -->
+            <div [class]="filterAttributes().length > 0 ? 'col-12 col-lg-9' : 'col-12'">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h4 fw-semibold mb-0 text-secondary">
+                        Products
+                        @if (totalResults() > 0) {
+                        <span class="fs-6 text-muted">({{ totalResults() }})</span>
                         }
-                        }
+                    </h2>
+                </div>
 
-                        <!-- Ellipsis after current page -->
-                        @if (currentPage() < totalPages() - 2) { <li class="page-item disabled">
-                            <span class="page-link">...</span>
+                @if (productsLoading()) {
+                <div class="row g-4">
+                    @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+                    <div [class]="filterAttributes().length > 0 ? 'col-12 col-md-6 col-xl-4' : 'col-12 col-md-6 col-lg-4'">
+                        <app-product-card-skeleton></app-product-card-skeleton>
+                    </div>
+                    }
+                </div>
+                } @else {
+                <div class="row g-4">
+                    @for (product of products(); track product.id) {
+                    <div [class]="filterAttributes().length > 0 ? 'col-12 col-md-6 col-xl-4' : 'col-12 col-md-6 col-lg-4'">
+                        <app-product-card [product]="product" [isFavourite]="favouriteIds().has(product.id.toString())"
+                            (addToCart)="handleAddToCart($event)" (addToWishlist)="handleToggleFavourite($event)">
+                        </app-product-card>
+                    </div>
+                    } @empty {
+                    <div class="text-center py-5 text-muted w-100">
+                        <p class="mb-0">{{ 'FILTERS.NO_RESULTS' | translate }}</p>
+                    </div>
+                    }
+                </div>
+
+                <!-- Pagination -->
+                @if (products().length > 0 && totalPages() > 1 && !productsLoading()) {
+                <div class="pagination-container mt-5">
+                    <nav aria-label="Products pagination">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" [class.disabled]="currentPage() === 1">
+                                <a class="page-link pagination-prev" (click)="handlePageChange(currentPage() - 1)"
+                                    tabindex="-1">
+                                    <i class="fas fa-chevron-left"></i>
+                                    <span class="ms-2 d-none d-sm-inline">{{ 'PAGINATION.PREVIOUS' | translate }}</span>
+                                </a>
+                            </li>
+
+                            <!-- First page -->
+                            <li class="page-item" [class.active]="currentPage() === 1">
+                                <a class="page-link" (click)="handlePageChange(1)">1</a>
+                            </li>
+
+                            <!-- Ellipsis before current page -->
+                            @if (currentPage() > 3) {
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                            }
+
+                            <!-- Pages around current -->
+                            @for (page of [currentPage() - 1, currentPage(), currentPage() + 1]; track page) {
+                            @if (page > 1 && page < totalPages()) {
+                            <li class="page-item" [class.active]="page === currentPage()">
+                                <a class="page-link" (click)="handlePageChange(page)">{{ page }}</a>
+                            </li>
+                            }
+                            }
+
+                            <!-- Ellipsis after current page -->
+                            @if (currentPage() < totalPages() - 2) {
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
                             </li>
                             }
 
@@ -152,11 +183,14 @@
                                     <i class="fas fa-chevron-right"></i>
                                 </a>
                             </li>
-                </ul>
-            </nav>
+                        </ul>
+                    </nav>
+                </div>
+                }
+                }
+            </div>
+
         </div>
-        }
-        }
     </div>
     }
     }
