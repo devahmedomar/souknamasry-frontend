@@ -126,10 +126,9 @@
   pointer-events: none;
 }
 
+/* Uses global composited shimmer from styles.css (.skeleton::after) */
 .skeleton {
-  background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-100) 50%, var(--gray-200) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
+  background-color: var(--gray-200);
 }
 
 .skeleton-image {
@@ -143,15 +142,6 @@
   height: 20px;
   margin-top: var(--space-3);
   border-radius: var(--radius-sm);
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
 }
 
 /* Error State */

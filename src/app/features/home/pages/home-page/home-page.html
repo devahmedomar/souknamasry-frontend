@@ -1,14 +1,22 @@
 <app-hero-banner></app-hero-banner>
 
-<!-- Trust Badges Section -->
+<!-- Trust Badges Section — defer until idle (not needed for LCP) -->
+@defer (on idle) {
 <div appScrollAnimate [animation]="'fade-up'">
   <app-trust-badges></app-trust-badges>
 </div>
+} @placeholder {
+<div style="height:80px"></div>
+}
 
-<!-- Category Showcase -->
+<!-- Category Showcase — defer until viewport -->
+@defer (on viewport) {
 <div appScrollAnimate [animation]="'fade-up'" [delay]="100">
   <app-category-showcase></app-category-showcase>
 </div>
+} @placeholder {
+<div style="height:200px"></div>
+}
 
 <div class="container" appScrollAnimate [animation]="'fade-up'" [delay]="50">
   <h3 class="mb-4">{{ 'HOMEPAGE.FEATURED_PRODUCTS' | translate }}</h3>

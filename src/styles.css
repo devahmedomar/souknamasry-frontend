@@ -707,29 +707,51 @@ a:hover {
 }
 
 /* ========================================
-   Skeleton Shimmer Styles
+   Skeleton Shimmer Styles — GPU-composited
+   Uses transform: translateX() on ::after, NOT background-position.
+   background-position triggers paint on every frame (non-composited).
+   transform runs on the compositor thread at 60fps, zero main-thread cost.
    ======================================== */
 
-/* Shimmer Animation Keyframes */
 @keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-
-  100% {
-    background-position: 200% 0;
+  to {
+    transform: translateX(300%);
   }
 }
 
 /* Base Skeleton Element */
 .skeleton {
-  background: linear-gradient(90deg,
-      #e0e0e0 25%,
-      #f0f0f0 50%,
-      #e0e0e0 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+  background-color: #e0e0e0;
   border-radius: 4px;
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+[data-theme="dark"] .skeleton {
+  background-color: #30363d;
+}
+
+[data-theme="dark"] .skeleton::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.07) 50%,
+    transparent 100%
+  );
 }
 
 /* Skeleton Variants */

@@ -181,11 +181,9 @@ h1 {
   align-items: center;
 }
 
+/* Uses global composited shimmer from styles.css (.skeleton::after) */
 .skeleton {
-  background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-100) 50%, var(--gray-200) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
-  border-radius: var(--radius-md);
+  background-color: var(--gray-200);
 }
 
 .skeleton-title {
@@ -338,9 +336,9 @@ h1 {
   background-color: var(--color-primary);
 }
 
+/* Dark mode — global styles.css handles the ::after shimmer sweep */
 :host-context([data-theme="dark"]) .skeleton {
-  background: linear-gradient(90deg, #30363d 25%, #21262d 50%, #30363d 75%);
-  background-size: 200% 100%;
+  background-color: #30363d;
 }
 
 /* RTL Support */

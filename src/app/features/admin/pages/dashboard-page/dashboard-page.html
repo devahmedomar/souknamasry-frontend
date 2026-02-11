@@ -247,7 +247,7 @@
             @for (product of dashboardData()!.topSellingProducts; track product._id) {
               <div class="product-item d-flex align-items-center">
                 @if (product.images && product.images.length > 0) {
-                  <img [src]="product.images[0]" [alt]="product.name" class="product-image me-3">
+                  <img [src]="product.images[0]" [alt]="product.name" class="product-image me-3" width="60" height="60" loading="lazy">
                 } @else {
                   <div class="product-placeholder me-3 d-flex align-items-center justify-content-center">
                     <i class="pi pi-image text-muted" style="font-size: 1.5rem;"></i>

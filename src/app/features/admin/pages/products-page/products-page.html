@@ -71,7 +71,7 @@
         <tr>
           <td>
             @if (product.images && product.images.length > 0) {
-            <img [src]="product.images[0]" [alt]="product.name" class="product-thumbnail" />
+            <img [src]="product.images[0]" [alt]="product.name" class="product-thumbnail" width="60" height="60" loading="lazy" />
             } @else {
             <div class="product-placeholder">
               <i class="pi pi-image"></i>
