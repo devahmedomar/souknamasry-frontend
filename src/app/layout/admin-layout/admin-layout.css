@@ -1,6 +1,3 @@
-/* PrimeIcons loaded only for admin — keeps it out of the public bundle */
-@import 'primeicons/primeicons.css';
-
 .sidebar {
   flex-shrink: 0;
 }

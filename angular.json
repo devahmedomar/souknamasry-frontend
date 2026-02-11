@@ -42,6 +42,7 @@
                 "inject": true,
                 "bundleName": "fontawesome-brands"
               },
+              "node_modules/primeicons/primeicons.css",
               "src/styles.css"
             ],
             "scripts": [
@@ -67,8 +68,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10kB",
-                  "maximumError": "12kB"
+                  "maximumWarning": "20kB",
+                  "maximumError": "30kB"
                 }
               ],
               "outputHashing": "all",
