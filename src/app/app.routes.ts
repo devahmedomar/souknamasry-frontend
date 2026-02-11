@@ -1,84 +1,86 @@
 import { Routes } from '@angular/router';
-import { MainLayout } from './layout/main-layout/main-layout';
-import { AuthLayout } from './layout/auth-layout/auth-layout';
-import { AdminLayout } from './layout/admin-layout/admin-layout';
 import { adminGuard } from './shared/guards/admin.guard';
 
 export const routes: Routes = [
   {
     path: '',
-    component: MainLayout,
+    loadComponent: () =>
+      import('./layout/main-layout/main-layout').then((m) => m.MainLayout),
     children: [
       {
         path: '',
         loadComponent: () =>
           import('./features/home/pages/home-page/home-page').then((m) => m.HomePage),
-        title: 'Home - Souknamasry',
+        title: 'الرئيسية - سوقنا مصري',
       },
       {
         path: 'categories',
         loadChildren: () =>
           import('./features/products/products.routes').then((m) => m.productRoutes),
-        title: 'Products - Souknamasry',
+        title: 'التصنيفات - سوقنا مصري',
       },
       {
         path: 'product/:slug',
         loadComponent: () =>
           import('./features/products/pages/product-detail-page/product-detail-page').then(
-            (m) => m.ProductDetailPage
+            (m) => m.ProductDetailPage,
           ),
-        title: 'Product Details - Souknamasry',
+        title: 'تفاصيل المنتج - سوقنا مصري',
       },
       {
         path: 'search',
         loadComponent: () =>
           import('./features/products/pages/search-results-page/search-results-page').then(
-            (m) => m.SearchResultsPage
+            (m) => m.SearchResultsPage,
           ),
-        title: 'Search Results - Souknamasry',
+        title: 'نتائج البحث - سوقنا مصري',
       },
       {
         path: 'cart',
         loadChildren: () =>
           import('./features/cart/cart.routes').then((m) => m.cartRoutes),
-        title: 'Cart - Souknamasry',
+        title: 'عربة التسوق - سوقنا مصري',
       },
       {
         path: 'user',
         loadChildren: () =>
           import('./features/user/user.routes').then((m) => m.userRoutes),
-        title: 'Account - Souknamasry',
+        title: 'حسابي - سوقنا مصري',
       },
       {
         path: 'favourites',
         loadChildren: () =>
           import('./features/favourites/favourites.routes').then((m) => m.favouritesRoutes),
-        title: 'Favourites - Souknamasry',
+        title: 'المفضلة - سوقنا مصري',
       },
     ],
   },
   {
     path: 'auth',
-    component: AuthLayout,
+    // Lazy load AuthLayout — never needed on public pages
+    loadComponent: () =>
+      import('./layout/auth-layout/auth-layout').then((m) => m.AuthLayout),
     children: [
       {
         path: '',
         loadChildren: () =>
           import('./features/auth/auth.routes').then((m) => m.authRoutes),
-        title: 'Auth - Souknamasry',
+        title: 'تسجيل الدخول - سوقنا مصري',
       },
     ],
   },
   {
     path: 'admin',
-    component: AdminLayout,
+    // Lazy load AdminLayout — this alone saves ~200-300 KiB PrimeNG admin JS on public pages
+    loadComponent: () =>
+      import('./layout/admin-layout/admin-layout').then((m) => m.AdminLayout),
     canActivate: [adminGuard],
     children: [
       {
         path: '',
         loadChildren: () =>
           import('./features/admin/admin.routes').then((m) => m.adminRoutes),
-        title: 'Admin - Souknamasry',
+        title: 'لوحة الإدارة - سوقنا مصري',
       },
     ],
   },

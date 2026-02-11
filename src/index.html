@@ -43,18 +43,39 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@souknamasry">
 
-  <!-- Preload critical fonts -->
+  <!-- DNS prefetch for external resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+  <!--
+    Non-render-blocking font loading (saves ~750ms + 230ms).
+    media="print" makes browser load it asynchronously;
+    onload switches it to "all" so it applies once downloaded.
+    The <noscript> fallback handles JS-disabled crawlers.
+  -->
+  <link rel="preload" as="style"
     href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=Cairo:wght@400;600;700&display=swap"
-    rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=Cairo:wght@400;600;700&display=swap">
+  </noscript>
 
-  <!-- Preload hero image for LCP optimization -->
-  <link rel="preload" as="image" href="/images/hero.webp" type="image/webp">
+  <!-- Material Icons: defer — not needed for initial paint -->
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  </noscript>
 
-  <script src="https://www.google.com/recaptcha/api.js?render=6LeZ-1osAAAAAJvUwRotcofDMRZiB2XJMFxRtWxa"></script>
+  <!-- LCP hero image: fetchpriority=high tells browser to prioritise this above all else -->
+  <link rel="preload" as="image" href="/images/hero.webp" type="image/webp" fetchpriority="high">
+
+  <!-- reCAPTCHA: defer so it never blocks paint -->
+  <script defer src="https://www.google.com/recaptcha/api.js?render=6LeZ-1osAAAAAJvUwRotcofDMRZiB2XJMFxRtWxa"></script>
 
   <!-- Prevent FOUC by applying theme before Angular loads -->
   <script>
@@ -67,7 +88,7 @@
   </script>
 
   <style>
-    /* Critical CSS to prevent flash */
+    /* Critical CSS — inline to avoid render blocking */
     :root {
       --bg-primary: #FFFFFF;
       --text-primary: #111827;
@@ -78,10 +99,19 @@
       --text-primary: #e6edf3;
     }
 
+    /* Render text immediately with system font while Google Fonts loads.
+       Eliminates the "invisible text" phase that inflates FCP/LCP. */
     body {
       background-color: var(--bg-primary);
       color: var(--text-primary);
       transition: none;
+      font-family: 'Cairo', 'Roboto', system-ui, -apple-system, Arial, sans-serif;
+    }
+
+    /* Reserve space for hero image to prevent CLS */
+    app-root {
+      display: block;
+      min-height: 100vh;
     }
   </style>
 </head>

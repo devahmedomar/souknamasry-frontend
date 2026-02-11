@@ -27,12 +27,29 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-              "node_modules/primeicons/primeicons.css",
+              {
+                "input": "node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css",
+                "inject": true,
+                "bundleName": "fontawesome-core"
+              },
+              {
+                "input": "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
+                "inject": true,
+                "bundleName": "fontawesome-solid"
+              },
+              {
+                "input": "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
+                "inject": true,
+                "bundleName": "fontawesome-brands"
+              },
               "src/styles.css"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+              {
+                "input": "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+                "inject": true,
+                "bundleName": "bootstrap"
+              }
             ],
             "server": "src/main.server.ts",
             "outputMode": "server",
