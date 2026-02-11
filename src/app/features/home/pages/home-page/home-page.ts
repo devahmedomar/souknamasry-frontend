@@ -11,6 +11,7 @@ import { Testimonials } from '../../components/testimonials/testimonials';
 import { ProductCardSkeleton } from '../../../../shared/components/skeletons';
 import { ScrollAnimateDirective } from '../../../../shared/directives/scroll-animate.directive';
 import { SeoService } from '../../../../core/services/seo.service';
+import { ProductsService } from '../../../products/services/products.service';
 
 @Component({
   selector: 'app-home-page',
@@ -33,6 +34,7 @@ import { SeoService } from '../../../../core/services/seo.service';
 })
 export class HomePage implements OnInit {
   private seoService = inject(SeoService);
+  private productsService = inject(ProductsService);
 
   ngOnInit() {
     this.seoService.setSeoData({
@@ -42,6 +44,23 @@ export class HomePage implements OnInit {
       keywords: 'souknamasry, egypt, shopping, deals, electronics',
       image: '/images/hero.webp',
       type: 'website',
+    });
+
+    this.productsService.getFeaturedProducts(10).subscribe((products) => {
+      if (!products.length) return;
+      this.seoService.setJsonLd({
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: 'Featured Products — سوقنا مصري',
+        url: 'https://souknamasry.vercel.app',
+        itemListElement: products.map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: p.title,
+          url: `https://souknamasry.vercel.app/product/${p.slug}`,
+          image: p.imageUrl,
+        })),
+      }, 'featured-list');
     });
   }
 }

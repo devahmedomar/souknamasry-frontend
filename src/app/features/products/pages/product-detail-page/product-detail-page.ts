@@ -189,7 +189,7 @@ export class ProductDetailPage {
                 });
 
                 // JSON-LD Product Schema
-                const productSchema = {
+                const productSchema: Record<string, unknown> = {
                     '@context': 'https://schema.org',
                     '@type': 'Product',
                     name: name,
@@ -205,6 +205,15 @@ export class ProductDetailPage {
                             : 'https://schema.org/OutOfStock'
                     }
                 };
+                if (prod.rating && prod.reviewCount) {
+                    productSchema['aggregateRating'] = {
+                        '@type': 'AggregateRating',
+                        ratingValue: prod.rating,
+                        reviewCount: prod.reviewCount,
+                        bestRating: 5,
+                        worstRating: 1,
+                    };
+                }
                 this.seoService.setJsonLd(productSchema);
 
                 // JSON-LD Breadcrumb Schema

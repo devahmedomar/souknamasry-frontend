@@ -66,7 +66,9 @@ export class Categories {
           title: name,
           description: desc,
           image: cat.image,
-          type: 'website'
+          url: `https://souknamasry.vercel.app/categories/${this.path()}`,
+          type: 'website',
+          lang: lang === 'ar' ? 'ar' : 'en',
         });
 
         // JSON-LD Breadcrumb

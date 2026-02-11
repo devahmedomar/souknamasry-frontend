@@ -2,7 +2,7 @@ import { Component, OnInit, signal, inject, computed, DestroyRef } from '@angula
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '../../services/products.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ProductCard } from '../../../../shared/components/product-card/product-card';
@@ -12,6 +12,8 @@ import { FavouritesService } from '../../../favourites/services/favourites.servi
 import { FavouritesStateService } from '../../../favourites/services/favourites-state.service';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { AuthService } from '../../../auth/services/auth.service';
+import { SeoService } from '../../../../core/services/seo.service';
+import { Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-search-results-page',
@@ -30,6 +32,9 @@ export class SearchResultsPage implements OnInit {
   private favouritesState = inject(FavouritesStateService);
   private toast = inject(ToastService);
   private authService = inject(AuthService);
+  private seoService = inject(SeoService);
+  private meta = inject(Meta);
+  private translate = inject(TranslateService);
 
   searchQuery = signal<string>('');
   products = signal<IProductCard[]>([]);
@@ -62,10 +67,32 @@ export class SearchResultsPage implements OnInit {
         this.currentPage.set(page);
         this.selectedSort.set(sort);
 
+        this.updateSeo(query);
+
         if (query) {
           this.performSearch();
         }
       });
+  }
+
+  private updateSeo(query: string): void {
+    const isAr = this.translate.currentLang === 'ar';
+    if (!query) {
+      this.meta.updateTag({ name: 'robots', content: 'noindex, follow' });
+      return;
+    }
+    this.meta.updateTag({ name: 'robots', content: 'index, follow' });
+    const title = isAr ? `نتائج البحث عن: ${query}` : `Search results for: ${query}`;
+    const description = isAr
+      ? `تسوق أفضل نتائج البحث عن "${query}" في سوقنا مصري. جودة عالية وأسعار منافسة.`
+      : `Shop the best results for "${query}" on Soukna Masry. Great quality and competitive prices.`;
+    this.seoService.setSeoData({
+      title,
+      description,
+      url: `https://souknamasry.vercel.app/search?q=${encodeURIComponent(query)}`,
+      type: 'website',
+      lang: isAr ? 'ar' : 'en',
+    });
   }
 
   performSearch(): void {
