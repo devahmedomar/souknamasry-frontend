@@ -5,6 +5,7 @@ export interface Product {
     description?: string;
     descriptionAr?: string;
     price: number;
+    compareAtPrice?: number;
     originalPrice?: number;
     discount?: number;
     images: string[];
@@ -61,6 +62,7 @@ export interface ProductDetails {
     slug: string;
     price: number;
     compareAtPrice?: number;
+    discountPercentage?: number;
     category: ProductCategory;
     images: string[];
     inStock: boolean;
@@ -94,6 +96,7 @@ export interface RelatedProduct {
     slug: string;
     price: number;
     compareAtPrice?: number;
+    discountPercentage?: number;
     category: string;
     images: string[];
     inStock: boolean;

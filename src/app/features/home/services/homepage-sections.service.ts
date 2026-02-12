@@ -55,10 +55,13 @@ export class HomepageSectionsService {
       slug: product.slug,
       category: categoryName,
       price: product.price,
+      compareAtPrice: product.compareAtPrice ?? undefined,
       currency: 'EGP',
       imageUrl: product.images[0] || '/assets/images/placeholder.jpg',
       rating: 0,
-      maxRating: 5
+      maxRating: 5,
+      inStock: product.inStock,
+      createdAt: product.createdAt,
     };
   }
 

@@ -5,6 +5,9 @@ export interface Product {
   description: string;
   descriptionAr?: string;
   price: number;
+  compareAtPrice?: number;
+  supplierPrice?: number;
+  supplierInfo?: string;
   category: {
     _id: string;
     name: string;
@@ -27,6 +30,9 @@ export interface CreateProductDto {
   description: string;
   descriptionAr?: string;
   price: number;
+  compareAtPrice?: number | null;
+  supplierPrice?: number | null;
+  supplierInfo?: string;
   category: string;
   images: string[];
   stockQuantity: number;
@@ -41,6 +47,9 @@ export interface UpdateProductDto {
   description?: string;
   descriptionAr?: string;
   price?: number;
+  compareAtPrice?: number | null;
+  supplierPrice?: number | null;
+  supplierInfo?: string;
   category?: string;
   images?: string[];
   stockQuantity?: number;

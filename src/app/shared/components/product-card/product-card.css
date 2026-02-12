@@ -333,26 +333,49 @@
 /* Price */
 .product-price-wrapper {
   display: flex;
-  align-items: center;
-  gap: var(--space-2);
+  flex-direction: column;
+  gap: 3px;
   margin-top: auto;
   padding-top: var(--space-2);
+}
+
+.price-before-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.product-compare-price {
+  font-size: var(--text-sm);
+  color: var(--gray-400);
+  text-decoration: line-through;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+.price-discount-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  padding: 1px 7px;
+  border-radius: 999px;
+  letter-spacing: 0.2px;
+  box-shadow: 0 1px 4px rgba(34, 197, 94, 0.35);
+  white-space: nowrap;
 }
 
 .product-price {
   font-size: var(--text-xl);
   font-weight: var(--font-bold);
   color: var(--gray-900);
+  line-height: 1.2;
 }
 
 .product-price.sale-price {
-  color: var(--error);
-}
-
-.product-compare-price {
-  font-size: var(--text-sm);
-  color: var(--gray-500);
-  text-decoration: line-through;
+  color: var(--color-primary);
 }
 
 /* Out of Stock Button */
@@ -566,7 +589,11 @@
 }
 
 :host-context([data-theme="dark"]) .product-price.sale-price {
-  color: #f87171 !important;
+  color: #ff8c4b !important;
+}
+
+:host-context([data-theme="dark"]) .price-discount-badge {
+  box-shadow: 0 1px 4px rgba(34, 197, 94, 0.2) !important;
 }
 
 :host-context([data-theme="dark"]) .out-of-stock-overlay {

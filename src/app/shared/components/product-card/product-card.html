@@ -73,10 +73,13 @@
 
     <!-- Price -->
     <div class="product-price-wrapper">
-      <span class="product-price" [class.sale-price]="hasDiscount()">{{ product().price | price }}</span>
       @if (hasDiscount()) {
-      <span class="product-compare-price">{{ product().compareAtPrice | price }}</span>
+      <div class="price-before-row">
+        <span class="product-compare-price">{{ product().compareAtPrice | price }}</span>
+        <span class="price-discount-badge">-{{ discountPercentage() }}%</span>
+      </div>
       }
+      <span class="product-price" [class.sale-price]="hasDiscount()">{{ product().price | price }}</span>
     </div>
 
     <!-- Add to Cart Button (Mobile & Fallback) -->

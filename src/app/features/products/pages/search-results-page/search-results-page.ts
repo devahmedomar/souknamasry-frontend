@@ -139,10 +139,14 @@ export class SearchResultsPage implements OnInit {
       slug: product.slug,
       category: product.category?.name || '',
       price: product.price,
+      compareAtPrice: product.compareAtPrice ?? undefined,
       currency: 'جنيها',
       imageUrl: imageUrl,
       rating: product.rating || 0,
-      maxRating: 5
+      maxRating: 5,
+      inStock: product.inStock,
+      stockQuantity: product.stockQuantity,
+      createdAt: product.createdAt,
     };
   }
 

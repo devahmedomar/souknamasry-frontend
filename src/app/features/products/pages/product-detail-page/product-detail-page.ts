@@ -513,10 +513,14 @@ export class ProductDetailPage {
             slug: rp.slug,
             category: '',
             price: rp.price,
+            compareAtPrice: rp.compareAtPrice ?? undefined,
             currency: 'جنيها',
             imageUrl: imageUrl,
             rating: 0,
-            maxRating: 5
+            maxRating: 5,
+            inStock: rp.inStock,
+            stockQuantity: rp.stockQuantity,
+            createdAt: String(rp.createdAt),
         };
     }
 

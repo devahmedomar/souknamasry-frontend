@@ -176,10 +176,14 @@ export class FavouritesPage implements OnInit {
             titleAr: product.nameAr,
             category: product.category || '',
             price: product.price,
+            compareAtPrice: product.compareAtPrice ?? undefined,
             currency: 'جنيها',
             imageUrl: imageUrl,
             rating: product.rating || 0,
-            maxRating: 5
+            maxRating: 5,
+            inStock: product.inStock,
+            stockQuantity: product.stockQuantity,
+            createdAt: product.createdAt,
         };
     }
 }

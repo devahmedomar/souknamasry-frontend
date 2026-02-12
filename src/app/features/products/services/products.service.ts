@@ -169,10 +169,14 @@ export class ProductsService {
             slug: p.slug,
             category: p.category?.name || '',
             price: p.price,
+            compareAtPrice: p.compareAtPrice ?? undefined,
             currency: 'جنيها',
             imageUrl: imageUrl,
             rating: p.ratingsAverage || 0,
-            maxRating: 5
+            maxRating: 5,
+            inStock: p.inStock,
+            stockQuantity: p.stockQuantity,
+            createdAt: p.createdAt,
         };
     }
 }

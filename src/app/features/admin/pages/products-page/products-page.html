@@ -178,12 +178,21 @@
       </div>
 
       <div class="col-md-4">
-        <label class="form-label">Price (EGP) <span class="text-danger">*</span></label>
+        <label class="form-label">Selling Price (EGP) <span class="text-danger">*</span></label>
         <p-inputNumber formControlName="price" mode="currency" currency="EGP" locale="en-US" class="w-100"
           [min]="0"></p-inputNumber>
         @if (productForm.get('price')?.invalid && productForm.get('price')?.touched) {
         <small class="text-danger">Price is required</small>
         }
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Compare At Price (EGP)
+          <small class="text-muted fw-normal">— shown as "was" to customer</small>
+        </label>
+        <p-inputNumber formControlName="compareAtPrice" mode="currency" currency="EGP" locale="en-US" class="w-100"
+          [min]="0" [showClear]="true"></p-inputNumber>
+        <small class="text-muted">Leave empty if no discount</small>
       </div>
 
       <div class="col-md-4">
@@ -202,6 +211,28 @@
         @if (productForm.get('category')?.invalid && productForm.get('category')?.touched) {
         <small class="text-danger">Category is required</small>
         }
+      </div>
+
+      <!-- Supplier / Cost Section (admin-only — never shown to customers) -->
+      <div class="col-12">
+        <hr class="my-2" />
+        <label class="form-label fw-semibold text-secondary">
+          <i class="pi pi-lock me-1"></i> Supplier Info
+          <small class="text-muted fw-normal">— internal only, never shown to customers</small>
+        </label>
+        <div class="row g-2">
+          <div class="col-md-4">
+            <label class="form-label small text-muted">My Cost from Supplier (EGP)</label>
+            <p-inputNumber formControlName="supplierPrice" mode="currency" currency="EGP" locale="en-US" class="w-100"
+              [min]="0" [showClear]="true" placeholder="Your purchase cost"></p-inputNumber>
+          </div>
+          <div class="col-md-8">
+            <label class="form-label small text-muted">Supplier Name / Contact / Notes</label>
+            <input type="text" pInputText class="w-100" formControlName="supplierInfo"
+              placeholder="e.g. Ahmed Textiles — 01012345678" />
+          </div>
+        </div>
+        <hr class="my-2" />
       </div>
 
       <!-- Dynamic Attributes (loaded when a category with attribute definitions is selected) -->
