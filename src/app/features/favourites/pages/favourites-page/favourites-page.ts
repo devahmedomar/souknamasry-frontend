@@ -183,7 +183,7 @@ export class FavouritesPage implements OnInit {
             maxRating: 5,
             inStock: product.inStock,
             stockQuantity: product.stockQuantity,
-            createdAt: product.createdAt,
+            createdAt: product.createdAt ? String(product.createdAt) : undefined,
         };
     }
 }

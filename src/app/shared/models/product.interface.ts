@@ -13,6 +13,8 @@ export interface Product {
     category?: string;
     brand?: string;
     stock?: number;
+    stockQuantity?: number;
+    inStock?: boolean;
     rating?: number;
     reviewCount?: number;
     sizes?: string[];
