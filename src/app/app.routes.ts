@@ -53,6 +53,12 @@ export const routes: Routes = [
           import('./features/favourites/favourites.routes').then((m) => m.favouritesRoutes),
         title: 'المفضلة - سوقنا مصري',
       },
+      {
+        path: '**',
+        loadComponent: () =>
+          import('./features/error/not-found/not-found').then((m) => m.NotFoundPage),
+        title: 'الصفحة غير موجودة - سوقنا مصري',
+      },
     ],
   },
   {

@@ -6,8 +6,6 @@ Disallow: /cart/
 Disallow: /checkout/
 Disallow: /profile/
 Disallow: /order/
-Disallow: /*?*sort=
-Disallow: /*?*page=
 Disallow: /api/
 
 User-agent: Googlebot
@@ -21,4 +19,3 @@ Disallow: /order/
 Crawl-delay: 1
 
 Sitemap: https://souknamasry.vercel.app/sitemap.xml
-Sitemap: https://souknamasry.vercel.app/sitemap-images.xml

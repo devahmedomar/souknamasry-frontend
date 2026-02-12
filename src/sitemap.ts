@@ -63,9 +63,9 @@ export async function generateSitemap(apiUrl: string, host: string): Promise<str
       : (productsData.data.products || []);
 
     products.forEach((prod: any) => {
-      if (!prod._id) return;
+      if (!prod.slug) return;
       const entry: SitemapEntry = {
-        url: `${baseUrl}/products/${prod._id}`,
+        url: `${baseUrl}/product/${prod.slug}`,
         lastmod: prod.updatedAt ? prod.updatedAt.split('T')[0] : today,
         changefreq: 'daily',
         priority: prod.isFeatured ? '0.9' : '0.7',
