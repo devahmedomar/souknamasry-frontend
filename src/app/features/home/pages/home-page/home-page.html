@@ -59,7 +59,7 @@
 <!-- Dynamic Category Sections -->
 <div class="container" appScrollAnimate [animation]="'fade-up'">
   @defer (on viewport) {
-  <app-dynamic-sections [sortBy]="'newest'" [limit]="10"></app-dynamic-sections>
+  <app-dynamic-sections [sortBy]="'random'" [limit]="10"></app-dynamic-sections>
   } @placeholder {
   <div class="row g-4 py-4">
     @for (i of [1, 2, 3, 4]; track i) {

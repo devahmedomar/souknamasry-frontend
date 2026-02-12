@@ -65,7 +65,7 @@ export class DynamicSectionsComponent implements OnInit {
   }
 
   // Input properties
-  sortBy = input<'newest' | 'popular'>('newest');
+  sortBy = input<'newest' | 'popular' | 'random'>('random');
   limit = input<number>(10);
 
   // State signals

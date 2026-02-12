@@ -52,6 +52,6 @@ export interface HomepageSectionsResponse {
  * Query parameters for fetching homepage sections
  */
 export interface HomepageSectionsParams {
-  sortBy?: 'newest' | 'popular';
+  sortBy?: 'newest' | 'popular' | 'random';
   limit?: number;
 }
