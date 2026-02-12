@@ -54,6 +54,48 @@ export const routes: Routes = [
         title: 'المفضلة - سوقنا مصري',
       },
       {
+        path: 'privacy',
+        loadComponent: () =>
+          import('./features/static/static-page/static-page').then((m) => m.StaticPage),
+        title: 'سياسة الخصوصية - سوقنا مصري',
+        data: { titleKey: 'STATIC_PAGES.PRIVACY_TITLE', contentKey: 'STATIC_PAGES.PRIVACY_CONTENT', urlPath: '/privacy', description: 'سياسة الخصوصية لموقع سوقنا مصري — كيف نجمع بياناتك ونحميها.' },
+      },
+      {
+        path: 'terms',
+        loadComponent: () =>
+          import('./features/static/static-page/static-page').then((m) => m.StaticPage),
+        title: 'الشروط والأحكام - سوقنا مصري',
+        data: { titleKey: 'STATIC_PAGES.TERMS_TITLE', contentKey: 'STATIC_PAGES.TERMS_CONTENT', urlPath: '/terms', description: 'الشروط والأحكام لاستخدام موقع سوقنا مصري.' },
+      },
+      {
+        path: 'shipping-policy',
+        loadComponent: () =>
+          import('./features/static/static-page/static-page').then((m) => m.StaticPage),
+        title: 'سياسة الشحن - سوقنا مصري',
+        data: { titleKey: 'STATIC_PAGES.SHIPPING_TITLE', contentKey: 'STATIC_PAGES.SHIPPING_CONTENT', urlPath: '/shipping-policy', description: 'سياسة الشحن والتوصيل في سوقنا مصري لجميع أنحاء مصر.' },
+      },
+      {
+        path: 'return-policy',
+        loadComponent: () =>
+          import('./features/static/static-page/static-page').then((m) => m.StaticPage),
+        title: 'سياسة الإرجاع - سوقنا مصري',
+        data: { titleKey: 'STATIC_PAGES.RETURN_TITLE', contentKey: 'STATIC_PAGES.RETURN_CONTENT', urlPath: '/return-policy', description: 'سياسة الإرجاع والاسترداد في سوقنا مصري.' },
+      },
+      {
+        path: 'contact',
+        loadComponent: () =>
+          import('./features/static/static-page/static-page').then((m) => m.StaticPage),
+        title: 'تواصل معنا - سوقنا مصري',
+        data: { titleKey: 'STATIC_PAGES.CONTACT_TITLE', contentKey: 'STATIC_PAGES.CONTACT_CONTENT', urlPath: '/contact', description: 'تواصل مع فريق سوقنا مصري — دعم العملاء والاستفسارات التجارية.' },
+      },
+      {
+        path: 'help',
+        loadComponent: () =>
+          import('./features/static/static-page/static-page').then((m) => m.StaticPage),
+        title: 'مركز المساعدة - سوقنا مصري',
+        data: { titleKey: 'STATIC_PAGES.HELP_TITLE', contentKey: 'STATIC_PAGES.HELP_CONTENT', urlPath: '/help', description: 'مركز المساعدة — إجابات على أكثر الأسئلة شيوعًا حول التسوق في سوقنا مصري.' },
+      },
+      {
         path: '**',
         loadComponent: () =>
           import('./features/error/not-found/not-found').then((m) => m.NotFoundPage),

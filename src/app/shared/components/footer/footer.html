@@ -56,9 +56,9 @@
         <div class="col-lg-3 col-md-6">
           <h5 class="footer-title">{{ 'FOOTER.SELL_WITH_US' | translate }}</h5>
           <ul class="footer-links">
-            <li><a href="#">{{ 'FOOTER.BUSINESS' | translate }}</a></li>
-            <li><a href="#">{{ 'FOOTER.BECOME_PARTNER' | translate }}</a></li>
-            <li><a href="#">{{ 'FOOTER.AFFILIATE_PROGRAM' | translate }}</a></li>
+            <li><a routerLink="/contact">{{ 'FOOTER.BUSINESS' | translate }}</a></li>
+            <li><a routerLink="/contact">{{ 'FOOTER.BECOME_PARTNER' | translate }}</a></li>
+            <li><a routerLink="/contact">{{ 'FOOTER.AFFILIATE_PROGRAM' | translate }}</a></li>
           </ul>
         </div>
 
@@ -66,10 +66,10 @@
         <div class="col-lg-3 col-md-6">
           <h5 class="footer-title">{{ 'FOOTER.TERMS_SERVICE' | translate }}</h5>
           <ul class="footer-links">
-            <li><a href="#">{{ 'FOOTER.TERMS_CONDITIONS' | translate }}</a></li>
-            <li><a href="#">{{ 'FOOTER.PRIVACY_POLICY' | translate }}</a></li>
-            <li><a href="#">{{ 'FOOTER.SHIPPING_POLICY' | translate }}</a></li>
-            <li><a href="#">{{ 'FOOTER.RETURN_POLICY' | translate }}</a></li>
+            <li><a routerLink="/terms">{{ 'FOOTER.TERMS_CONDITIONS' | translate }}</a></li>
+            <li><a routerLink="/privacy">{{ 'FOOTER.PRIVACY_POLICY' | translate }}</a></li>
+            <li><a routerLink="/shipping-policy">{{ 'FOOTER.SHIPPING_POLICY' | translate }}</a></li>
+            <li><a routerLink="/return-policy">{{ 'FOOTER.RETURN_POLICY' | translate }}</a></li>
           </ul>
         </div>
 
@@ -77,10 +77,10 @@
         <div class="col-lg-3 col-md-6">
           <h5 class="footer-title">{{ 'FOOTER.CATEGORY' | translate }}</h5>
           <ul class="footer-links">
-            <li><a href="#">{{ 'FOOTER.CLOTHES' | translate }}</a></li>
-            <li><a href="#">{{ 'FOOTER.HOUSEWARES' | translate }}</a></li>
-            <li><a href="#">{{ 'FOOTER.MAKEUP' | translate }}</a></li>
-            <li><a href="#">{{ 'FOOTER.ELECTRONICS' | translate }}</a></li>
+            <li><a routerLink="/categories">{{ 'FOOTER.CLOTHES' | translate }}</a></li>
+            <li><a routerLink="/categories">{{ 'FOOTER.HOUSEWARES' | translate }}</a></li>
+            <li><a routerLink="/categories">{{ 'FOOTER.MAKEUP' | translate }}</a></li>
+            <li><a routerLink="/categories">{{ 'FOOTER.ELECTRONICS' | translate }}</a></li>
           </ul>
         </div>
 
@@ -107,16 +107,16 @@
           <!-- Social Links -->
           <h5 class="footer-title mt-4">{{ 'FOOTER.FOLLOW_US' | translate }}</h5>
           <div class="social-links">
-            <a href="#" class="social-link" aria-label="Facebook">
+            <a href="https://www.facebook.com/souknamasry/" class="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
               <i class="fab fa-facebook"></i>
             </a>
-            <a href="#" class="social-link" aria-label="Instagram">
+            <a href="https://www.instagram.com/souknamasry" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
               <i class="fab fa-instagram"></i>
             </a>
-            <a href="#" class="social-link" aria-label="Twitter">
+            <a href="https://twitter.com/souknamasry" class="social-link" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
               <i class="fab fa-twitter"></i>
             </a>
-            <a href="#" class="social-link" aria-label="YouTube">
+            <a href="https://www.youtube.com/@souknamasry" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
               <i class="fab fa-youtube"></i>
             </a>
           </div>
@@ -170,9 +170,9 @@
         </div>
         <div class="col-md-6 text-center text-md-end">
           <div class="footer-bottom-links">
-            <a href="#">{{ 'FOOTER.HELP_CENTER' | translate }}</a>
+            <a routerLink="/help">{{ 'FOOTER.HELP_CENTER' | translate }}</a>
             <span class="divider">|</span>
-            <a href="#">{{ 'FOOTER.CONTACT_US' | translate }}</a>
+            <a routerLink="/contact">{{ 'FOOTER.CONTACT_US' | translate }}</a>
           </div>
         </div>
       </div>

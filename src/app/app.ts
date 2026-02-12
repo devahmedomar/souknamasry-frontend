@@ -97,7 +97,7 @@ export class App implements OnInit {
         addressCountry: 'EG',
       },
       sameAs: [
-        'https://www.facebook.com/souknamasry',
+        'https://www.facebook.com/souknamasry/',
         'https://www.instagram.com/souknamasry',
         'https://twitter.com/souknamasry',
       ],

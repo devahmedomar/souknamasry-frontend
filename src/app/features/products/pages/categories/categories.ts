@@ -88,6 +88,29 @@ export class Categories {
       }
     });
 
+    // ItemList schema — enables Google rich results on category pages
+    effect(() => {
+      const prods = this.products();
+      const cat = this.category();
+      if (!cat || !prods.length) return;
+
+      const lang = this.translateService.currentLang;
+      const itemList = {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: lang === 'ar' ? (cat.nameAr || cat.name) : cat.name,
+        url: `https://souknamasry.vercel.app/categories/${this.path()}`,
+        numberOfItems: prods.length,
+        itemListElement: prods.slice(0, 10).map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: `https://souknamasry.vercel.app/product/${p.slug || p.id}`,
+          name: p.title,
+        })),
+      };
+      this.seoService.setJsonLd(itemList, 'itemlist');
+    });
+
     // Load filter definitions when a leaf category is active
     toObservable(this.category).pipe(
       takeUntilDestroyed(),
