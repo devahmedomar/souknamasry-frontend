@@ -24,8 +24,8 @@ export class SiteThemeService {
   isDefaultTheme = computed(() => this.activeTheme() === 'normal');
 
   loadActiveTheme(): void {
-    const headers = new HttpHeaders({ 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' });
-    this.http.get<ActiveThemeEnvelope | ActiveThemeFlat>(`${this.api}settings/theme`, { headers }).subscribe({
+    // const headers = new HttpHeaders({ 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' });
+    this.http.get<ActiveThemeEnvelope | ActiveThemeFlat>(`${this.api}settings/theme`).subscribe({
       next: (res) => {
         // Handle both { activeTheme } and { data: { activeTheme } } shapes
         const theme =
