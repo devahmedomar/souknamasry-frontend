@@ -1,5 +1,41 @@
 <app-hero-banner></app-hero-banner>
 
+<!-- ════════════════════════════════════
+     زينة رمضان - بنر الترحيب
+     ════════════════════════════════════ -->
+<div class="ramadan-banner" aria-hidden="true">
+  <!-- Starfield background layer -->
+  <div class="rb-stars-bg"></div>
+
+  <div class="rb-inner">
+    <!-- Left mini fanooses -->
+    <div class="rb-side rb-side-l">
+      <span class="rb-mf rb-mf-gold"></span>
+      <span class="rb-mf rb-mf-emerald"></span>
+      <span class="rb-mf rb-mf-crimson"></span>
+    </div>
+
+    <!-- Centre greeting -->
+    <div class="rb-center">
+      <div class="rb-top-row">
+        <span class="rb-star" style="--sd:0.0s">✦</span>
+        <span class="rb-moon">☽</span>
+        <h2 class="rb-greeting" lang="ar">رمضان كريم</h2>
+        <span class="rb-moon">☾</span>
+        <span class="rb-star" style="--sd:0.5s">✦</span>
+      </div>
+      <p class="rb-sub">Ramadan Mubarak</p>
+    </div>
+
+    <!-- Right mini fanooses -->
+    <div class="rb-side rb-side-r">
+      <span class="rb-mf rb-mf-crimson"></span>
+      <span class="rb-mf rb-mf-royal"></span>
+      <span class="rb-mf rb-mf-gold"></span>
+    </div>
+  </div>
+</div>
+
 <!-- Trust Badges Section — defer until idle (not needed for LCP) -->
 @defer (on idle) {
 <div appScrollAnimate [animation]="'fade-up'">

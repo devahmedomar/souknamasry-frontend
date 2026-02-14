@@ -1,515 +1,576 @@
-<main class="py-5">
-    <div class="container">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-lg-3 mb-4">
-                <div class="card border-0 shadow-sm rounded-4">
-                    <div class="card-body p-4">
-                        <!-- User Info -->
-                        <div class="text-center mb-4">
-                            <div class="avatar-circle mx-auto mb-3">
-                                @if (user()?.imageUrl) {
-                                <img [src]="user()?.imageUrl" alt="Profile" class="rounded-circle w-100 h-100 object-fit-cover" width="80" height="80" loading="lazy">
-                                } @else {
-                                <span class="avatar-initials">{{ user()?.firstName?.charAt(0) }}{{ user()?.lastName?.charAt(0) }}</span>
-                                }
-                            </div>
-                            <h5 class="fw-bold mb-1 text-gray-900">{{ user()?.firstName }} {{ user()?.lastName }}</h5>
-                            <p class="text-muted small mb-0">{{ user()?.email }}</p>
-                        </div>
+<main class="profile-page">
+  <div class="container">
+    <div class="profile-layout">
 
-                        <!-- Navigation -->
-                        <nav class="nav flex-column">
-                            <button class="nav-link text-start px-3 py-2 rounded-3 mb-1"
-                                [class.active]="activeTab() === 'profile'"
-                                (click)="setActiveTab('profile')">
-                                <i class="bi bi-person me-2"></i>
-                                {{ 'ACCOUNT.PROFILE' | translate }}
-                            </button>
-                            <button class="nav-link text-start px-3 py-2 rounded-3 mb-1"
-                                [class.active]="activeTab() === 'addresses'"
-                                (click)="setActiveTab('addresses')">
-                                <i class="bi bi-geo-alt me-2"></i>
-                                {{ 'ACCOUNT.ADDRESSES' | translate }}
-                            </button>
-                            <button class="nav-link text-start px-3 py-2 rounded-3 mb-1"
-                                [class.active]="activeTab() === 'orders'"
-                                (click)="setActiveTab('orders'); loadOrders()">
-                                <i class="bi bi-box-seam me-2"></i>
-                                {{ 'ACCOUNT.ORDERS' | translate }}
-                            </button>
-                        </nav>
-                    </div>
-                </div>
+      <!-- ══════════════════════════════
+           SIDEBAR
+           ══════════════════════════════ -->
+      <aside class="profile-sidebar">
+        <div class="sidebar-card">
+
+          <!-- Banner / gradient top -->
+          <div class="sidebar-banner" aria-hidden="true"></div>
+
+          <!-- Avatar -->
+          <div class="sidebar-avatar-wrap">
+            <div class="sidebar-avatar">
+              @if (user()?.imageUrl) {
+              <img [src]="user()?.imageUrl" alt="Profile" class="sidebar-avatar-img"
+                width="88" height="88" loading="lazy">
+              } @else {
+              <span class="sidebar-initials">
+                {{ user()?.firstName?.charAt(0) }}{{ user()?.lastName?.charAt(0) }}
+              </span>
+              }
             </div>
+          </div>
 
-            <!-- Main Content -->
-            <div class="col-lg-9">
-                @if (isLoading()) {
-                <app-profile-skeleton type="profile"></app-profile-skeleton>
-                } @else {
-                    <!-- Profile Tab -->
-                    @if (activeTab() === 'profile') {
-                    <div class="card border-0 shadow-sm rounded-4">
-                        <div class="card-header bg-transparent border-0 p-4 d-flex justify-content-between align-items-center">
-                            <h4 class="fw-bold mb-0 text-gray-900">{{ 'ACCOUNT.PERSONAL_INFO' | translate }}</h4>
-                            @if (!isEditingProfile()) {
-                            <button class="btn btn-outline-primary btn-sm rounded-3" (click)="toggleEditProfile()">
-                                <i class="bi bi-pencil me-1"></i>
-                                {{ 'COMMON.EDIT' | translate }}
-                            </button>
-                            }
-                        </div>
-                        <div class="card-body p-4 pt-0">
-                            @if (isEditingProfile()) {
-                            <!-- Edit Form -->
-                            <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label small fw-semibold">{{ 'ACCOUNT.FIRST_NAME' | translate }}</label>
-                                        <input type="text" class="form-control" formControlName="firstName"
-                                            [class.is-invalid]="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched">
-                                        @if (profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched) {
-                                        <div class="invalid-feedback">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</div>
-                                        }
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label small fw-semibold">{{ 'ACCOUNT.LAST_NAME' | translate }}</label>
-                                        <input type="text" class="form-control" formControlName="lastName"
-                                            [class.is-invalid]="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched">
-                                        @if (profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched) {
-                                        <div class="invalid-feedback">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</div>
-                                        }
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label small fw-semibold">{{ 'ACCOUNT.PHONE' | translate }}</label>
-                                        <input type="tel" class="form-control" formControlName="phone">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label small fw-semibold">{{ 'ADDRESSES.CITY' | translate }}</label>
-                                        <input type="text" class="form-control" formControlName="city">
-                                    </div>
-                                </div>
-
-                                <div class="d-flex gap-2 mt-4">
-                                    <button type="submit" class="btn btn-primary rounded-3" [disabled]="isProfileLoading()">
-                                        @if (isProfileLoading()) {
-                                        <span class="spinner-border spinner-border-sm me-2"></span>
-                                        }
-                                        {{ 'ACCOUNT.SAVE_CHANGES' | translate }}
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary rounded-3" (click)="toggleEditProfile()">
-                                        {{ 'COMMON.CANCEL' | translate }}
-                                    </button>
-                                </div>
-                            </form>
-                            } @else {
-                            <!-- Display Info -->
-                            <div class="row g-4">
-                                <div class="col-md-6">
-                                    <label class="text-muted small">{{ 'ACCOUNT.FIRST_NAME' | translate }}</label>
-                                    <p class="mb-0 fw-medium text-gray-900">{{ user()?.firstName }}</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="text-muted small">{{ 'ACCOUNT.LAST_NAME' | translate }}</label>
-                                    <p class="mb-0 fw-medium text-gray-900">{{ user()?.lastName }}</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="text-muted small">{{ 'ACCOUNT.EMAIL' | translate }}</label>
-                                    <p class="mb-0 fw-medium text-gray-900">{{ user()?.email }}</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="text-muted small">{{ 'ACCOUNT.PHONE' | translate }}</label>
-                                    <p class="mb-0 fw-medium text-gray-900">{{ user()?.phone || '-' }}</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="text-muted small">{{ 'ADDRESSES.CITY' | translate }}</label>
-                                    <p class="mb-0 fw-medium text-gray-900">{{ user()?.city || '-' }}</p>
-                                </div>
-                            </div>
-                            }
-                        </div>
-                    </div>
-                    }
-
-                    <!-- Addresses Tab -->
-                    @if (activeTab() === 'addresses') {
-                    <div class="card border-0 shadow-sm rounded-4">
-                        <div class="card-header bg-transparent border-0 p-4 d-flex justify-content-between align-items-center">
-                            <h4 class="fw-bold mb-0 text-gray-900">{{ 'ADDRESSES.TITLE' | translate }}</h4>
-                            <button class="btn btn-primary btn-sm rounded-3" (click)="openAddressModal()">
-                                <i class="bi bi-plus me-1"></i>
-                                {{ 'ADDRESSES.ADD_NEW' | translate }}
-                            </button>
-                        </div>
-                        <div class="card-body p-4 pt-0">
-                            @if (addresses().length === 0) {
-                            <div class="text-center py-5">
-                                <i class="bi bi-geo-alt text-muted" style="font-size: 3rem;"></i>
-                                <p class="text-muted mt-3 mb-0">{{ 'ADDRESSES.NO_ADDRESSES' | translate }}</p>
-                            </div>
-                            } @else {
-                            <div class="row g-3">
-                                @for (address of addresses(); track address._id) {
-                                <div class="col-md-6">
-                                    <div class="card h-100 border rounded-3" [class.border-primary]="address.isDefault">
-                                        <div class="card-body">
-                                            @if (address.isDefault) {
-                                            <span class="badge bg-primary mb-2">{{ 'ADDRESSES.DEFAULT_ADDRESS' | translate }}</span>
-                                            }
-                                            <h6 class="fw-bold mb-2 text-gray-900">{{ address.name }}</h6>
-                                            <p class="text-muted small mb-1">
-                                                <i class="bi bi-telephone me-1"></i>{{ address.phone }}
-                                            </p>
-                                            <p class="text-muted small mb-0">
-                                                <i class="bi bi-geo-alt me-1"></i>
-                                                {{ address.street }}, {{ address.area }}, {{ address.city }}
-                                                @if (address.apartmentNumber) {
-                                                - {{ address.apartmentNumber }}
-                                                }
-                                            </p>
-                                            @if (address.landmark) {
-                                            <p class="text-muted small mb-0 mt-1">
-                                                <i class="bi bi-signpost me-1"></i>{{ address.landmark }}
-                                            </p>
-                                            }
-                                        </div>
-                                        <div class="card-footer bg-transparent border-0 pt-0 d-flex gap-2">
-                                            <button class="btn btn-sm btn-outline-secondary rounded-3" (click)="openAddressModal(address)">
-                                                <i class="fas fa-pencil"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger rounded-3" (click)="deleteAddress(address._id!)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                            @if (!address.isDefault) {
-                                            <button class="btn btn-sm btn-outline-primary rounded-3 ms-auto" (click)="setDefaultAddress(address._id!)">
-                                                {{ 'ADDRESSES.SET_DEFAULT' | translate }}
-                                            </button>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                                }
-                            </div>
-                            }
-                        </div>
-                    </div>
-                    }
-
-                    <!-- Orders Tab -->
-                    @if (activeTab() === 'orders') {
-                    <div class="card border-0 shadow-sm rounded-4">
-                        <div class="card-header bg-transparent border-0 p-4">
-                            <h4 class="fw-bold mb-0 text-gray-900">{{ 'ORDERS.TITLE' | translate }}</h4>
-                        </div>
-                        <div class="card-body p-4 pt-0">
-                            @if (isOrdersLoading()) {
-                            <app-order-card-skeleton [count]="3"></app-order-card-skeleton>
-                            } @else if (orders().length === 0) {
-                            <div class="text-center py-5">
-                                <i class="bi bi-box-seam text-muted" style="font-size: 3rem;"></i>
-                                <p class="text-muted mt-3 mb-0">{{ 'ORDERS.NO_ORDERS' | translate }}</p>
-                            </div>
-                            } @else {
-                            <div class="order-list">
-                                @for (order of orders(); track order.id) {
-                                <div class="card mb-3 border rounded-3 order-card">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-md-3 mb-2 mb-md-0">
-                                                <label class="text-muted small">{{ 'ORDERS.ORDER_DATE' | translate }}</label>
-                                                <p class="mb-0 fw-medium text-gray-900">{{ order.date | date:'medium' }}</p>
-                                            </div>
-                                            <div class="col-md-3 mb-2 mb-md-0">
-                                                <label class="text-muted small">{{ 'ORDERS.TOTAL' | translate }}</label>
-                                                <p class="mb-0 fw-medium text-gray-900">{{ order.price | currency:'EGP':'symbol':'1.2-2' }}</p>
-                                            </div>
-                                            <div class="col-md-3 mb-2 mb-md-0">
-                                                <label class="text-muted small">{{ 'ORDERS.STATUS' | translate }}</label>
-                                                <p class="mb-0">
-                                                    <span class="badge" [ngClass]="getStatusClass(order.status)">
-                                                        {{ ('ORDERS.STATUS_' + order.status.toUpperCase()) | translate }}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-3 text-md-end">
-                                                <button class="btn btn-outline-primary btn-sm rounded-3 w-100 w-md-auto"
-                                                    (click)="viewOrderDetails(order.id)">
-                                                    {{ 'ORDERS.VIEW_DETAILS' | translate }}
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                }
-                            </div>
-                            }
-                        </div>
-                    </div>
-                    }
-                }
+          <!-- User info -->
+          <div class="sidebar-user">
+            <h5 class="sidebar-name">{{ user()?.firstName }} {{ user()?.lastName }}</h5>
+            <p class="sidebar-email">{{ user()?.email }}</p>
+            <div class="sidebar-stats">
+              <div class="stat-chip" (click)="setActiveTab('orders'); loadOrders()">
+                <i class="fas fa-shopping-bag"></i>
+                <span>{{ orders().length }}</span>
+                <small>{{ 'ACCOUNT.ORDERS' | translate }}</small>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-chip" (click)="setActiveTab('addresses')">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>{{ addresses().length }}</span>
+                <small>{{ 'ACCOUNT.ADDRESSES' | translate }}</small>
+              </div>
             </div>
+          </div>
+
+          <!-- Navigation -->
+          <nav class="sidebar-nav" aria-label="Account navigation">
+            <button class="snav-item" [class.active]="activeTab() === 'profile'"
+              (click)="setActiveTab('profile')">
+              <span class="snav-icon-wrap"><i class="fas fa-user"></i></span>
+              <span class="snav-label">{{ 'ACCOUNT.PROFILE' | translate }}</span>
+              <i class="fas fa-chevron-right snav-arrow"></i>
+            </button>
+            <button class="snav-item" [class.active]="activeTab() === 'addresses'"
+              (click)="setActiveTab('addresses')">
+              <span class="snav-icon-wrap"><i class="fas fa-map-marker-alt"></i></span>
+              <span class="snav-label">{{ 'ACCOUNT.ADDRESSES' | translate }}</span>
+              <i class="fas fa-chevron-right snav-arrow"></i>
+            </button>
+            <button class="snav-item" [class.active]="activeTab() === 'orders'"
+              (click)="setActiveTab('orders'); loadOrders()">
+              <span class="snav-icon-wrap"><i class="fas fa-shopping-bag"></i></span>
+              <span class="snav-label">{{ 'ACCOUNT.ORDERS' | translate }}</span>
+              <i class="fas fa-chevron-right snav-arrow"></i>
+            </button>
+          </nav>
+
         </div>
+      </aside>
+
+      <!-- ══════════════════════════════
+           MAIN CONTENT
+           ══════════════════════════════ -->
+      <section class="profile-main">
+
+        @if (isLoading()) {
+        <app-profile-skeleton type="profile"></app-profile-skeleton>
+        } @else {
+
+          <!-- ── PROFILE TAB ────────────────── -->
+          @if (activeTab() === 'profile') {
+          <div class="content-card">
+            <div class="content-card-header">
+              <div class="cch-title">
+                <div class="cch-icon"><i class="fas fa-user"></i></div>
+                <div>
+                  <h4>{{ 'ACCOUNT.PERSONAL_INFO' | translate }}</h4>
+                  <p>{{ 'ACCOUNT.MANAGE_YOUR_INFO' | translate }}</p>
+                </div>
+              </div>
+              @if (!isEditingProfile()) {
+              <button class="btn-pp btn-pp-outline" (click)="toggleEditProfile()">
+                <i class="fas fa-edit"></i>
+                {{ 'COMMON.EDIT' | translate }}
+              </button>
+              }
+            </div>
+
+            <div class="content-card-body">
+              @if (isEditingProfile()) {
+              <!-- Edit Form -->
+              <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="pp-form">
+                <div class="pp-form-grid">
+                  <div class="pp-field">
+                    <label class="pp-label">{{ 'ACCOUNT.FIRST_NAME' | translate }}</label>
+                    <input type="text" class="pp-input" formControlName="firstName"
+                      [class.is-error]="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched">
+                    @if (profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched) {
+                    <span class="pp-error">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</span>
+                    }
+                  </div>
+                  <div class="pp-field">
+                    <label class="pp-label">{{ 'ACCOUNT.LAST_NAME' | translate }}</label>
+                    <input type="text" class="pp-input" formControlName="lastName"
+                      [class.is-error]="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched">
+                    @if (profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched) {
+                    <span class="pp-error">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</span>
+                    }
+                  </div>
+                  <div class="pp-field">
+                    <label class="pp-label">{{ 'ACCOUNT.PHONE' | translate }}</label>
+                    <input type="tel" class="pp-input" formControlName="phone">
+                  </div>
+                  <div class="pp-field">
+                    <label class="pp-label">{{ 'ADDRESSES.CITY' | translate }}</label>
+                    <input type="text" class="pp-input" formControlName="city">
+                  </div>
+                </div>
+                <div class="pp-form-actions">
+                  <button type="submit" class="btn-pp btn-pp-primary" [disabled]="isProfileLoading()">
+                    @if (isProfileLoading()) {
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    }
+                    {{ 'ACCOUNT.SAVE_CHANGES' | translate }}
+                  </button>
+                  <button type="button" class="btn-pp btn-pp-ghost" (click)="toggleEditProfile()">
+                    {{ 'COMMON.CANCEL' | translate }}
+                  </button>
+                </div>
+              </form>
+
+              } @else {
+              <!-- Info Display -->
+              <div class="info-tiles">
+                <div class="info-tile">
+                  <div class="info-tile-icon"><i class="fas fa-user"></i></div>
+                  <div class="info-tile-body">
+                    <label>{{ 'ACCOUNT.FIRST_NAME' | translate }}</label>
+                    <p>{{ user()?.firstName }}</p>
+                  </div>
+                </div>
+                <div class="info-tile">
+                  <div class="info-tile-icon"><i class="fas fa-user"></i></div>
+                  <div class="info-tile-body">
+                    <label>{{ 'ACCOUNT.LAST_NAME' | translate }}</label>
+                    <p>{{ user()?.lastName }}</p>
+                  </div>
+                </div>
+                <div class="info-tile">
+                  <div class="info-tile-icon"><i class="fas fa-envelope"></i></div>
+                  <div class="info-tile-body">
+                    <label>{{ 'ACCOUNT.EMAIL' | translate }}</label>
+                    <p>{{ user()?.email }}</p>
+                  </div>
+                </div>
+                <div class="info-tile">
+                  <div class="info-tile-icon"><i class="fas fa-phone"></i></div>
+                  <div class="info-tile-body">
+                    <label>{{ 'ACCOUNT.PHONE' | translate }}</label>
+                    <p>{{ user()?.phone || '—' }}</p>
+                  </div>
+                </div>
+                <div class="info-tile">
+                  <div class="info-tile-icon"><i class="fas fa-city"></i></div>
+                  <div class="info-tile-body">
+                    <label>{{ 'ADDRESSES.CITY' | translate }}</label>
+                    <p>{{ user()?.city || '—' }}</p>
+                  </div>
+                </div>
+              </div>
+              }
+            </div>
+          </div>
+          }
+
+          <!-- ── ADDRESSES TAB ──────────────── -->
+          @if (activeTab() === 'addresses') {
+          <div class="content-card">
+            <div class="content-card-header">
+              <div class="cch-title">
+                <div class="cch-icon cch-icon-blue"><i class="fas fa-map-marker-alt"></i></div>
+                <div>
+                  <h4>{{ 'ADDRESSES.TITLE' | translate }}</h4>
+                  <p>{{ addresses().length }} {{ 'ACCOUNT.ADDRESSES' | translate }}</p>
+                </div>
+              </div>
+              <button class="btn-pp btn-pp-primary" (click)="openAddressModal()">
+                <i class="fas fa-plus"></i>
+                {{ 'ADDRESSES.ADD_NEW' | translate }}
+              </button>
+            </div>
+
+            <div class="content-card-body">
+              @if (addresses().length === 0) {
+              <div class="pp-empty">
+                <div class="pp-empty-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <h5>{{ 'ADDRESSES.NO_ADDRESSES' | translate }}</h5>
+                <p>{{ 'ADDRESSES.NO_ADDRESSES_SUB' | translate }}</p>
+                <button class="btn-pp btn-pp-primary" (click)="openAddressModal()">
+                  <i class="fas fa-plus"></i>{{ 'ADDRESSES.ADD_NEW' | translate }}
+                </button>
+              </div>
+              } @else {
+              <div class="address-grid">
+                @for (address of addresses(); track address._id) {
+                <div class="addr-card" [class.addr-default]="address.isDefault">
+                  <div class="addr-card-header">
+                    <div class="addr-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="addr-badges">
+                      @if (address.isDefault) {
+                      <span class="addr-badge-default">
+                        <i class="fas fa-star"></i> {{ 'ADDRESSES.DEFAULT_ADDRESS' | translate }}
+                      </span>
+                      }
+                    </div>
+                    <div class="addr-card-actions">
+                      <button class="addr-action-btn" (click)="openAddressModal(address)" title="Edit">
+                        <i class="fas fa-pencil"></i>
+                      </button>
+                      <button class="addr-action-btn addr-action-danger" (click)="deleteAddress(address._id!)" title="Delete">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="addr-card-body">
+                    <h6 class="addr-name">{{ address.name }}</h6>
+                    <p class="addr-row"><i class="fas fa-phone"></i> {{ address.phone }}</p>
+                    <p class="addr-row">
+                      <i class="fas fa-road"></i>
+                      {{ address.street }}, {{ address.area }}, {{ address.city }}
+                      @if (address.apartmentNumber) { — {{ address.apartmentNumber }} }
+                    </p>
+                    @if (address.landmark) {
+                    <p class="addr-row addr-landmark">
+                      <i class="fas fa-flag"></i> {{ address.landmark }}
+                    </p>
+                    }
+                  </div>
+                  @if (!address.isDefault) {
+                  <div class="addr-card-footer">
+                    <button class="btn-set-default" (click)="setDefaultAddress(address._id!)">
+                      <i class="far fa-star"></i>
+                      {{ 'ADDRESSES.SET_DEFAULT' | translate }}
+                    </button>
+                  </div>
+                  }
+                </div>
+                }
+              </div>
+              }
+            </div>
+          </div>
+          }
+
+          <!-- ── ORDERS TAB ─────────────────── -->
+          @if (activeTab() === 'orders') {
+          <div class="content-card">
+            <div class="content-card-header">
+              <div class="cch-title">
+                <div class="cch-icon cch-icon-green"><i class="fas fa-shopping-bag"></i></div>
+                <div>
+                  <h4>{{ 'ORDERS.TITLE' | translate }}</h4>
+                  <p>{{ 'ORDERS.ORDER_HISTORY' | translate }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="content-card-body">
+              @if (isOrdersLoading()) {
+              <app-order-card-skeleton [count]="3"></app-order-card-skeleton>
+              } @else if (orders().length === 0) {
+              <div class="pp-empty">
+                <div class="pp-empty-icon"><i class="fas fa-shopping-bag"></i></div>
+                <h5>{{ 'ORDERS.NO_ORDERS' | translate }}</h5>
+                <p>{{ 'ORDERS.START_SHOPPING' | translate }}</p>
+              </div>
+              } @else {
+              <div class="orders-list">
+                @for (order of orders(); track order.id) {
+                <div class="order-row" [attr.data-status]="order.status">
+                  <div class="order-row-accent"></div>
+                  <div class="order-row-content">
+                    <div class="order-row-info">
+                      <div class="order-row-top">
+                        <span class="order-status-badge" [ngClass]="'status-' + order.status">
+                          {{ ('ORDERS.STATUS_' + order.status.toUpperCase()) | translate }}
+                        </span>
+                        <span class="order-date">
+                          <i class="fas fa-calendar-alt"></i>
+                          {{ order.date | date:'MMM d, y' }}
+                        </span>
+                      </div>
+                      <div class="order-total">
+                        {{ order.price | currency:'EGP':'symbol':'1.2-2' }}
+                      </div>
+                    </div>
+                    <div class="order-row-action">
+                      <button class="btn-pp btn-pp-outline btn-sm" (click)="viewOrderDetails(order.id)">
+                        {{ 'ORDERS.VIEW_DETAILS' | translate }}
+                        <i class="fas fa-arrow-right"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                }
+              </div>
+              }
+            </div>
+          </div>
+          }
+
+        }
+      </section>
     </div>
+  </div>
 </main>
 
-<!-- Address Modal -->
-@if (showAddressModal()) {
-<div class="modal-backdrop fade show"></div>
-<div class="modal fade show d-block" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content rounded-4">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold text-gray-900">
-                    {{ (editingAddressId() ? 'ADDRESSES.EDIT_ADDRESS' : 'ADDRESSES.ADD_NEW') | translate }}
-                </h5>
-                <button type="button" class="btn-close" (click)="closeAddressModal()"></button>
-            </div>
-            <div class="modal-body">
-                <form [formGroup]="addressForm" (ngSubmit)="saveAddress()">
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <label class="form-label small fw-semibold">{{ 'ADDRESSES.FULL_NAME' | translate }} *</label>
-                            <input type="text" class="form-control" formControlName="name"
-                                [class.is-invalid]="addressForm.get('name')?.invalid && addressForm.get('name')?.touched">
-                            @if (addressForm.get('name')?.invalid && addressForm.get('name')?.touched) {
-                            <div class="invalid-feedback">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</div>
-                            }
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label small fw-semibold">{{ 'ADDRESSES.PHONE' | translate }} *</label>
-                            <input type="tel" class="form-control" formControlName="phone"
-                                [class.is-invalid]="addressForm.get('phone')?.invalid && addressForm.get('phone')?.touched">
-                            @if (addressForm.get('phone')?.invalid && addressForm.get('phone')?.touched) {
-                            <div class="invalid-feedback">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</div>
-                            }
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small fw-semibold">{{ 'ADDRESSES.CITY' | translate }} *</label>
-                            <input type="text" class="form-control" formControlName="city"
-                                [class.is-invalid]="addressForm.get('city')?.invalid && addressForm.get('city')?.touched">
-                            @if (addressForm.get('city')?.invalid && addressForm.get('city')?.touched) {
-                            <div class="invalid-feedback">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</div>
-                            }
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small fw-semibold">{{ 'PROFILE.AREA' | translate }} *</label>
-                            <input type="text" class="form-control" formControlName="area"
-                                [class.is-invalid]="addressForm.get('area')?.invalid && addressForm.get('area')?.touched">
-                            @if (addressForm.get('area')?.invalid && addressForm.get('area')?.touched) {
-                            <div class="invalid-feedback">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</div>
-                            }
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label small fw-semibold">{{ 'PROFILE.STREET' | translate }} *</label>
-                            <input type="text" class="form-control" formControlName="street"
-                                [class.is-invalid]="addressForm.get('street')?.invalid && addressForm.get('street')?.touched">
-                            @if (addressForm.get('street')?.invalid && addressForm.get('street')?.touched) {
-                            <div class="invalid-feedback">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</div>
-                            }
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small fw-semibold">{{ 'PROFILE.APARTMENT_NUMBER' | translate }}</label>
-                            <input type="text" class="form-control" formControlName="apartmentNumber">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small fw-semibold">{{ 'PROFILE.LANDMARK' | translate }}</label>
-                            <input type="text" class="form-control" formControlName="landmark">
-                        </div>
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="isDefault" formControlName="isDefault">
-                                <label class="form-check-label small" for="isDefault">
-                                    {{ 'ADDRESSES.SET_DEFAULT' | translate }}
-                                </label>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="d-flex gap-2 mt-4">
-                        <button type="submit" class="btn btn-primary rounded-3 flex-grow-1" [disabled]="isAddressLoading()">
-                            @if (isAddressLoading()) {
-                            <span class="spinner-border spinner-border-sm me-2"></span>
-                            }
-                            {{ 'ADDRESSES.SAVE_ADDRESS' | translate }}
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary rounded-3" (click)="closeAddressModal()">
-                            {{ 'COMMON.CANCEL' | translate }}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+<!-- ══════════════════════════════
+     ADDRESS MODAL
+     ══════════════════════════════ -->
+@if (showAddressModal()) {
+<div class="pp-backdrop" (click)="closeAddressModal()"></div>
+<div class="pp-modal" role="dialog" aria-modal="true">
+  <div class="pp-modal-box">
+    <div class="pp-modal-header">
+      <div class="pp-mh-title">
+        <div class="pp-mh-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <h5>{{ (editingAddressId() ? 'ADDRESSES.EDIT_ADDRESS' : 'ADDRESSES.ADD_NEW') | translate }}</h5>
+      </div>
+      <button class="pp-modal-close" (click)="closeAddressModal()" aria-label="Close">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
+
+    <div class="pp-modal-body">
+      <form [formGroup]="addressForm" (ngSubmit)="saveAddress()">
+        <div class="pp-form-grid">
+          <div class="pp-field pp-field-full">
+            <label class="pp-label">{{ 'ADDRESSES.FULL_NAME' | translate }} *</label>
+            <input type="text" class="pp-input" formControlName="name"
+              [class.is-error]="addressForm.get('name')?.invalid && addressForm.get('name')?.touched">
+            @if (addressForm.get('name')?.invalid && addressForm.get('name')?.touched) {
+            <span class="pp-error">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</span>
+            }
+          </div>
+          <div class="pp-field pp-field-full">
+            <label class="pp-label">{{ 'ADDRESSES.PHONE' | translate }} *</label>
+            <input type="tel" class="pp-input" formControlName="phone"
+              [class.is-error]="addressForm.get('phone')?.invalid && addressForm.get('phone')?.touched">
+            @if (addressForm.get('phone')?.invalid && addressForm.get('phone')?.touched) {
+            <span class="pp-error">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</span>
+            }
+          </div>
+          <div class="pp-field">
+            <label class="pp-label">{{ 'ADDRESSES.CITY' | translate }} *</label>
+            <input type="text" class="pp-input" formControlName="city"
+              [class.is-error]="addressForm.get('city')?.invalid && addressForm.get('city')?.touched">
+            @if (addressForm.get('city')?.invalid && addressForm.get('city')?.touched) {
+            <span class="pp-error">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</span>
+            }
+          </div>
+          <div class="pp-field">
+            <label class="pp-label">{{ 'PROFILE.AREA' | translate }} *</label>
+            <input type="text" class="pp-input" formControlName="area"
+              [class.is-error]="addressForm.get('area')?.invalid && addressForm.get('area')?.touched">
+            @if (addressForm.get('area')?.invalid && addressForm.get('area')?.touched) {
+            <span class="pp-error">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</span>
+            }
+          </div>
+          <div class="pp-field pp-field-full">
+            <label class="pp-label">{{ 'PROFILE.STREET' | translate }} *</label>
+            <input type="text" class="pp-input" formControlName="street"
+              [class.is-error]="addressForm.get('street')?.invalid && addressForm.get('street')?.touched">
+            @if (addressForm.get('street')?.invalid && addressForm.get('street')?.touched) {
+            <span class="pp-error">{{ 'AUTH.VALIDATION.REQUIRED' | translate }}</span>
+            }
+          </div>
+          <div class="pp-field">
+            <label class="pp-label">{{ 'PROFILE.APARTMENT_NUMBER' | translate }}</label>
+            <input type="text" class="pp-input" formControlName="apartmentNumber">
+          </div>
+          <div class="pp-field">
+            <label class="pp-label">{{ 'PROFILE.LANDMARK' | translate }}</label>
+            <input type="text" class="pp-input" formControlName="landmark">
+          </div>
+          <div class="pp-field pp-field-full">
+            <label class="pp-checkbox-label">
+              <input type="checkbox" class="pp-checkbox" formControlName="isDefault">
+              <span class="pp-checkbox-box"></span>
+              {{ 'ADDRESSES.SET_DEFAULT' | translate }}
+            </label>
+          </div>
+        </div>
+        <div class="pp-form-actions">
+          <button type="submit" class="btn-pp btn-pp-primary" [disabled]="isAddressLoading()">
+            @if (isAddressLoading()) {
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            }
+            {{ 'ADDRESSES.SAVE_ADDRESS' | translate }}
+          </button>
+          <button type="button" class="btn-pp btn-pp-ghost" (click)="closeAddressModal()">
+            {{ 'COMMON.CANCEL' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 }
 
-<!-- Order Details Modal -->
+
+<!-- ══════════════════════════════
+     ORDER DETAIL MODAL
+     ══════════════════════════════ -->
 @if (showOrderDetailModal() && selectedOrder()) {
-<div class="modal-backdrop fade show"></div>
-<div class="modal fade show d-block" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
-        <div class="modal-content rounded-4">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold text-gray-900">{{ 'ORDERS.ORDER_DETAILS' | translate }}</h5>
-                <button type="button" class="btn-close" (click)="closeOrderDetailModal()"></button>
-            </div>
-            <div class="modal-body">
-                @if (isOrderDetailLoading()) {
-                <div class="text-center py-5">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">{{ 'COMMON.LOADING' | translate }}</span>
-                    </div>
-                </div>
-                } @else {
-                <!-- Order Header Info -->
-                <div class="mb-4 pb-3 border-bottom">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="text-muted small">{{ 'ORDERS.ORDER_NUMBER' | translate }}</label>
-                            <p class="mb-0 fw-bold text-gray-900">{{ selectedOrder()?.orderNumber }}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="text-muted small">{{ 'ORDERS.ORDER_DATE' | translate }}</label>
-                            <p class="mb-0 fw-medium text-gray-900">{{ selectedOrder()?.createdAt | date:'medium' }}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="text-muted small">{{ 'ORDERS.STATUS' | translate }}</label>
-                            <p class="mb-0">
-                                <span class="badge" [ngClass]="getStatusClass(selectedOrder()?.status!)">
-                                    {{ ('ORDERS.STATUS_' + selectedOrder()?.status!.toUpperCase()) | translate }}
-                                </span>
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="text-muted small">{{ 'ORDERS.PAYMENT_STATUS' | translate }}</label>
-                            <p class="mb-0">
-                                <span class="badge" [ngClass]="getPaymentStatusClass(selectedOrder()?.paymentStatus!)">
-                                    {{ ('ORDERS.PAYMENT_' + selectedOrder()?.paymentStatus!.toUpperCase()) | translate }}
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Order Items -->
-                <div class="mb-4 pb-3 border-bottom">
-                    <h6 class="fw-bold mb-3 text-gray-900">{{ 'ORDERS.ITEMS' | translate }}</h6>
-                    <div class="order-items">
-                        @for (item of selectedOrder()?.items; track item._id) {
-                        <div class="mb-3 pb-3 border-bottom">
-                            <div class="row align-items-center">
-                                <div class="col-md-2">
-                                    <img [src]="item.productSnapshot.image" [alt]="getSnapshotName(item.productSnapshot)"
-                                        class="img-fluid rounded-2" style="max-height: 80px; object-fit: cover;" width="80" height="80" loading="lazy">
-                                </div>
-                                <div class="col-md-5">
-                                    <h6 class="fw-bold mb-1 text-gray-900">{{ getSnapshotName(item.productSnapshot) }}</h6>
-                                    <p class="text-muted small mb-0">
-                                        {{ 'PRODUCT.CURRENCY' | translate }}: {{ item.price | currency:'EGP':'symbol':'1.2-2' }}
-                                    </p>
-                                </div>
-                                <div class="col-md-2 text-center">
-                                    <label class="text-muted small d-block">{{ 'PRODUCT.QUANTITY' | translate }}</label>
-                                    <p class="mb-0 fw-medium text-gray-900">{{ item.quantity }}</p>
-                                </div>
-                                <div class="col-md-3 text-end">
-                                    <label class="text-muted small d-block">{{ 'ORDERS.TOTAL' | translate }}</label>
-                                    <p class="mb-0 fw-bold text-gray-900">{{ item.totalPrice | currency:'EGP':'symbol':'1.2-2' }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        }
-                    </div>
-                </div>
-
-                <!-- Shipping Address -->
-                @if (selectedOrder()?.shippingAddress) {
-                <div class="mb-4 pb-3 border-bottom">
-                    <h6 class="fw-bold mb-3 text-gray-900">{{ 'ORDERS.SHIPPING_ADDRESS' | translate }}</h6>
-                    <div class="address-details">
-                        <p class="mb-2 text-gray-900">
-                            <strong>{{ selectedOrder()!.shippingAddress.name }}</strong><br>
-                            <i class="bi bi-telephone me-1"></i>{{ selectedOrder()!.shippingAddress.phone }}
-                        </p>
-                        <p class="mb-0 text-muted">
-                            <i class="bi bi-geo-alt me-1"></i>
-                            {{ selectedOrder()!.shippingAddress.street }}, {{ selectedOrder()!.shippingAddress.area }},
-                            {{ selectedOrder()!.shippingAddress.city }}
-                            @if (selectedOrder()!.shippingAddress.apartmentNumber) {
-                            - {{ selectedOrder()!.shippingAddress.apartmentNumber }}
-                            }
-                        </p>
-                        @if (selectedOrder()!.shippingAddress.landmark) {
-                        <p class="mt-1 text-muted small mb-0">
-                            <i class="bi bi-signpost me-1"></i>{{ selectedOrder()!.shippingAddress.landmark }}
-                        </p>
-                        }
-                    </div>
-                </div>
-                }
-
-                <!-- Payment Info -->
-                <div class="mb-4 pb-3 border-bottom">
-                    <h6 class="fw-bold mb-3 text-gray-900">{{ 'ORDERS.PAYMENT_METHOD' | translate }}</h6>
-                    <p class="mb-0 text-gray-900">
-                        {{ ('ORDERS.PAYMENT_' + selectedOrder()?.paymentMethod!.toUpperCase()) | translate }}
-                    </p>
-                </div>
-
-                <!-- Order Notes -->
-                @if (selectedOrder()?.notes) {
-                <div class="mb-4 pb-3 border-bottom">
-                    <h6 class="fw-bold mb-2 text-gray-900">{{ 'ORDERS.NOTES' | translate }}</h6>
-                    <p class="text-muted mb-0">{{ selectedOrder()?.notes }}</p>
-                </div>
-                }
-
-                <!-- Price Summary -->
-                <div class="price-summary">
-                    <div class="row mb-2">
-                        <div class="col-6">
-                            <p class="text-muted">{{ 'ORDERS.SUBTOTAL' | translate }}</p>
-                        </div>
-                        <div class="col-6 text-end">
-                            <p class="text-gray-900">{{ selectedOrder()?.subtotal | currency:'EGP':'symbol':'1.2-2' }}</p>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6">
-                            <p class="text-muted">{{ 'ORDERS.SHIPPING_COST' | translate }}</p>
-                        </div>
-                        <div class="col-6 text-end">
-                            <p class="text-gray-900">{{ selectedOrder()?.shippingCost | currency:'EGP':'symbol':'1.2-2' }}</p>
-                        </div>
-                    </div>
-                    @if ((selectedOrder()?.discount ?? 0) > 0) {
-                    <div class="row mb-2">
-                        <div class="col-6">
-                            <p class="text-muted">{{ 'ORDERS.DISCOUNT' | translate }}</p>
-                        </div>
-                        <div class="col-6 text-end">
-                            <p class="text-danger">-{{ selectedOrder()?.discount | currency:'EGP':'symbol':'1.2-2' }}</p>
-                        </div>
-                    </div>
-                    }
-                    <div class="row border-top pt-2">
-                        <div class="col-6">
-                            <p class="fw-bold text-gray-900">{{ 'ORDERS.GRAND_TOTAL' | translate }}</p>
-                        </div>
-                        <div class="col-6 text-end">
-                            <p class="fw-bold fs-5 text-gray-900">{{ selectedOrder()?.total | currency:'EGP':'symbol':'1.2-2' }}</p>
-                        </div>
-                    </div>
-                </div>
-                }
-            </div>
-            <div class="modal-footer border-0 pt-0">
-                <button type="button" class="btn btn-outline-secondary rounded-3" (click)="closeOrderDetailModal()">
-                    {{ 'COMMON.CLOSE' | translate }}
-                </button>
-            </div>
+<div class="pp-backdrop" (click)="closeOrderDetailModal()"></div>
+<div class="pp-modal pp-modal-lg" role="dialog" aria-modal="true">
+  <div class="pp-modal-box">
+    <!-- Header with status accent -->
+    <div class="pp-modal-header od-modal-header" [attr.data-status]="selectedOrder()?.status">
+      <div class="pp-mh-title">
+        <div class="pp-mh-icon od-header-icon"><i class="fas fa-receipt"></i></div>
+        <div>
+          <h5>{{ 'ORDERS.ORDER_DETAILS' | translate }}</h5>
+          <span class="od-order-num">#{{ selectedOrder()?.orderNumber }}</span>
         </div>
+      </div>
+      <button class="pp-modal-close" (click)="closeOrderDetailModal()" aria-label="Close">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
+
+    <div class="pp-modal-body pp-modal-scrollable">
+      @if (isOrderDetailLoading()) {
+      <div class="pp-loading-state">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">{{ 'COMMON.LOADING' | translate }}</span>
+        </div>
+      </div>
+      } @else {
+
+      <!-- Status + Date row -->
+      <div class="od-meta-row">
+        <span class="order-status-badge lg" [ngClass]="'status-' + selectedOrder()?.status">
+          {{ ('ORDERS.STATUS_' + selectedOrder()?.status!.toUpperCase()) | translate }}
+        </span>
+        <span class="od-payment-chip" [ngClass]="'payment-' + selectedOrder()?.paymentStatus">
+          <i class="fas fa-credit-card"></i>
+          {{ ('ORDERS.PAYMENT_' + selectedOrder()?.paymentStatus!.toUpperCase()) | translate }}
+        </span>
+        <span class="od-meta-date">
+          <i class="fas fa-calendar-alt"></i>
+          {{ selectedOrder()?.createdAt | date:'mediumDate' }}
+        </span>
+      </div>
+
+      <!-- Items -->
+      <div class="od-section">
+        <h6 class="od-section-title">
+          <i class="fas fa-box-open"></i>{{ 'ORDERS.ITEMS' | translate }}
+        </h6>
+        <div class="od-items-list">
+          @for (item of selectedOrder()?.items; track item._id) {
+          <div class="od-item">
+            <img [src]="item.productSnapshot.image" [alt]="getSnapshotName(item.productSnapshot)"
+              class="od-item-img" width="64" height="64" loading="lazy">
+            <div class="od-item-info">
+              <h6>{{ getSnapshotName(item.productSnapshot) }}</h6>
+              <p>{{ item.price | currency:'EGP':'symbol':'1.2-2' }}
+                <span class="od-qty">× {{ item.quantity }}</span>
+              </p>
+            </div>
+            <div class="od-item-total">
+              {{ item.totalPrice | currency:'EGP':'symbol':'1.2-2' }}
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- Shipping + Payment info -->
+      <div class="od-two-col">
+        @if (selectedOrder()?.shippingAddress) {
+        <div class="od-section">
+          <h6 class="od-section-title">
+            <i class="fas fa-map-marker-alt"></i>{{ 'ORDERS.SHIPPING_ADDRESS' | translate }}
+          </h6>
+          <div class="od-info-box">
+            <p class="od-info-name">{{ selectedOrder()!.shippingAddress.name }}</p>
+            <p><i class="fas fa-phone"></i> {{ selectedOrder()!.shippingAddress.phone }}</p>
+            <p>
+              {{ selectedOrder()!.shippingAddress.street }},
+              {{ selectedOrder()!.shippingAddress.area }},
+              {{ selectedOrder()!.shippingAddress.city }}
+              @if (selectedOrder()!.shippingAddress.apartmentNumber) {
+              — {{ selectedOrder()!.shippingAddress.apartmentNumber }}
+              }
+            </p>
+            @if (selectedOrder()!.shippingAddress.landmark) {
+            <p class="od-info-muted">
+              <i class="fas fa-flag"></i>
+              {{ selectedOrder()!.shippingAddress.landmark }}
+            </p>
+            }
+          </div>
+        </div>
+        }
+
+        <div class="od-section">
+          <h6 class="od-section-title">
+            <i class="fas fa-wallet"></i>{{ 'ORDERS.PAYMENT_METHOD' | translate }}
+          </h6>
+          <div class="od-info-box">
+            <p class="od-info-name">
+              {{ ('ORDERS.PAYMENT_' + selectedOrder()?.paymentMethod!.toUpperCase()) | translate }}
+            </p>
+            @if (selectedOrder()?.notes) {
+            <p class="od-info-muted">
+              <i class="fas fa-comment-alt"></i>
+              {{ selectedOrder()?.notes }}
+            </p>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Price Summary -->
+      <div class="od-section">
+        <h6 class="od-section-title">
+          <i class="fas fa-receipt"></i>{{ 'ORDERS.PRICE_SUMMARY' | translate }}
+        </h6>
+        <div class="od-price-summary">
+          <div class="od-price-row">
+            <span>{{ 'ORDERS.SUBTOTAL' | translate }}</span>
+            <span>{{ selectedOrder()?.subtotal | currency:'EGP':'symbol':'1.2-2' }}</span>
+          </div>
+          <div class="od-price-row">
+            <span>{{ 'ORDERS.SHIPPING_COST' | translate }}</span>
+            <span>{{ selectedOrder()?.shippingCost | currency:'EGP':'symbol':'1.2-2' }}</span>
+          </div>
+          @if ((selectedOrder()?.discount ?? 0) > 0) {
+          <div class="od-price-row od-discount">
+            <span>{{ 'ORDERS.DISCOUNT' | translate }}</span>
+            <span>−{{ selectedOrder()?.discount | currency:'EGP':'symbol':'1.2-2' }}</span>
+          </div>
+          }
+          <div class="od-price-row od-grand-total">
+            <span>{{ 'ORDERS.GRAND_TOTAL' | translate }}</span>
+            <span>{{ selectedOrder()?.total | currency:'EGP':'symbol':'1.2-2' }}</span>
+          </div>
+        </div>
+      </div>
+
+      }
+    </div>
+
+    <div class="pp-modal-footer">
+      <button class="btn-pp btn-pp-ghost" (click)="closeOrderDetailModal()">
+        {{ 'COMMON.CLOSE' | translate }}
+      </button>
+    </div>
+  </div>
 </div>
 }

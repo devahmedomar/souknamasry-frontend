@@ -417,11 +417,14 @@
     "SAVE_CHANGES": "Save Changes",
     "PROFILE_UPDATED": "Profile updated successfully",
     "PASSWORD_UPDATED": "Password changed successfully",
-    "CLEAR_FAV": "Clear Wishlist"
+    "CLEAR_FAV": "Clear Wishlist",
+    "MANAGE_YOUR_INFO": "Manage your personal details",
+    "SAVED_ADDRESSES": "saved addresses"
   },
   "ADDRESSES": {
     "TITLE": "Shipping Addresses",
     "NO_ADDRESSES": "No saved addresses",
+    "NO_ADDRESSES_SUB": "Add an address to speed up checkout",
     "ADD_NEW": "Add New Address",
     "EDIT_ADDRESS": "Edit Address",
     "DELETE_ADDRESS": "Delete Address",
@@ -466,7 +469,9 @@
     "RETURN_ORDER": "Return Order",
     "REORDER": "Reorder",
     "NO_ORDERS": "You haven't placed any orders yet",
-    "START_SHOPPING": "Start Shopping",
+    "START_SHOPPING": "Explore our products and place your first order",
+    "ORDER_HISTORY": "Track and manage your orders",
+    "PRICE_SUMMARY": "Price Summary",
     "STATUS": "Status",
     "STATUS_PENDING": "Pending",
     "STATUS_CONFIRMED": "Confirmed",

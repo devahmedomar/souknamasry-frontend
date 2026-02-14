@@ -379,11 +379,14 @@
     "BIRTHDATE": "تاريخ الميلاد",
     "SAVE_CHANGES": "حفظ التغييرات",
     "PROFILE_UPDATED": "تم تحديث الملف الشخصي بنجاح",
-    "PASSWORD_UPDATED": "تم تغيير كلمة المرور بنجاح"
+    "PASSWORD_UPDATED": "تم تغيير كلمة المرور بنجاح",
+    "MANAGE_YOUR_INFO": "إدارة بياناتك الشخصية",
+    "SAVED_ADDRESSES": "عنوان محفوظ"
   },
   "ADDRESSES": {
     "TITLE": "عناوين الشحن",
     "NO_ADDRESSES": "لا توجد عناوين محفوظة",
+    "NO_ADDRESSES_SUB": "أضف عنواناً لتسريع عملية الدفع",
     "ADD_NEW": "إضافة عنوان جديد",
     "EDIT_ADDRESS": "تعديل العنوان",
     "DELETE_ADDRESS": "حذف العنوان",
@@ -428,7 +431,9 @@
     "RETURN_ORDER": "إرجاع الطلب",
     "REORDER": "إعادة الطلب",
     "NO_ORDERS": "لم تقم بتقديم أي طلبات حتى الآن",
-    "START_SHOPPING": "ابدأ التسوق",
+    "START_SHOPPING": "استعرض منتجاتنا وقدّم طلبك الأول",
+    "ORDER_HISTORY": "تتبع طلباتك وإدارتها",
+    "PRICE_SUMMARY": "ملخص الأسعار",
     "STATUS": "الحالة",
     "STATUS_PENDING": "قيد الانتظار",
     "STATUS_CONFIRMED": "مؤكد",

@@ -1,3 +1,150 @@
+/* ════════════════════════════════════════
+   زينة رمضان - بنر الترحيب
+   ════════════════════════════════════════ */
+
+.ramadan-banner {
+  position: relative;
+  background: linear-gradient(135deg, #0E0D22 0%, #1A1340 35%, #2A1860 50%, #1A1340 65%, #0E0D22 100%);
+  border-top: 2px solid #C8920A;
+  border-bottom: 2px solid #C8920A;
+  overflow: hidden;
+}
+
+/* Drifting starfield */
+.rb-stars-bg {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,215,0,.4) 1px, transparent 1px);
+  background-size: 32px 32px;
+  animation: rb-stars-drift 20s linear infinite;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.rb-stars-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-conic-gradient(
+    from 22.5deg at 50% 50%,
+    rgba(200,146,10,.06) 0deg 45deg,
+    transparent 45deg 90deg
+  ) 0 0 / 26px 26px;
+}
+
+@keyframes rb-stars-drift {
+  from { background-position: 0 0; }
+  to   { background-position: 32px 32px; }
+}
+
+/* Layout */
+.rb-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px;
+  gap: 12px;
+}
+
+/* Centre */
+.rb-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.rb-top-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rb-greeting {
+  margin: 0;
+  font-size: clamp(1.25rem, 3.5vw, 1.9rem);
+  font-weight: 800;
+  color: #FFD700;
+  letter-spacing: 3px;
+  line-height: 1;
+  animation: rb-glow 3s ease-in-out infinite;
+}
+
+@keyframes rb-glow {
+  0%,  100% { text-shadow: 0 0 8px rgba(255,215,0,.3);  }
+  50%        { text-shadow: 0 0 22px rgba(255,215,0,.9), 0 0 45px rgba(255,215,0,.3); }
+}
+
+.rb-sub {
+  margin: 0;
+  font-size: 0.68rem;
+  color: rgba(255,215,0,.6);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.rb-moon {
+  font-size: 1.3rem;
+  color: #FFD700;
+  line-height: 1;
+  filter: drop-shadow(0 0 5px rgba(255,215,0,.65));
+}
+
+.rb-star {
+  color: #FFD700;
+  font-size: 11px;
+  animation: rb-star-twinkle 2.5s ease-in-out infinite var(--sd, 0s);
+}
+
+@keyframes rb-star-twinkle {
+  0%,  100% { opacity: 0.2;  transform: scale(0.75) rotate(0deg);  }
+  50%        { opacity: 0.95; transform: scale(1.35) rotate(22deg); }
+}
+
+/* Side mini fanooses */
+.rb-side {
+  display: flex;
+  align-items: flex-end;
+  gap: 7px;
+}
+
+.rb-mf {
+  display: block;
+  width: 12px;
+  height: 20px;
+  clip-path: polygon(20% 0%, 80% 0%, 100% 15%, 100% 85%, 80% 100%, 20% 100%, 0% 85%, 0% 15%);
+  animation: rb-sway 3s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+@keyframes rb-sway {
+  0%,  100% { transform: rotate(-4.5deg); }
+  50%        { transform: rotate(4.5deg);  }
+}
+
+.rb-side-l .rb-mf:nth-child(2),
+.rb-side-r .rb-mf:nth-child(2) { height: 24px; width: 14px; animation-delay: 0.4s; }
+
+.rb-side-l .rb-mf:nth-child(3),
+.rb-side-r .rb-mf:nth-child(1) { height: 16px; width: 10px; animation-delay: 0.9s; }
+
+.rb-mf-gold    { background: #C8920A; filter: drop-shadow(0 0 4px rgba(200,146,10,.8)); }
+.rb-mf-emerald { background: #00695C; filter: drop-shadow(0 0 4px rgba(0,105,92,.8));  }
+.rb-mf-crimson { background: #B71C1C; filter: drop-shadow(0 0 4px rgba(183,28,28,.8)); }
+.rb-mf-royal   { background: #283593; filter: drop-shadow(0 0 4px rgba(40,53,147,.8)); }
+
+@media (max-width: 575px) {
+  .rb-side       { display: none; }
+  .rb-inner      { padding: 12px 16px; }
+  .rb-greeting   { font-size: 1.2rem; }
+  .rb-moon       { font-size: 1.1rem; }
+}
+
+/* ─── existing styles below ─── */
+
 .gradient-warmy {
     background: linear-gradient(180deg, #c9a89a 0%, #e8d4c4 50%, #f4e4d0 100%);
 }

@@ -20,7 +20,6 @@ import { Address } from '../../../../shared/models/address.interface';
 import { OrderHistoryItem, OrderDetailed } from '../../../../shared/models/order.interface';
 import {
   ProfileSkeleton,
-  AddressCardSkeleton,
   OrderCardSkeleton,
 } from '../../../../shared/components/skeletons';
 
@@ -31,7 +30,6 @@ import {
     ReactiveFormsModule,
     TranslateModule,
     ProfileSkeleton,
-    AddressCardSkeleton,
     OrderCardSkeleton,
   ],
   templateUrl: './profile-page.html',
