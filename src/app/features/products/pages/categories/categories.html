@@ -53,7 +53,7 @@
 
   <div class="ehc-badge">
     <span style="color:#FFB3C6;font-size:12px;animation:rcd-star 2.5s ease-in-out infinite">❤</span>
-    <span class="ehc-badge-text" lang="ar">عروض عيد الحب</span>
+    <span class="ehc-badge-text" lang="ar">عروض يوم الحب</span>
     <span style="color:#FFB3C6;font-size:12px;animation:rcd-star 2.5s ease-in-out infinite .5s">❤</span>
   </div>
 
@@ -165,199 +165,194 @@
 } <!-- end @if ras_elsanaa -->
 
 <div class="container py-4">
-    @if (loading()) {
-    <!-- Category Loading Skeleton -->
-    <div class="mb-4">
-        <div class="skeleton skeleton-text-sm" style="width: 200px;"></div>
-        <div class="skeleton skeleton-title mt-3" style="width: 250px; height: 2rem;"></div>
+  @if (loading()) {
+  <!-- Category Loading Skeleton -->
+  <div class="mb-4">
+    <div class="skeleton skeleton-text-sm" style="width: 200px;"></div>
+    <div class="skeleton skeleton-title mt-3" style="width: 250px; height: 2rem;"></div>
+  </div>
+  <div class="row g-4">
+    @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+    <div class="col-12 col-md-6 col-lg-4">
+      <app-category-card-skeleton></app-category-card-skeleton>
     </div>
-    <div class="row g-4">
-        @for (i of [1, 2, 3, 4, 5, 6]; track i) {
-        <div class="col-12 col-md-6 col-lg-4">
-            <app-category-card-skeleton></app-category-card-skeleton>
+    }
+  </div>
+  }
+
+  @if (error()) {
+  <div class="alert alert-danger text-center" role="alert">
+    {{ error() }}
+  </div>
+  }
+
+  @if (category(); as cat) {
+  <div class="mb-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/categories" class="text-decoration-none">All Categories</a>
+        </li>
+        @for (item of cat.breadcrumb; track item._id; let i = $index, last = $last) {
+        <li class="breadcrumb-item" [class.active]="last" [attr.aria-current]="last ? 'page' : null">
+          @if (last) {
+          <span>{{ getBreadcrumbName(item) }}</span>
+          } @else {
+          <a [routerLink]="['/categories', getBreadcrumbPath(i)]" class="text-decoration-none">{{
+            getBreadcrumbName(item) }}</a>
+          }
+        </li>
+        }
+      </ol>
+    </nav>
+    <h1 class="h2 fw-bold mb-3">{{ getCategoryName(cat) }}</h1>
+  </div>
+
+  @if (!cat.isLeaf && cat.children?.length) {
+  <!-- Subcategories Grid -->
+  <div class="row g-4">
+    @for (child of cat.children; track child._id) {
+    <div class="col-12 col-md-6 col-lg-4">
+      <a [routerLink]="['/categories', child.path]"
+        class="card h-100 text-decoration-none border shadow-sm hover-shadow transition">
+        @if (child.image) {
+        <div class="card-img-top-wrapper bg-light overflow-hidden" style="height: 200px;">
+          <img [src]="child.image" [alt]="getChildName(child)" class="w-100 h-100 object-fit-cover" width="400"
+            height="200" loading="lazy">
         </div>
         }
-    </div>
-    }
-
-    @if (error()) {
-    <div class="alert alert-danger text-center" role="alert">
-        {{ error() }}
-    </div>
-    }
-
-    @if (category(); as cat) {
-    <div class="mb-4">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a routerLink="/categories" class="text-decoration-none">All Categories</a>
-                </li>
-                @for (item of cat.breadcrumb; track item._id; let i = $index, last = $last) {
-                <li class="breadcrumb-item" [class.active]="last" [attr.aria-current]="last ? 'page' : null">
-                    @if (last) {
-                    <span>{{ getBreadcrumbName(item) }}</span>
-                    } @else {
-                    <a [routerLink]="['/categories', getBreadcrumbPath(i)]" class="text-decoration-none">{{
-                        getBreadcrumbName(item) }}</a>
-                    }
-                </li>
-                }
-            </ol>
-        </nav>
-        <h1 class="h2 fw-bold mb-3">{{ getCategoryName(cat) }}</h1>
-    </div>
-
-    @if (!cat.isLeaf && cat.children?.length) {
-    <!-- Subcategories Grid -->
-    <div class="row g-4">
-        @for (child of cat.children; track child._id) {
-        <div class="col-12 col-md-6 col-lg-4">
-            <a [routerLink]="['/categories', child.path]"
-                class="card h-100 text-decoration-none border shadow-sm hover-shadow transition">
-                @if (child.image) {
-                <div class="card-img-top-wrapper bg-light overflow-hidden" style="height: 200px;">
-                    <img [src]="child.image" [alt]="getChildName(child)" class="w-100 h-100 object-fit-cover"
-                        width="400" height="200" loading="lazy">
-                </div>
-                }
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-0 fw-semibold text-dark">{{ getChildName(child) }}</h5>
-                </div>
-            </a>
+        <div class="card-body text-center">
+          <h5 class="card-title mb-0 fw-semibold text-dark">{{ getChildName(child) }}</h5>
         </div>
+      </a>
+    </div>
+    }
+  </div>
+  }
+
+  @if (!cat.isLeaf && (!cat.children || cat.children.length === 0)) {
+  <div class="text-center py-5 text-muted">
+    <p class="mb-0">No subcategories found.</p>
+  </div>
+  }
+
+  <!-- Products List (Leaf Category) -->
+  @if (cat.isLeaf) {
+  <div class="mt-4">
+    <div class="row g-4">
+
+      <!-- Filter Sidebar — only shown when filterable attributes exist -->
+      @if (filterAttributes().length > 0) {
+      <div class="col-12 col-lg-3">
+        @if (filtersLoading()) {
+        <div class="p-3 border rounded">
+          <div class="skeleton skeleton-text-sm mb-3" style="width: 80px; height: 1rem;"></div>
+          @for (i of [1, 2, 3]; track i) {
+          <div class="skeleton mb-2" style="width: 100%; height: 1rem;"></div>
+          }
+        </div>
+        } @else {
+        <app-filter-sidebar [attributes]="filterAttributes()" [activeFilters]="activeFilters()"
+          (filtersChanged)="handleFiltersChanged($event)">
+        </app-filter-sidebar>
         }
-    </div>
-    }
+      </div>
+      }
 
-    @if (!cat.isLeaf && (!cat.children || cat.children.length === 0)) {
-    <div class="text-center py-5 text-muted">
-        <p class="mb-0">No subcategories found.</p>
-    </div>
-    }
-
-    <!-- Products List (Leaf Category) -->
-    @if (cat.isLeaf) {
-    <div class="mt-4">
-        <div class="row g-4">
-
-            <!-- Filter Sidebar — only shown when filterable attributes exist -->
-            @if (filterAttributes().length > 0) {
-            <div class="col-12 col-lg-3">
-                @if (filtersLoading()) {
-                <div class="p-3 border rounded">
-                    <div class="skeleton skeleton-text-sm mb-3" style="width: 80px; height: 1rem;"></div>
-                    @for (i of [1, 2, 3]; track i) {
-                    <div class="skeleton mb-2" style="width: 100%; height: 1rem;"></div>
-                    }
-                </div>
-                } @else {
-                <app-filter-sidebar
-                    [attributes]="filterAttributes()"
-                    [activeFilters]="activeFilters()"
-                    (filtersChanged)="handleFiltersChanged($event)">
-                </app-filter-sidebar>
-                }
-            </div>
+      <!-- Products Grid -->
+      <div [class]="filterAttributes().length > 0 ? 'col-12 col-lg-9' : 'col-12'">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="h4 fw-semibold mb-0 text-secondary">
+            Products
+            @if (totalResults() > 0) {
+            <span class="fs-6 text-muted">({{ totalResults() }})</span>
             }
-
-            <!-- Products Grid -->
-            <div [class]="filterAttributes().length > 0 ? 'col-12 col-lg-9' : 'col-12'">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="h4 fw-semibold mb-0 text-secondary">
-                        Products
-                        @if (totalResults() > 0) {
-                        <span class="fs-6 text-muted">({{ totalResults() }})</span>
-                        }
-                    </h2>
-                </div>
-
-                @if (productsLoading()) {
-                <div class="row g-4">
-                    @for (i of [1, 2, 3, 4, 5, 6]; track i) {
-                    <div [class]="filterAttributes().length > 0 ? 'col-12 col-md-6 col-xl-4' : 'col-12 col-md-6 col-lg-4'">
-                        <app-product-card-skeleton></app-product-card-skeleton>
-                    </div>
-                    }
-                </div>
-                } @else {
-                <div class="row g-4">
-                    @for (product of products(); track product.id) {
-                    <div [class]="filterAttributes().length > 0 ? 'col-12 col-md-6 col-xl-4' : 'col-12 col-md-6 col-lg-4'">
-                        <app-product-card [product]="product" [isFavourite]="favouriteIds().has(product.id.toString())"
-                            (addToCart)="handleAddToCart($event)" (addToWishlist)="handleToggleFavourite($event)">
-                        </app-product-card>
-                    </div>
-                    } @empty {
-                    <div class="text-center py-5 text-muted w-100">
-                        <p class="mb-0">{{ 'FILTERS.NO_RESULTS' | translate }}</p>
-                    </div>
-                    }
-                </div>
-
-                <!-- Pagination -->
-                @if (products().length > 0 && totalPages() > 1 && !productsLoading()) {
-                <div class="pagination-container mt-5">
-                    <nav aria-label="Products pagination">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item" [class.disabled]="currentPage() === 1">
-                                <a class="page-link pagination-prev" (click)="handlePageChange(currentPage() - 1)"
-                                    tabindex="-1">
-                                    <i class="fas fa-chevron-left"></i>
-                                    <span class="ms-2 d-none d-sm-inline">{{ 'PAGINATION.PREVIOUS' | translate }}</span>
-                                </a>
-                            </li>
-
-                            <!-- First page -->
-                            <li class="page-item" [class.active]="currentPage() === 1">
-                                <a class="page-link" (click)="handlePageChange(1)">1</a>
-                            </li>
-
-                            <!-- Ellipsis before current page -->
-                            @if (currentPage() > 3) {
-                            <li class="page-item disabled">
-                                <span class="page-link">...</span>
-                            </li>
-                            }
-
-                            <!-- Pages around current -->
-                            @for (page of [currentPage() - 1, currentPage(), currentPage() + 1]; track page) {
-                            @if (page > 1 && page < totalPages()) {
-                            <li class="page-item" [class.active]="page === currentPage()">
-                                <a class="page-link" (click)="handlePageChange(page)">{{ page }}</a>
-                            </li>
-                            }
-                            }
-
-                            <!-- Ellipsis after current page -->
-                            @if (currentPage() < totalPages() - 2) {
-                            <li class="page-item disabled">
-                                <span class="page-link">...</span>
-                            </li>
-                            }
-
-                            <!-- Last page -->
-                            @if (totalPages() > 1) {
-                            <li class="page-item" [class.active]="currentPage() === totalPages()">
-                                <a class="page-link" (click)="handlePageChange(totalPages())">{{ totalPages() }}</a>
-                            </li>
-                            }
-
-                            <li class="page-item" [class.disabled]="currentPage() === totalPages()">
-                                <a class="page-link pagination-next" (click)="handlePageChange(currentPage() + 1)">
-                                    <span class="me-2 d-none d-sm-inline">{{ 'PAGINATION.NEXT' | translate }}</span>
-                                    <i class="fas fa-chevron-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-                }
-                }
-            </div>
-
+          </h2>
         </div>
+
+        @if (productsLoading()) {
+        <div class="row g-4">
+          @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+          <div [class]="filterAttributes().length > 0 ? 'col-12 col-md-6 col-xl-4' : 'col-12 col-md-6 col-lg-4'">
+            <app-product-card-skeleton></app-product-card-skeleton>
+          </div>
+          }
+        </div>
+        } @else {
+        <div class="row g-4">
+          @for (product of products(); track product.id) {
+          <div [class]="filterAttributes().length > 0 ? 'col-12 col-md-6 col-xl-4' : 'col-12 col-md-6 col-lg-4'">
+            <app-product-card [product]="product" [isFavourite]="favouriteIds().has(product.id.toString())"
+              (addToCart)="handleAddToCart($event)" (addToWishlist)="handleToggleFavourite($event)">
+            </app-product-card>
+          </div>
+          } @empty {
+          <div class="text-center py-5 text-muted w-100">
+            <p class="mb-0">{{ 'FILTERS.NO_RESULTS' | translate }}</p>
+          </div>
+          }
+        </div>
+
+        <!-- Pagination -->
+        @if (products().length > 0 && totalPages() > 1 && !productsLoading()) {
+        <div class="pagination-container mt-5">
+          <nav aria-label="Products pagination">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" [class.disabled]="currentPage() === 1">
+                <a class="page-link pagination-prev" (click)="handlePageChange(currentPage() - 1)" tabindex="-1">
+                  <i class="fas fa-chevron-left"></i>
+                  <span class="ms-2 d-none d-sm-inline">{{ 'PAGINATION.PREVIOUS' | translate }}</span>
+                </a>
+              </li>
+
+              <!-- First page -->
+              <li class="page-item" [class.active]="currentPage() === 1">
+                <a class="page-link" (click)="handlePageChange(1)">1</a>
+              </li>
+
+              <!-- Ellipsis before current page -->
+              @if (currentPage() > 3) {
+              <li class="page-item disabled">
+                <span class="page-link">...</span>
+              </li>
+              }
+
+              <!-- Pages around current -->
+              @for (page of [currentPage() - 1, currentPage(), currentPage() + 1]; track page) {
+              @if (page > 1 && page < totalPages()) { <li class="page-item" [class.active]="page === currentPage()">
+                <a class="page-link" (click)="handlePageChange(page)">{{ page }}</a>
+                </li>
+                }
+                }
+
+                <!-- Ellipsis after current page -->
+                @if (currentPage() < totalPages() - 2) { <li class="page-item disabled">
+                  <span class="page-link">...</span>
+                  </li>
+                  }
+
+                  <!-- Last page -->
+                  @if (totalPages() > 1) {
+                  <li class="page-item" [class.active]="currentPage() === totalPages()">
+                    <a class="page-link" (click)="handlePageChange(totalPages())">{{ totalPages() }}</a>
+                  </li>
+                  }
+
+                  <li class="page-item" [class.disabled]="currentPage() === totalPages()">
+                    <a class="page-link pagination-next" (click)="handlePageChange(currentPage() + 1)">
+                      <span class="me-2 d-none d-sm-inline">{{ 'PAGINATION.NEXT' | translate }}</span>
+                      <i class="fas fa-chevron-right"></i>
+                    </a>
+                  </li>
+            </ul>
+          </nav>
+        </div>
+        }
+        }
+      </div>
+
     </div>
-    }
-    }
+  </div>
+  }
+  }
 </div>
