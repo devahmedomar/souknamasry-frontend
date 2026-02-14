@@ -143,6 +143,104 @@
   .rb-moon       { font-size: 1.1rem; }
 }
 
+/* ════════════════════════════════════════
+   eid_elhob (Valentine) بنر عيد الحب
+   ════════════════════════════════════════ */
+.eid-elhob-banner {
+  position: relative;
+  background: linear-gradient(135deg, #3D0020 0%, #7B0034 35%, #C81560 50%, #7B0034 65%, #3D0020 100%);
+  border-top: 2px solid #E91E63;
+  border-bottom: 2px solid #E91E63;
+  overflow: hidden;
+}
+.eid-elhob-banner .rb-stars-bg { background-image: radial-gradient(circle, rgba(233,30,99,.4) 1px, transparent 1px); background-size: 28px 28px; }
+.eid-elhob-banner .rb-greeting { color: #FFB3C6; animation: ehb-glow 3s ease-in-out infinite; }
+.eid-elhob-banner .rb-sub      { color: rgba(255,179,198,.6); }
+.eid-elhob-banner .rb-moon     { color: #FFB3C6; filter: drop-shadow(0 0 5px rgba(233,30,99,.65)); }
+.eid-elhob-banner .rb-star     { color: #FFB3C6; }
+.ehb-heart { display: block; font-size: 18px; color: #F48FB1; filter: drop-shadow(0 0 5px rgba(233,30,99,.8)); animation: rb-sway 2.8s ease-in-out infinite; transform-origin: top center; line-height: 1; }
+.ehb-heart:nth-child(2) { font-size: 22px; animation-delay: 0.4s; color: #E91E63; }
+.ehb-heart:nth-child(3) { font-size: 14px; animation-delay: 0.9s; color: #FF80AB; }
+@keyframes ehb-glow {
+  0%,100% { text-shadow: 0 0 8px rgba(233,30,99,.3); }
+  50%      { text-shadow: 0 0 22px rgba(233,30,99,.95), 0 0 44px rgba(233,30,99,.4); }
+}
+
+/* ════════════════════════════════════════
+   eid_elfetr بنر عيد الفطر
+   ════════════════════════════════════════ */
+.eid-elfetr-banner {
+  position: relative;
+  background: linear-gradient(135deg, #0B2200 0%, #1A4A00 35%, #2D7A14 50%, #1A4A00 65%, #0B2200 100%);
+  border-top: 2px solid #C8920A;
+  border-bottom: 2px solid #C8920A;
+  overflow: hidden;
+}
+.eid-elfetr-banner .rb-stars-bg { background-image: radial-gradient(circle, rgba(200,146,10,.45) 1px, transparent 1px); background-size: 30px 30px; }
+.eid-elfetr-banner .rb-greeting { color: #D4E8A8; animation: eef-glow 3s ease-in-out infinite; }
+.eid-elfetr-banner .rb-sub      { color: rgba(212,232,168,.6); }
+.eid-elfetr-banner .rb-moon     { color: #FFD700; filter: drop-shadow(0 0 5px rgba(200,146,10,.7)); }
+.eid-elfetr-banner .rb-star     { color: #FFD700; }
+.eid-elfetr-banner .rb-mf-gold    { background: #A07800; }
+.eid-elfetr-banner .rb-mf-emerald { background: #1A6B35; }
+.eid-elfetr-banner .rb-mf-crimson { background: #4D7A00; }
+.eid-elfetr-banner .rb-mf-royal   { background: #6B5200; }
+@keyframes eef-glow {
+  0%,100% { text-shadow: 0 0 8px rgba(200,146,10,.3); }
+  50%      { text-shadow: 0 0 22px rgba(200,146,10,.95), 0 0 44px rgba(56,142,60,.4); }
+}
+
+/* ════════════════════════════════════════
+   eid_aladha بنر عيد الأضحى
+   ════════════════════════════════════════ */
+.eid-aladha-banner {
+  position: relative;
+  background: linear-gradient(135deg, #002233 0%, #003D55 35%, #005F78 50%, #003D55 65%, #002233 100%);
+  border-top: 2px solid #C8920A;
+  border-bottom: 2px solid #C8920A;
+  overflow: hidden;
+}
+.eid-aladha-banner .rb-stars-bg { background-image: radial-gradient(circle, rgba(200,146,10,.4) 1px, transparent 1px); background-size: 30px 30px; }
+.eid-aladha-banner .rb-greeting { color: #B2EBF2; animation: ead-glow 3s ease-in-out infinite; }
+.eid-aladha-banner .rb-sub      { color: rgba(178,235,242,.6); }
+.eid-aladha-banner .rb-moon     { color: #FFD700; filter: drop-shadow(0 0 5px rgba(200,146,10,.7)); }
+.eid-aladha-banner .rb-star     { color: #FFD700; }
+.eid-aladha-banner .rb-mf-gold    { background: #7A5500; }
+.eid-aladha-banner .rb-mf-emerald { background: #00607A; }
+.eid-aladha-banner .rb-mf-crimson { background: #004D62; }
+.eid-aladha-banner .rb-mf-royal   { background: #00445A; }
+@keyframes ead-glow {
+  0%,100% { text-shadow: 0 0 8px rgba(0,96,120,.35); }
+  50%      { text-shadow: 0 0 22px rgba(0,150,180,.9), 0 0 44px rgba(200,146,10,.4); }
+}
+
+/* ════════════════════════════════════════
+   ras_elsanaa بنر رأس السنة
+   ════════════════════════════════════════ */
+.ras-elsanaa-banner {
+  position: relative;
+  background: linear-gradient(135deg, #050A24 0%, #0C1560 35%, #1A237E 50%, #0C1560 65%, #050A24 100%);
+  border-top: 2px solid #FFD700;
+  border-bottom: 2px solid #FFD700;
+  overflow: hidden;
+}
+.ras-elsanaa-banner .rb-stars-bg {
+  background-image: radial-gradient(circle, rgba(255,215,0,.5) 1px, transparent 1px), radial-gradient(circle, rgba(192,192,192,.3) 1px, transparent 1px);
+  background-size: 24px 24px, 40px 40px;
+  background-position: 0 0, 12px 12px;
+}
+.ras-elsanaa-banner .rb-greeting { color: #FFE082; animation: rsy-glow 3s ease-in-out infinite; }
+.ras-elsanaa-banner .rb-sub      { color: rgba(255,224,130,.6); }
+.ras-elsanaa-banner .rb-moon     { color: #FFD700; filter: drop-shadow(0 0 5px rgba(255,215,0,.7)); }
+.ras-elsanaa-banner .rb-star     { color: #FFD700; }
+.rsy-spark { display: block; font-size: 16px; color: #FFD700; filter: drop-shadow(0 0 6px rgba(255,215,0,.9)); animation: rb-star-twinkle 2s ease-in-out infinite; line-height: 1; }
+.rsy-spark:nth-child(2) { font-size: 22px; animation-delay: 0.5s; color: #C0C0C0; }
+.rsy-spark:nth-child(3) { font-size: 12px; animation-delay: 1.0s; }
+@keyframes rsy-glow {
+  0%,100% { text-shadow: 0 0 8px rgba(255,215,0,.3); }
+  50%      { text-shadow: 0 0 22px rgba(255,215,0,.95), 0 0 50px rgba(100,100,255,.4); }
+}
+
 /* ─── existing styles below ─── */
 
 .gradient-warmy {

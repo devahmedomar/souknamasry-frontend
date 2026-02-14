@@ -1,6 +1,7 @@
 <!-- ════════════════════════════════════
      زينة رمضان - صفحة المنتجات
      ════════════════════════════════════ -->
+@if (siteThemeService.activeTheme() === 'ramadan') {
 <div class="ramadan-cats-deco" aria-hidden="true">
 
   <!-- Mini CSS string of lights -->
@@ -41,6 +42,127 @@
   <div class="rcd-corner rcd-corner-tr"></div>
 
 </div>
+} <!-- end @if ramadan -->
+
+<!-- ════════ عيد الحب ════════ -->
+@if (siteThemeService.activeTheme() === 'eid_elhob') {
+<div class="eid-elhob-cats-deco" aria-hidden="true">
+  <span class="ehc-heart">❤</span>
+  <span class="ehc-heart">❤</span>
+  <span class="ehc-heart">❤</span>
+
+  <div class="ehc-badge">
+    <span style="color:#FFB3C6;font-size:12px;animation:rcd-star 2.5s ease-in-out infinite">❤</span>
+    <span class="ehc-badge-text" lang="ar">عروض عيد الحب</span>
+    <span style="color:#FFB3C6;font-size:12px;animation:rcd-star 2.5s ease-in-out infinite .5s">❤</span>
+  </div>
+
+  <span class="ehc-heart">❤</span>
+  <span class="ehc-heart">❤</span>
+  <span class="ehc-heart">❤</span>
+</div>
+} <!-- end @if eid_elhob -->
+
+<!-- ════════ عيد الفطر ════════ -->
+@if (siteThemeService.activeTheme() === 'eid_elfetr') {
+<div class="eid-elfetr-cats-deco" aria-hidden="true">
+
+  <div class="rcd-rope">
+    <span class="rcd-b" style="--c:#FFD700;--d:0.0s"></span>
+    <span class="rcd-b" style="--c:#22C55E;--d:0.2s"></span>
+    <span class="rcd-b" style="--c:#C8920A;--d:0.4s"></span>
+    <span class="rcd-b" style="--c:#22C55E;--d:0.6s"></span>
+    <span class="rcd-b" style="--c:#FFD700;--d:0.8s"></span>
+    <span class="rcd-b" style="--c:#C8920A;--d:1.0s"></span>
+    <span class="rcd-b" style="--c:#22C55E;--d:1.2s"></span>
+    <span class="rcd-b" style="--c:#FFD700;--d:1.4s"></span>
+    <span class="rcd-b" style="--c:#C8920A;--d:1.6s"></span>
+    <span class="rcd-b" style="--c:#22C55E;--d:1.8s"></span>
+    <span class="rcd-b" style="--c:#FFD700;--d:0.1s"></span>
+    <span class="rcd-b" style="--c:#C8920A;--d:0.3s"></span>
+    <span class="rcd-b" style="--c:#22C55E;--d:0.5s"></span>
+    <span class="rcd-b" style="--c:#FFD700;--d:0.7s"></span>
+    <span class="rcd-b" style="--c:#C8920A;--d:0.9s"></span>
+    <span class="rcd-b" style="--c:#22C55E;--d:1.1s"></span>
+    <span class="rcd-b" style="--c:#FFD700;--d:1.3s"></span>
+    <span class="rcd-b" style="--c:#C8920A;--d:1.5s"></span>
+    <span class="rcd-b" style="--c:#22C55E;--d:1.7s"></span>
+    <span class="rcd-b" style="--c:#FFD700;--d:1.9s"></span>
+  </div>
+
+  <div class="rcd-badge">
+    <span class="rcd-badge-star">✦</span>
+    <span class="rcd-badge-moon">☽</span>
+    <span class="rcd-badge-text" lang="ar">عروض عيد الفطر</span>
+    <span class="rcd-badge-moon">☾</span>
+    <span class="rcd-badge-star">✦</span>
+  </div>
+
+  <div class="rcd-corner rcd-corner-tl"></div>
+  <div class="rcd-corner rcd-corner-tr"></div>
+
+</div>
+} <!-- end @if eid_elfetr -->
+
+<!-- ════════ عيد الأضحى ════════ -->
+@if (siteThemeService.activeTheme() === 'eid_aladha') {
+<div class="eid-aladha-cats-deco" aria-hidden="true">
+
+  <div class="rcd-rope">
+    <span class="rcd-b" style="--c:#B2EBF2;--d:0.0s"></span>
+    <span class="rcd-b" style="--c:#FFD700;--d:0.2s"></span>
+    <span class="rcd-b" style="--c:#80DEEA;--d:0.4s"></span>
+    <span class="rcd-b" style="--c:#FFD700;--d:0.6s"></span>
+    <span class="rcd-b" style="--c:#B2EBF2;--d:0.8s"></span>
+    <span class="rcd-b" style="--c:#80DEEA;--d:1.0s"></span>
+    <span class="rcd-b" style="--c:#FFD700;--d:1.2s"></span>
+    <span class="rcd-b" style="--c:#B2EBF2;--d:1.4s"></span>
+    <span class="rcd-b" style="--c:#80DEEA;--d:1.6s"></span>
+    <span class="rcd-b" style="--c:#FFD700;--d:1.8s"></span>
+    <span class="rcd-b" style="--c:#B2EBF2;--d:0.1s"></span>
+    <span class="rcd-b" style="--c:#FFD700;--d:0.3s"></span>
+    <span class="rcd-b" style="--c:#80DEEA;--d:0.5s"></span>
+    <span class="rcd-b" style="--c:#B2EBF2;--d:0.7s"></span>
+    <span class="rcd-b" style="--c:#FFD700;--d:0.9s"></span>
+    <span class="rcd-b" style="--c:#80DEEA;--d:1.1s"></span>
+    <span class="rcd-b" style="--c:#B2EBF2;--d:1.3s"></span>
+    <span class="rcd-b" style="--c:#FFD700;--d:1.5s"></span>
+    <span class="rcd-b" style="--c:#80DEEA;--d:1.7s"></span>
+    <span class="rcd-b" style="--c:#B2EBF2;--d:1.9s"></span>
+  </div>
+
+  <div class="rcd-badge">
+    <span class="rcd-badge-star">✦</span>
+    <span class="rcd-badge-moon">☽</span>
+    <span class="rcd-badge-text" lang="ar">عروض عيد الأضحى</span>
+    <span class="rcd-badge-moon">☾</span>
+    <span class="rcd-badge-star">✦</span>
+  </div>
+
+  <div class="rcd-corner rcd-corner-tl"></div>
+  <div class="rcd-corner rcd-corner-tr"></div>
+
+</div>
+} <!-- end @if eid_aladha -->
+
+<!-- ════════ رأس السنة ════════ -->
+@if (siteThemeService.activeTheme() === 'ras_elsanaa') {
+<div class="ras-elsanaa-cats-deco" aria-hidden="true">
+  <span class="rsc-spark" style="--sd:0s">✨</span>
+  <span class="rsc-spark silver" style="--sd:.5s">★</span>
+  <span class="rsc-spark sm" style="--sd:.9s">✨</span>
+
+  <div class="rsc-badge">
+    <span class="rsc-spark" style="--sd:0s;position:static">✦</span>
+    <span class="rsc-badge-text" lang="ar">عروض رأس السنة</span>
+    <span class="rsc-spark" style="--sd:.5s;position:static">✦</span>
+  </div>
+
+  <span class="rsc-spark sm" style="--sd:.3s">✨</span>
+  <span class="rsc-spark silver" style="--sd:.7s">★</span>
+  <span class="rsc-spark" style="--sd:.2s">✨</span>
+</div>
+} <!-- end @if ras_elsanaa -->
 
 <div class="container py-4">
     @if (loading()) {

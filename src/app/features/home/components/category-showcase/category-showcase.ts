@@ -7,6 +7,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CategoriesService } from '../../../products/services/categories.service';
 import { Category } from '../../../../shared/models/category.interface';
 import { ScrollAnimateDirective } from '../../../../shared/directives/scroll-animate.directive';
+import { SiteThemeService } from '../../../../core/services/site-theme.service';
 
 @Component({
   selector: 'app-category-showcase',
@@ -20,6 +21,7 @@ export class CategoryShowcase implements OnInit {
   private categoriesService = inject(CategoriesService);
   private translateService = inject(TranslateService);
   private cdr = inject(ChangeDetectorRef);
+  protected siteThemeService = inject(SiteThemeService);
 
   categories = signal<Category[]>([]);
   loading = signal(true);

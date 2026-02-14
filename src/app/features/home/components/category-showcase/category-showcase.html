@@ -11,7 +11,10 @@
 
     @if (loading()) {
     <!-- Loading Skeleton -->
-    <div class="category-grid">
+    @if (siteThemeService.activeTheme() === 'ramadan' || siteThemeService.activeTheme() === 'eid_elfetr' || siteThemeService.activeTheme() === 'eid_aladha') {
+    <div class="category-grid"
+         [class.elfetr-grid]="siteThemeService.activeTheme() === 'eid_elfetr'"
+         [class.eladha-grid]="siteThemeService.activeTheme() === 'eid_aladha'">
       @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
       <div class="category-card skeleton-card">
         <div class="fanoos-wrap">
@@ -23,6 +26,16 @@
       </div>
       }
     </div>
+    } @else {
+    <div class="plain-grid">
+      @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+      <div class="plain-card-sk">
+        <div class="skeleton plain-img-sk"></div>
+        <div class="skeleton skeleton-text"></div>
+      </div>
+      }
+    </div>
+    }
     } @else if (error()) {
     <!-- Error State -->
     <div class="error-state">
@@ -38,13 +51,12 @@
       <i class="fas fa-folder-open"></i>
       <p>{{ 'CATEGORIES.NO_CATEGORIES' | translate }}</p>
     </div>
-    } @else {
-    <!-- Category Grid -->
+    } @else if (siteThemeService.activeTheme() === 'ramadan') {
+    <!-- ═══ Ramadan: Fanoos Grid ═══ -->
     <div class="category-grid">
       @for (category of categories(); track category._id; let i = $index) {
       <a [routerLink]="getCategoryLink(category)" class="category-card"
          appScrollAnimate [animation]="'scale-up'" [delay]="i * 80">
-        <!-- فانوس shape -->
         <div class="fanoos-wrap">
           <div class="fanoos-cap"></div>
           <div class="fanoos-body-frame">
@@ -61,6 +73,132 @@
           </div>
           <div class="fanoos-tip"></div>
           <div class="fanoos-tassel"><span></span><span></span><span></span></div>
+        </div>
+        <span class="category-name">{{ getCategoryName(category) }}</span>
+      </a>
+      }
+    </div>
+
+    } @else if (siteThemeService.activeTheme() === 'eid_elhob') {
+    <!-- ═══ Valentine: Romantic Card Grid ═══ -->
+    <div class="elhob-grid">
+      @for (category of categories(); track category._id; let i = $index) {
+      <a [routerLink]="getCategoryLink(category)" class="elhob-card"
+         appScrollAnimate [animation]="'scale-up'" [delay]="i * 80">
+        <div class="ehb-inner">
+          <!-- Corner decorations -->
+          <span class="ehb-corner-tl" aria-hidden="true">✦</span>
+          <span class="ehb-corner-tr" aria-hidden="true">✦</span>
+          <!-- Heart image -->
+          <div class="elhob-img-wrap">
+            @if (category.image) {
+            <img [ngSrc]="category.image" [alt]="getCategoryName(category)" fill class="category-image" />
+            } @else {
+            <div class="elhob-placeholder">
+              <i [class]="getPlaceholderIcon(category)"></i>
+            </div>
+            }
+          </div>
+          <!-- Divider -->
+          <div class="ehb-divider" aria-hidden="true"><span>❤</span></div>
+          <!-- Name -->
+          <span class="ehb-name">{{ getCategoryName(category) }}</span>
+        </div>
+      </a>
+      }
+    </div>
+
+    } @else if (siteThemeService.activeTheme() === 'eid_elfetr') {
+    <!-- ═══ Eid Al-Fitr: Green Fanoos Grid ═══ -->
+    <div class="category-grid elfetr-grid">
+      @for (category of categories(); track category._id; let i = $index) {
+      <a [routerLink]="getCategoryLink(category)" class="category-card"
+         appScrollAnimate [animation]="'scale-up'" [delay]="i * 80">
+        <div class="fanoos-wrap">
+          <div class="fanoos-cap"></div>
+          <div class="fanoos-body-frame">
+            <div class="fanoos-img-wrap">
+              @if (category.image) {
+              <img [ngSrc]="category.image" [alt]="getCategoryName(category)" fill class="category-image" />
+              } @else {
+              <div class="category-placeholder">
+                <i [class]="getPlaceholderIcon(category)"></i>
+              </div>
+              }
+            </div>
+            <div class="fanoos-glow"></div>
+          </div>
+          <div class="fanoos-tip"></div>
+          <div class="fanoos-tassel"><span></span><span></span><span></span></div>
+        </div>
+        <span class="category-name">{{ getCategoryName(category) }}</span>
+      </a>
+      }
+    </div>
+
+    } @else if (siteThemeService.activeTheme() === 'eid_aladha') {
+    <!-- ═══ Eid Al-Adha: Teal Fanoos Grid ═══ -->
+    <div class="category-grid eladha-grid">
+      @for (category of categories(); track category._id; let i = $index) {
+      <a [routerLink]="getCategoryLink(category)" class="category-card"
+         appScrollAnimate [animation]="'scale-up'" [delay]="i * 80">
+        <div class="fanoos-wrap">
+          <div class="fanoos-cap"></div>
+          <div class="fanoos-body-frame">
+            <div class="fanoos-img-wrap">
+              @if (category.image) {
+              <img [ngSrc]="category.image" [alt]="getCategoryName(category)" fill class="category-image" />
+              } @else {
+              <div class="category-placeholder">
+                <i [class]="getPlaceholderIcon(category)"></i>
+              </div>
+              }
+            </div>
+            <div class="fanoos-glow"></div>
+          </div>
+          <div class="fanoos-tip"></div>
+          <div class="fanoos-tassel"><span></span><span></span><span></span></div>
+        </div>
+        <span class="category-name">{{ getCategoryName(category) }}</span>
+      </a>
+      }
+    </div>
+
+    } @else if (siteThemeService.activeTheme() === 'ras_elsanaa') {
+    <!-- ═══ New Year: Hexagon Grid ═══ -->
+    <div class="elsanaa-grid">
+      @for (category of categories(); track category._id; let i = $index) {
+      <a [routerLink]="getCategoryLink(category)" class="elsanaa-card"
+         appScrollAnimate [animation]="'scale-up'" [delay]="i * 80">
+        <div class="elsanaa-img-wrap">
+          @if (category.image) {
+          <img [ngSrc]="category.image" [alt]="getCategoryName(category)" fill class="category-image" />
+          } @else {
+          <div class="elsanaa-placeholder">
+            <i [class]="getPlaceholderIcon(category)"></i>
+          </div>
+          }
+        </div>
+        <span class="category-name">{{ getCategoryName(category) }}</span>
+        <span class="elsanaa-spark">✦</span>
+      </a>
+      }
+    </div>
+
+    } @else {
+    <!-- ═══ Default: Plain Card Grid ═══ -->
+    <div class="plain-grid">
+      @for (category of categories(); track category._id; let i = $index) {
+      <a [routerLink]="getCategoryLink(category)" class="plain-card"
+         appScrollAnimate [animation]="'scale-up'" [delay]="i * 80">
+        <div class="plain-img-wrap">
+          @if (category.image) {
+          <img [ngSrc]="category.image" [alt]="getCategoryName(category)" fill class="category-image" />
+          } @else {
+          <div class="plain-placeholder">
+            <i [class]="getPlaceholderIcon(category)"></i>
+          </div>
+          }
         </div>
         <span class="category-name">{{ getCategoryName(category) }}</span>
       </a>

@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
 export interface SiteTheme {
@@ -8,7 +8,7 @@ export interface SiteTheme {
   nameAr: string;
   nameEn: string;
   isEnabled: boolean;
-  isBuiltIn: boolean;
+  isBuiltIn?: boolean;
 }
 
 export interface AdminSettings {
@@ -29,25 +29,43 @@ export interface UpdateThemeDto {
   isEnabled?: boolean;
 }
 
+interface SettingsEnvelope {
+  status: string;
+  data: { settings: AdminSettings };
+}
+
+interface ThemeEnvelope {
+  status: string;
+  data: { theme: SiteTheme };
+}
+
 @Injectable({ providedIn: 'root' })
 export class SiteThemeAdminService {
   private readonly http = inject(HttpClient);
   private readonly api = environment.apiUrl;
 
   getSettings(): Observable<AdminSettings> {
-    return this.http.get<AdminSettings>(`${this.api}admin/settings`);
+    return this.http
+      .get<SettingsEnvelope>(`${this.api}admin/settings`)
+      .pipe(map((res) => res.data.settings));
   }
 
   setActiveTheme(key: string): Observable<AdminSettings> {
-    return this.http.patch<AdminSettings>(`${this.api}admin/settings/theme`, { activeTheme: key });
+    return this.http
+      .patch<SettingsEnvelope>(`${this.api}admin/settings/theme`, { activeTheme: key })
+      .pipe(map((res) => res.data.settings));
   }
 
   createTheme(dto: CreateThemeDto): Observable<SiteTheme> {
-    return this.http.post<SiteTheme>(`${this.api}admin/settings/themes`, dto);
+    return this.http
+      .post<ThemeEnvelope>(`${this.api}admin/settings/themes`, dto)
+      .pipe(map((res) => res.data.theme));
   }
 
   updateTheme(key: string, dto: UpdateThemeDto): Observable<SiteTheme> {
-    return this.http.put<SiteTheme>(`${this.api}admin/settings/themes/${key}`, dto);
+    return this.http
+      .put<ThemeEnvelope>(`${this.api}admin/settings/themes/${key}`, dto)
+      .pipe(map((res) => res.data.theme));
   }
 
   deleteTheme(key: string): Observable<void> {

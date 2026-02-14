@@ -12,6 +12,7 @@ import { ProductCardSkeleton } from '../../../../shared/components/skeletons';
 import { ScrollAnimateDirective } from '../../../../shared/directives/scroll-animate.directive';
 import { SeoService } from '../../../../core/services/seo.service';
 import { ProductsService } from '../../../products/services/products.service';
+import { SiteThemeService } from '../../../../core/services/site-theme.service';
 
 @Component({
   selector: 'app-home-page',
@@ -35,6 +36,7 @@ import { ProductsService } from '../../../products/services/products.service';
 export class HomePage implements OnInit {
   private seoService = inject(SeoService);
   private productsService = inject(ProductsService);
+  protected siteThemeService = inject(SiteThemeService);
 
   ngOnInit() {
     this.seoService.setSeoData({

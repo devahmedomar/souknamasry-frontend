@@ -3,6 +3,7 @@
 <!-- ════════════════════════════════════
      زينة رمضان | Ramadan Decoration
      ════════════════════════════════════ -->
+@if (siteThemeService.activeTheme() === 'ramadan') {
 <div class="ramadan-deco" aria-hidden="true">
 
   <!-- حبل النور | String of Lights -->
@@ -91,6 +92,67 @@
   <div class="ramadan-crescent"></div>
 
 </div>
+} <!-- end @if ramadan -->
+
+<!-- ════════ عيد الحب ════════ -->
+@if (siteThemeService.activeTheme() === 'eid_elhob') {
+<div class="eid-elhob-deco" aria-hidden="true">
+  <span class="ehd-heart" style="left:4%;--sd:0s">❤</span>
+  <span class="ehd-heart" style="left:12%;--sd:.3s;font-size:13px">❤</span>
+  <span class="ehd-heart" style="left:22%;--sd:.7s;font-size:22px">❤</span>
+  <span class="ehd-heart" style="left:35%;--sd:.2s;font-size:14px">❤</span>
+  <span class="ehd-heart" style="left:50%;--sd:.9s;font-size:20px">❤</span>
+  <span class="ehd-heart" style="left:64%;--sd:.4s;font-size:13px">❤</span>
+  <span class="ehd-heart" style="left:75%;--sd:.6s;font-size:24px">❤</span>
+  <span class="ehd-heart" style="left:86%;--sd:.1s;font-size:15px">❤</span>
+  <span class="ehd-heart" style="left:94%;--sd:.8s;font-size:12px">❤</span>
+</div>
+} <!-- end @if eid_elhob -->
+
+<!-- ════════ عيد الفطر ════════ -->
+@if (siteThemeService.activeTheme() === 'eid_elfetr') {
+<div class="eid-elfetr-deco" aria-hidden="true">
+  <span class="efd-star" style="left:5%;--sd:0s">✦</span>
+  <span class="efd-star" style="left:13%;--sd:.4s;font-size:9px">✦</span>
+  <span class="efd-star" style="left:25%;--sd:.8s">✦</span>
+  <span class="efd-star" style="left:38%;--sd:.2s;font-size:9px">✦</span>
+  <span class="efd-star" style="left:60%;--sd:.6s">✦</span>
+  <span class="efd-star" style="left:72%;--sd:.1s;font-size:9px">✦</span>
+  <span class="efd-star" style="left:83%;--sd:.5s">✦</span>
+  <span class="efd-star" style="left:92%;--sd:.9s;font-size:9px">✦</span>
+  <div class="efd-crescent" style="left:50%;margin-left:-14px"></div>
+</div>
+} <!-- end @if eid_elfetr -->
+
+<!-- ════════ عيد الأضحى ════════ -->
+@if (siteThemeService.activeTheme() === 'eid_aladha') {
+<div class="eid-aladha-deco" aria-hidden="true">
+  <span class="ead-star" style="left:5%;--sd:0s">✦</span>
+  <span class="ead-star" style="left:13%;--sd:.4s;font-size:9px">✦</span>
+  <span class="ead-star" style="left:25%;--sd:.8s">✦</span>
+  <span class="ead-star" style="left:38%;--sd:.2s;font-size:9px">✦</span>
+  <span class="ead-star" style="left:60%;--sd:.6s">✦</span>
+  <span class="ead-star" style="left:72%;--sd:.1s;font-size:9px">✦</span>
+  <span class="ead-star" style="left:83%;--sd:.5s">✦</span>
+  <span class="ead-star" style="left:92%;--sd:.9s;font-size:9px">✦</span>
+  <div class="ead-crescent" style="left:50%;margin-left:-14px"></div>
+</div>
+} <!-- end @if eid_aladha -->
+
+<!-- ════════ رأس السنة ════════ -->
+@if (siteThemeService.activeTheme() === 'ras_elsanaa') {
+<div class="ras-elsanaa-deco" aria-hidden="true">
+  <span class="rsd-spark" style="left:4%;--sd:0s">✨</span>
+  <span class="rsd-spark silver" style="left:14%;--sd:.5s">★</span>
+  <span class="rsd-spark" style="left:24%;--sd:.9s;font-size:12px">✨</span>
+  <span class="rsd-spark silver" style="left:36%;--sd:.3s;font-size:18px">★</span>
+  <span class="rsd-spark" style="left:50%;--sd:.7s">✨</span>
+  <span class="rsd-spark silver" style="left:62%;--sd:.2s">★</span>
+  <span class="rsd-spark" style="left:74%;--sd:.6s;font-size:12px">✨</span>
+  <span class="rsd-spark silver" style="left:85%;--sd:.4s;font-size:18px">★</span>
+  <span class="rsd-spark" style="left:93%;--sd:.8s;font-size:12px">✨</span>
+</div>
+} <!-- end @if ras_elsanaa -->
 
 @if (loading()) {
 <!-- ─── Loading Skeleton ─── -->

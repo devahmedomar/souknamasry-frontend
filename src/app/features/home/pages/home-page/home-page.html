@@ -3,6 +3,7 @@
 <!-- ════════════════════════════════════
      زينة رمضان - بنر الترحيب
      ════════════════════════════════════ -->
+@if (siteThemeService.activeTheme() === 'ramadan') {
 <div class="ramadan-banner" aria-hidden="true">
   <!-- Starfield background layer -->
   <div class="rb-stars-bg"></div>
@@ -35,6 +36,119 @@
     </div>
   </div>
 </div>
+} <!-- end @if ramadan -->
+
+<!-- ════════ عيد الحب ════════ -->
+@if (siteThemeService.activeTheme() === 'eid_elhob') {
+<div class="eid-elhob-banner" aria-hidden="true">
+  <div class="rb-stars-bg"></div>
+  <div class="rb-inner">
+    <div class="rb-side rb-side-l">
+      <span class="ehb-heart">❤</span>
+      <span class="ehb-heart">❤</span>
+      <span class="ehb-heart">❤</span>
+    </div>
+    <div class="rb-center">
+      <div class="rb-top-row">
+        <span class="rb-star" style="--sd:0.0s">❤</span>
+        <h2 class="rb-greeting" lang="ar">عيد الحب</h2>
+        <span class="rb-star" style="--sd:0.5s">❤</span>
+      </div>
+      <p class="rb-sub">Happy Valentine's Day</p>
+    </div>
+    <div class="rb-side rb-side-r">
+      <span class="ehb-heart">❤</span>
+      <span class="ehb-heart">❤</span>
+      <span class="ehb-heart">❤</span>
+    </div>
+  </div>
+</div>
+} <!-- end @if eid_elhob -->
+
+<!-- ════════ عيد الفطر ════════ -->
+@if (siteThemeService.activeTheme() === 'eid_elfetr') {
+<div class="eid-elfetr-banner" aria-hidden="true">
+  <div class="rb-stars-bg"></div>
+  <div class="rb-inner">
+    <div class="rb-side rb-side-l">
+      <span class="rb-mf rb-mf-gold"></span>
+      <span class="rb-mf rb-mf-emerald"></span>
+      <span class="rb-mf rb-mf-crimson"></span>
+    </div>
+    <div class="rb-center">
+      <div class="rb-top-row">
+        <span class="rb-star" style="--sd:0.0s">✦</span>
+        <span class="rb-moon">☽</span>
+        <h2 class="rb-greeting" lang="ar">عيد الفطر المبارك</h2>
+        <span class="rb-moon">☾</span>
+        <span class="rb-star" style="--sd:0.5s">✦</span>
+      </div>
+      <p class="rb-sub">Eid Al-Fitr Mubarak</p>
+    </div>
+    <div class="rb-side rb-side-r">
+      <span class="rb-mf rb-mf-crimson"></span>
+      <span class="rb-mf rb-mf-royal"></span>
+      <span class="rb-mf rb-mf-gold"></span>
+    </div>
+  </div>
+</div>
+} <!-- end @if eid_elfetr -->
+
+<!-- ════════ عيد الأضحى ════════ -->
+@if (siteThemeService.activeTheme() === 'eid_aladha') {
+<div class="eid-aladha-banner" aria-hidden="true">
+  <div class="rb-stars-bg"></div>
+  <div class="rb-inner">
+    <div class="rb-side rb-side-l">
+      <span class="rb-mf rb-mf-emerald"></span>
+      <span class="rb-mf rb-mf-gold"></span>
+      <span class="rb-mf rb-mf-royal"></span>
+    </div>
+    <div class="rb-center">
+      <div class="rb-top-row">
+        <span class="rb-star" style="--sd:0.0s">✦</span>
+        <span class="rb-moon">☽</span>
+        <h2 class="rb-greeting" lang="ar">عيد الأضحى المبارك</h2>
+        <span class="rb-moon">☾</span>
+        <span class="rb-star" style="--sd:0.5s">✦</span>
+      </div>
+      <p class="rb-sub">Eid Al-Adha Mubarak</p>
+    </div>
+    <div class="rb-side rb-side-r">
+      <span class="rb-mf rb-mf-gold"></span>
+      <span class="rb-mf rb-mf-royal"></span>
+      <span class="rb-mf rb-mf-emerald"></span>
+    </div>
+  </div>
+</div>
+} <!-- end @if eid_aladha -->
+
+<!-- ════════ رأس السنة ════════ -->
+@if (siteThemeService.activeTheme() === 'ras_elsanaa') {
+<div class="ras-elsanaa-banner" aria-hidden="true">
+  <div class="rb-stars-bg"></div>
+  <div class="rb-inner">
+    <div class="rb-side rb-side-l">
+      <span class="rsy-spark">✨</span>
+      <span class="rsy-spark">★</span>
+      <span class="rsy-spark">✨</span>
+    </div>
+    <div class="rb-center">
+      <div class="rb-top-row">
+        <span class="rb-star" style="--sd:0.0s">✦</span>
+        <h2 class="rb-greeting" lang="ar">سنة سعيدة</h2>
+        <span class="rb-star" style="--sd:0.5s">✦</span>
+      </div>
+      <p class="rb-sub">Happy New Year</p>
+    </div>
+    <div class="rb-side rb-side-r">
+      <span class="rsy-spark">★</span>
+      <span class="rsy-spark">✨</span>
+      <span class="rsy-spark">★</span>
+    </div>
+  </div>
+</div>
+} <!-- end @if ras_elsanaa -->
 
 <!-- Trust Badges Section — defer until idle (not needed for LCP) -->
 @defer (on idle) {

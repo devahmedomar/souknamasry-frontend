@@ -724,3 +724,139 @@
 :host-context([data-theme="dark"]) .ramadan-crescent {
   box-shadow: inset -11px 2px 0 0 #FFD700;
 }
+
+/* ════════════════════════════════════════
+   eid_elhob (Valentine) بنر عيد الحب - hero deco
+   ════════════════════════════════════════ */
+.eid-elhob-deco {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+  background: linear-gradient(to bottom, rgba(120,0,50,.55) 0%, transparent 100%);
+}
+
+.ehd-heart {
+  position: absolute;
+  top: 6px;
+  color: #FF69B4;
+  font-size: 18px;
+  filter: drop-shadow(0 0 5px rgba(255,20,147,.8));
+  animation: ehd-float 4s ease-in-out infinite var(--sd, 0s);
+}
+
+@keyframes ehd-float {
+  0%, 100% { transform: translateY(0) rotate(-15deg); opacity: .85; }
+  50%       { transform: translateY(-9px) rotate(15deg); opacity: 1; }
+}
+
+/* ════════════════════════════════════════
+   eid_elfetr بنر عيد الفطر - hero deco
+   ════════════════════════════════════════ */
+.eid-elfetr-deco {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+  background: linear-gradient(to bottom, rgba(10,50,10,.6) 0%, transparent 100%);
+}
+
+.eid-elfetr-deco .efd-star {
+  position: absolute;
+  top: 10px;
+  color: #FFD700;
+  font-size: 12px;
+  filter: drop-shadow(0 0 4px rgba(200,146,10,.8));
+  animation: efd-twinkle 2.5s ease-in-out infinite var(--sd, 0s);
+}
+
+.eid-elfetr-deco .efd-crescent {
+  position: absolute;
+  top: 8px;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  box-shadow: inset -8px 2px 0 0 #FFD700;
+  transform: rotate(-28deg);
+  filter: drop-shadow(0 0 6px rgba(200,146,10,.7));
+  animation: efd-glow 3.5s ease-in-out infinite;
+}
+
+@keyframes efd-twinkle {
+  0%, 100% { opacity: .25; transform: scale(.75) rotate(0deg); }
+  50%       { opacity: .95; transform: scale(1.35) rotate(22deg); }
+}
+
+@keyframes efd-glow {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(200,146,10,.4)); }
+  50%       { filter: drop-shadow(0 0 12px rgba(200,146,10,.9)); }
+}
+
+/* ════════════════════════════════════════
+   eid_aladha بنر عيد الأضحى - hero deco
+   ════════════════════════════════════════ */
+.eid-aladha-deco {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+  background: linear-gradient(to bottom, rgba(0,30,50,.65) 0%, transparent 100%);
+}
+
+.eid-aladha-deco .ead-star {
+  position: absolute;
+  top: 10px;
+  color: #B2EBF2;
+  font-size: 12px;
+  filter: drop-shadow(0 0 4px rgba(0,150,180,.7));
+  animation: efd-twinkle 2.5s ease-in-out infinite var(--sd, 0s);
+}
+
+.eid-aladha-deco .ead-crescent {
+  position: absolute;
+  top: 8px;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  box-shadow: inset -8px 2px 0 0 #B2EBF2;
+  transform: rotate(-28deg);
+  filter: drop-shadow(0 0 6px rgba(0,150,180,.7));
+  animation: ead-cglow 3.5s ease-in-out infinite;
+}
+
+@keyframes ead-cglow {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(0,150,180,.4)); }
+  50%       { filter: drop-shadow(0 0 12px rgba(0,150,180,.9)); }
+}
+
+/* ════════════════════════════════════════
+   ras_elsanaa بنر رأس السنة - hero deco
+   ════════════════════════════════════════ */
+.ras-elsanaa-deco {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+  background: linear-gradient(to bottom, rgba(5,10,36,.7) 0%, transparent 100%);
+}
+
+.rsd-spark {
+  position: absolute;
+  top: 8px;
+  color: #FFD700;
+  font-size: 16px;
+  filter: drop-shadow(0 0 6px rgba(255,215,0,.9));
+  animation: efd-twinkle 2s ease-in-out infinite var(--sd, 0s);
+}
+
+.rsd-spark.silver {
+  color: #C0C0C0;
+  filter: drop-shadow(0 0 6px rgba(192,192,192,.8));
+  font-size: 22px;
+}

@@ -20,6 +20,7 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { ProductCardSkeleton, CategoryCardSkeleton } from '../../../../shared/components/skeletons';
 import { SeoService } from '../../../../core/services/seo.service';
 import { FilterSidebar } from '../../components/filter-sidebar/filter-sidebar';
+import { SiteThemeService } from '../../../../core/services/site-theme.service';
 import {
   CategoryAttribute,
   ActiveFilters,
@@ -34,6 +35,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Categories {
+  protected siteThemeService = inject(SiteThemeService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private categoriesService = inject(CategoriesService);
