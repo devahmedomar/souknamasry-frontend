@@ -1383,7 +1383,9 @@
   color: var(--color-primary, #fd7e35);
 }
 
-[data-theme="dark"] .btn-pp-outline:hover {
+[data-theme="dark"] .btn-pp-outline:hover,
+[data-theme="dark"] .btn-pp-outline:hover i,
+[data-theme="dark"] .btn-pp-outline:hover span {
   background: var(--color-primary, #fd7e35);
   color: #fff !important;
 }
