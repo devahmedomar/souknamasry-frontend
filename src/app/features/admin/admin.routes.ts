@@ -36,4 +36,10 @@ export const adminRoutes: Routes = [
       import('./pages/orders-page/orders-page').then((m) => m.OrdersPage),
     title: 'Order Management - Souknamasry',
   },
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('./pages/settings-page/settings-page').then((m) => m.SettingsPage),
+    title: 'Settings - Souknamasry',
+  },
 ];

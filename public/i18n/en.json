@@ -30,7 +30,10 @@
     "WARNING": "Warning",
     "INFO": "Info",
     "FEATURE_COMING_SOON": "Feature coming soon",
-    "ITEMS": "items"
+    "ITEMS": "items",
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "ACTIONS": "Actions"
   },
   "NAV": {
     "HOME": "Home",
@@ -901,6 +904,24 @@
       "NO_PRODUCTS_FOUND": "No products found",
       "NO_PRODUCTS_MESSAGE": "Add your first product to get started",
       "PAGINATION_TEXT": "Showing {first} to {last} of {totalRecords} products"
+    },
+    "SETTINGS": {
+      "TITLE": "Theme Settings",
+      "ACTIVE_THEME": "Active Theme",
+      "ADD_THEME": "Add Theme",
+      "THEME_KEY": "Key",
+      "THEME_NAME_EN": "Name (English)",
+      "THEME_NAME_AR": "Name (Arabic)",
+      "THEME_TYPE": "Type",
+      "THEME_STATUS": "Status",
+      "THEME_ACTIVE": "Active",
+      "THEME_ENABLED": "Enabled",
+      "SET_ACTIVE": "Set Active",
+      "ACTIVE": "Active",
+      "BUILT_IN": "Built-in",
+      "CUSTOM": "Custom",
+      "NO_THEMES": "No themes found",
+      "KEY_HINT": "Lowercase letters, numbers, hyphens and underscores only"
     }
   }
 }

@@ -1,6 +1,7 @@
 import { Component, inject, signal, PLATFORM_ID, OnInit } from '@angular/core';
 import { SeoService } from './core/services/seo.service';
 import { ThemeService } from './core/services/theme.service';
+import { SiteThemeService } from './core/services/site-theme.service';
 import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { isPlatformBrowser } from '@angular/common';
@@ -26,6 +27,7 @@ export class App implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private seoService = inject(SeoService);
   private themeService = inject(ThemeService);
+  private siteThemeService = inject(SiteThemeService);
   private analyticsService = inject(Analytics);
 
   constructor() {
@@ -104,5 +106,6 @@ export class App implements OnInit {
     }, 'organization');
 
     this.analyticsService.init();
+    this.siteThemeService.loadActiveTheme();
   }
 }

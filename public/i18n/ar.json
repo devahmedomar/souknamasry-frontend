@@ -30,7 +30,10 @@
     "WARNING": "تحذير",
     "INFO": "معلومات",
     "FEATURE_COMING_SOON": "هذه الميزة قادمة قريباً",
-    "ITEMS": "منتجات"
+    "ITEMS": "منتجات",
+    "ACTIVE": "نشط",
+    "INACTIVE": "غير نشط",
+    "ACTIONS": "إجراءات"
   },
   "NAV": {
     "HOME": "الرئيسية",
@@ -863,6 +866,24 @@
       "NO_PRODUCTS_FOUND": "لا توجد منتجات",
       "NO_PRODUCTS_MESSAGE": "أضف أول منتج للبدء",
       "PAGINATION_TEXT": "عرض {first} إلى {last} من {totalRecords} منتج"
+    },
+    "SETTINGS": {
+      "TITLE": "إعدادات الثيم",
+      "ACTIVE_THEME": "الثيم النشط",
+      "ADD_THEME": "إضافة ثيم",
+      "THEME_KEY": "المعرف",
+      "THEME_NAME_EN": "الاسم (إنجليزي)",
+      "THEME_NAME_AR": "الاسم (عربي)",
+      "THEME_TYPE": "النوع",
+      "THEME_STATUS": "الحالة",
+      "THEME_ACTIVE": "نشط",
+      "THEME_ENABLED": "مفعّل",
+      "SET_ACTIVE": "تفعيل",
+      "ACTIVE": "نشط",
+      "BUILT_IN": "مدمج",
+      "CUSTOM": "مخصص",
+      "NO_THEMES": "لا توجد ثيمات",
+      "KEY_HINT": "أحرف صغيرة وأرقام وشرطات وشرطات سفلية فقط"
     }
   }
 }
