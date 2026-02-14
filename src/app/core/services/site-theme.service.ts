@@ -1,6 +1,6 @@
 import { Injectable, PLATFORM_ID, inject, signal, computed } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 interface ActiveThemeFlat {
@@ -24,7 +24,8 @@ export class SiteThemeService {
   isDefaultTheme = computed(() => this.activeTheme() === 'normal');
 
   loadActiveTheme(): void {
-    this.http.get<ActiveThemeEnvelope | ActiveThemeFlat>(`${this.api}settings/theme`).subscribe({
+    const headers = new HttpHeaders({ 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' });
+    this.http.get<ActiveThemeEnvelope | ActiveThemeFlat>(`${this.api}settings/theme`, { headers }).subscribe({
       next: (res) => {
         // Handle both { activeTheme } and { data: { activeTheme } } shapes
         const theme =
